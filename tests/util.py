@@ -1,7 +1,7 @@
 """Module containing utility functions used by tests."""
 from pathlib import Path
 
-from constants import COOKIECUTTER_FOLDER
+from tests.constants import COOKIECUTTER_FOLDER
 
 
 def templates_matching(pattern: str) -> list[Path]:

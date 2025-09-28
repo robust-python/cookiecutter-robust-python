@@ -3,7 +3,7 @@ from typing import Any
 
 import pytest
 
-from util import templates_matching
+from tests.util import templates_matching
 
 
 @pytest.mark.parametrize(

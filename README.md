@@ -1,4 +1,4 @@
-# cookiecutter-robust-python
+# Cookiecutter Robust Python
 
 A Python project template robust enough to follow up [cookiecutter-hypermodern-python]
 
@@ -8,37 +8,44 @@ A Python project template robust enough to follow up [cookiecutter-hypermodern-p
 
 ---
 
-## Usage/Installation
+## Quick Start
 
-The only prerequisite for using the template is to [install uv].
+### Prerequisites
+The only requirement is [uv].
 
-From there just cd into the directory you want to create the project in and run:
-```terminaloutput
+### Create Your Project
+Navigate to where you want to create your project and run:
+
+```bash
 uvx cruft create https://github.com/56kyle/cookiecutter-robust-python.git
 ```
-Which will prompt you for a few inputs before generating the project.
-```terminaloutput
->  [1/15] project_name (robust-python): my-repo-name
-> ...
+
+This will prompt you for a few inputs to customize your project:
+```
+[1/15] project_name (robust-python): my-awesome-project
+[2/15] package_name (my_awesome_project): 
+[3/15] friendly_name (My Awesome Project): 
+...
 ```
 
-#### Local Setup
+### Project Setup
 
-Once you have generated your project, and preferably before opening the IDE, the normal workflow to setup everything would go as follows:
-```terminaloutput
-cd my-repo-name
+After generating your project, set it up for development:
 
-# Pins the uv python version, generates/syncs a venv, etc.
+```bash
+cd my-awesome-project
+
+# Set up virtual environment and install dependencies
 uvx nox -s setup-venv
 
-# Sets up a git repo w/ a main/develop branch along with an initial commit of everything just generated.
+# Initialize git repository with main/develop branches
 uvx nox -s setup-git
 
-# Sets up the remote reference and ensures main/develop are pushed/synced. Requires that the remote exists (should be empty).
-uvx nos -s setup-remote
+# Set up remote repository (requires empty remote repo to exist)
+uvx nox -s setup-remote
 ```
 
-You can also run `uvx nox -t env` for the same effect.
+**Quick setup:** Run `uvx nox -t env` to execute all environment setup tasks at once.
 
 
 ## Most Notable Features
@@ -46,9 +53,9 @@ You can also run `uvx nox -t env` for the same effect.
 - Built for supporting most OS's (windows, linux, macos) and all currently supported [python] versions
 - Platform agnostic CI/CD ([github], [gitlab], [bitbucket])
 - CI/CD that parities local [nox] sessions for all [python]
-- [maturin] support that can be at any time during the project's lifecycle
+- [maturin] support that can be added at any time during the project's lifecycle
 - Designed to be a maintainable template over time through the use of automated demos and integration tests
-- ... and much more!
+- Rich documentation explaining tooling decisions and rationale
 
 For a general overview of where we are at with this template, please see the [roadmap](#roadmap) section.
 
@@ -127,7 +134,7 @@ to Python's ecosystem overall.
 That being said, it's generally good practice to avoid the complexity of this dual language system unless you actually need the performance bump for your use case. However knowing ahead of time if performance
 will be an issue is rather tricky, and a much easier route is to just prepare as though you _might_ swap to it some day.
 
-The [Robust Python Cookiecutter] includes a `include_rust_extensions` flag that not only toggles [maturin] vs a traditional Python package,
+The [Robust Python Cookiecutter] includes an `add_rust_extension` flag that not only toggles [maturin] vs a traditional Python package,
 but that can be used in combination with [cruft] to swap to [maturin] at any time with just about no risk to CI/CD / etc.
 
 Additionally, the [Robust Python Cookiecutter] is designed with both normal and [monorepos] in mind. So whether you need to just add
@@ -171,18 +178,25 @@ However, Open Source work is draining, and is especially so for a project templa
 I can guarantee that if the [Robust Python Cookiecutter] ever sees any number of users, I will immediately transfer it to an organization to enable at least a handful
 of trusted individuals to ensure the project is taken care of.
 
+[bitbucket]: https://bitbucket.org
 [bitbucket-pipelines]: https://support.atlassian.com/bitbucket-cloud/docs/write-a-pipe-for-bitbucket-pipelines/
 [cookiecutter]: https://cookiecutter.readthedocs.io/en/stable/
 [cookiecutter-hypermodern-python]: https://github.com/cjolowicz/cookiecutter-hypermodern-python
 [cookiecutter-robust-python]: https://github.com/56kyle/cookiecutter-robust-python
 [cruft]: https://cruft.github.io/cruft/
+[github]: https://github.com
 [github-actions]: https://docs.github.com/en/actions
+[gitlab]: https://gitlab.com
 [hypermodern python cookiecutter]: https://github.com/cjolowicz/cookiecutter-hypermodern-python
 [just]: https://github.com/casey/just?tab=readme-ov-fil
 [maturin]: https://github.com/PyO3/maturin
+[monorepos]: https://en.wikipedia.org/wiki/Monorepo
+[my personal fork]: https://github.com/56kyle/cookiecutter-hypermodern-python
+[nox]: https://nox.thea.codes/
 [noxfile]: https://github.com/56kyle/cookiecutter-robust-python/blob/main/%7B%7Bcookiecutter.project_name%7D%7D/noxfile.py
 [poetry]: https://python-poetry.org/docs/
 [polars]: https://github.com/pola-rs/polars
+[python]: https://www.python.org/
 [robust python cookiecutter]: https://github.com/56kyle/cookiecutter-robust-python
 [ruff]: https://docs.astral.sh/ruff/
 [rust]: https://www.rust-lang.org/learn

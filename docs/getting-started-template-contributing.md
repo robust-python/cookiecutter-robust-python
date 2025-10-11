@@ -10,32 +10,29 @@ To contribute to the template, you will need:
 2.  **Python 3.9+**: We recommend using a supported Python version.
 3.  **uv**: Our chosen dependency manager (see [Dependency Management (02)](topics/02_dependency-management.md)). Install `uv` globally or in a base environment following the official {uv-install}`uv installation guide<>`.
 4.  **Docker or Podman**: Required for testing the containerization aspects of the generated template (see [Container Build (11)](topics/11_container-build.md), [Dev Containers (17)](topics/17_dev-containers.md)).
-5.  **Task Automation Tools**: The template itself uses a `noxfile.py` to manage its own development and documentation build workflows. Install `nox`:
-    ```bash
-    uv add nox # Ensure you have uv first
-    ```
+5.  **Task Automation Tools**: The template uses `noxfile.py` for development workflows. We use `uvx` to run nox without installing it globally.
 
 ## Setting up Your Development Environment
 
 1.  **Clone the Template Repository:**
 
     ```bash
-    git clone https://github.com/56kyle/cookiecutter-robust-python.git # **UPDATE WITH TEMPLATE REPO URL**
+    git clone https://github.com/56kyle/cookiecutter-robust-python.git
     cd cookiecutter-robust-python
     ```
 
 2.  **Install Template Development Dependencies:**
-    The template needs dependencies to run its tests, build its documentation, and check its own code.
+    Install all dependency groups needed for template development:
 
     ```bash
-    uv sync # This installs deps from the template's pyproject.toml into a .venv
+    uv sync --all-groups
     ```
 
 3.  **Install Pre-commit Hooks for the Template:**
-    To ensure your contributions meet the template's own code quality standards, install the pre-commit hooks for _this template repository_:
+    Set up pre-commit hooks to maintain code quality:
 
     ```bash
-    uvx nox -s pre-commit -- install # Installs hooks based on the template's .pre-commit-config.yaml
+    uvx nox -s pre-commit -- install
     ```
 
 4.  **Set up Dev Container (Optional):**
@@ -52,10 +49,10 @@ The template's own `noxfile.py` defines tasks for maintaining the template itsel
     ```
 
 2.  **Run Core Template Checks:**
-    This includes linting the template's own Python files (like `noxfile.py`), checking formatting, etc.
+    Lint and format the template's own Python files:
 
     ```bash
-    uvx nox -s check # Runs the template's internal checks
+    uvx nox -s lint
     ```
 
 3.  **Build Template Documentation:**
@@ -66,15 +63,17 @@ The template's own `noxfile.py` defines tasks for maintaining the template itsel
     ```
 
 4.  **Run Template Tests:**
-    (Assuming the template itself has tests, e.g., testing cookiecutter rendering or noxfile sessions).
+    Test the template's generation functionality:
 
     ```bash
-    uvx nox -s test # Runs tests for the template itself
+    uvx nox -s test
     ```
 
-5.  **Run All Checks and Tests:**
+5.  **Generate Demo Project:**
+    Create a demo project to test template functionality:
+
     ```bash
-    uvx nox # Runs the default sessions defined in noxfile.py (often check and test)
+    uvx nox -s generate-demo
     ```
 
 ## Updating Template Version and Releasing
@@ -82,10 +81,9 @@ The template's own `noxfile.py` defines tasks for maintaining the template itsel
 This template uses Calendar Versioning (YYYY.MM.DD) for its own releases.
 
 1.  **Ensure Your Branch is Up-to-date:** Pull the latest changes from the main branch.
-2.  **Run Commitizen Bump for the Template:** (Assuming Commitizen is used for template versioning). Use `uvx` to run Commitizen against the template:
+2.  **Release the Template:**
     ```bash
-    uvx cz bump --changelog # Follow prompts, generates tag/changelog entry
-    # Alternatively, specify increment e.g., uvx cz bump --changelog --increment major_version_zero
+    uvx nox -s release-template # Uses Commitizen to bump version and create tags
     ```
     This will update the version string(s) (e.g., in `__version__.py` or `conf.py`), create a Git tag, and potentially update the changelog.
 3.  **Push Changes and Tags:** Push the commits and the newly created tag to the template repository:

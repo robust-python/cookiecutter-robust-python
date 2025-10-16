@@ -1,0 +1,102 @@
+name: '📦 Generated Project Bug Report'
+description: Report a bug with the generated project (nox sessions, dependencies, tooling, structure)
+labels: [bug, generated-project]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This template is for issues with generated projects** - problems with nox sessions, dependencies, tooling configuration, or project structure.
+        
+        For issues with the **cookiecutter template itself** (generation process, template scripts), please use the "Template Bug Report" template instead.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: A clear description of the issue in the generated project
+      placeholder: ex. nox -s tests-python fails with import errors...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue_category
+    attributes:
+      label: Issue category
+      options:
+        - Nox session failures
+        - Dependency/package management issues
+        - Build/packaging problems
+        - Testing framework issues
+        - Documentation build issues
+        - Linting/formatting configuration
+        - Type checking issues
+        - Security scanning problems
+        - CI/CD workflow issues
+        - Rust extension issues (if applicable)
+        - Container/Docker issues
+        - Project structure/template files
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Generate project with: cookiecutter gh:56kyle/cookiecutter-robust-python
+        2. Select options: {...}
+        3. Run: nox -s tests-python
+        4. See error: {...}
+    validations:
+      required: true
+
+  - type: textarea
+    id: cookiecutter_config
+    attributes:
+      label: Project configuration
+      description: Contents of .cookiecutter.json from your generated project
+      render: json
+    validations:
+      required: true
+
+  - type: dropdown
+    id: rust_extension
+    attributes:
+      label: Does your project use Rust extension?
+      options:
+        - "No"
+        - "Yes"
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      value: |
+        - OS: 
+        - Python version: 
+        - uv version: 
+        - nox version: 
+        - Template version used: 
+    validations:
+      required: true
+
+  - type: textarea
+    id: command_output
+    attributes:
+      label: Command output
+      description: Full output of the failing command(s)
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Workaround (if any)
+      description: If you found a way to work around the issue, please describe it
+    validations:
+      required: false

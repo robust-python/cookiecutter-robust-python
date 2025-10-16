@@ -1,0 +1,74 @@
+name: '🔧 Template Bug Report'
+description: Report a bug with the cookiecutter template itself (generation process, hooks, scripts)
+labels: [bug, template]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This template is for issues with the cookiecutter template itself** - problems during generation, template scripts, or template configuration.
+        
+        For issues with the **generated project** (nox sessions, dependencies, tooling), please use the "Generated Project Bug Report" template instead.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: A clear description of the template issue
+      placeholder: ex. Template generation fails when selecting Rust extension...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue_stage
+    attributes:
+      label: When does the issue occur?
+      options:
+        - During cookiecutter prompts/input
+        - During template file generation
+        - During post-generation hooks
+        - When running template nox commands (generate-demo, lint, test, etc.)
+        - Template documentation/structure issues
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Run `cookiecutter gh:56kyle/cookiecutter-robust-python`
+        2. Select options: {...}
+        3. See error during generation
+    validations:
+      required: true
+
+  - type: textarea
+    id: cookiecutter_config
+    attributes:
+      label: Cookiecutter configuration
+      description: The options you selected (from .cookiecutter.json if generation succeeded)
+      render: json
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      value: |
+        - OS: 
+        - Python version: 
+        - Cookiecutter version: 
+        - Template commit/version: 
+    validations:
+      required: true
+
+  - type: textarea
+    id: error_output
+    attributes:
+      label: Error output
+      description: Full error messages, stack traces, or command output
+      render: shell
+    validations:
+      required: false

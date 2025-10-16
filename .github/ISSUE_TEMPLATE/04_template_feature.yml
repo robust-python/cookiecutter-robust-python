@@ -1,0 +1,80 @@
+name: '✨ Template Feature Request'
+description: Suggest a new feature or improvement for the cookiecutter template itself
+labels: [enhancement, template]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This template is for feature requests for the cookiecutter template itself** - new cookiecutter options, template structure changes, or template functionality.
+        
+        For improvements to **generated projects** (new nox sessions, tooling updates, project features), please use the "Generated Project Feature Request" template instead.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What problem would this feature solve? What use case would it enable?
+      placeholder: ex. I want to be able to choose between different CI providers during template generation...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe your proposed solution or feature
+      placeholder: ex. Add a new cookiecutter variable 'ci_provider' with options for GitHub Actions, GitLab CI, etc...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feature_type
+    attributes:
+      label: Feature type
+      options:
+        - New cookiecutter variable/option
+        - New template files or structure
+        - New post-generation hooks
+        - New template nox sessions
+        - Template documentation improvements
+        - Template testing improvements
+        - Other template functionality
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation ideas
+      description: Any ideas on how this could be implemented? (optional)
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What alternatives have you considered?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: breaking_change
+    attributes:
+      label: Would this be a breaking change?
+      description: Would this change break existing template usage or generated projects?
+      options:
+        - "No - backward compatible"
+        - "Yes - breaking change"
+        - "Unsure"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context
+      description: Add any other context, screenshots, or examples
+    validations:
+      required: false

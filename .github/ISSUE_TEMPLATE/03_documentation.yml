@@ -1,14 +1,38 @@
 name: '📖 Documentation improvement'
-description: Report an issue with the documentation.
+description: Report an issue with the documentation or suggest improvements
 labels: [documentation]
 
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for issues with:
+        - Template documentation (README, docs/ folder)
+        - Generated project documentation
+        - Missing or unclear documentation
+        - Documentation build issues
+
+  - type: dropdown
+    id: doc_type
+    attributes:
+      label: Documentation type
+      options:
+        - Template documentation (this repository)
+        - Generated project documentation template
+        - API/code documentation
+        - Usage guides/tutorials
+        - Configuration documentation
+        - Troubleshooting guides
+        - Other
+    validations:
+      required: true
+
   - type: textarea
     id: description
     attributes:
       label: Description
-      description: >
-        Describe the issue with the documentation and how it can be fixed or improved.
+      description: Describe the documentation issue and how it can be improved
+      placeholder: ex. The nox session documentation is missing examples for Rust projects...
     validations:
       required: true
 
@@ -16,8 +40,30 @@ body:
     id: link
     attributes:
       label: Link
-      description: >
-        Provide a link to the existing documentation, if applicable.
+      description: Link to the existing documentation (if applicable)
       placeholder: ex. https://cookiecutter-robust-python.readthedocs.io/en/latest/...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue type
+      options:
+        - Missing documentation
+        - Incorrect/outdated information
+        - Unclear explanation
+        - Documentation build failure
+        - Broken links
+        - Formatting issues
+        - Suggestion for improvement
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested_improvement
+    attributes:
+      label: Suggested improvement
+      description: How should this documentation be improved?
     validations:
       required: false

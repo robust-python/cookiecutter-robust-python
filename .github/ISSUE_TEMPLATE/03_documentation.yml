@@ -18,6 +18,6 @@ body:
       label: Link
       description: >
         Provide a link to the existing documentation, if applicable.
-      placeholder: ex. https://docs.pola.rs/api/python/dev/...
+      placeholder: ex. https://cookiecutter-robust-python.readthedocs.io/en/latest/...
     validations:
       required: false

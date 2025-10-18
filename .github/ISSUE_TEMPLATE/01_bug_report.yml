@@ -1,7 +1,37 @@
 name: '🐛 Bug Report'
 description: Report a bug with the template or generated projects
-labels: [bug]
+labels: [bug, needs-triage]
 title: '[Bug] '
+
+# Label Mapping Documentation for GitHub Actions:
+# 
+# Scope mapping (based on issue_scope field):
+# - "Template (generation, hooks, template scripts)" → scope:template
+# - "Generated Project (nox, dependencies, tooling)" → scope:generated
+#
+# Component mapping (based on issue_category field):
+# - "Template - Nox commands" → component:nox
+# - "Template - Post-generation hooks" → component:hooks
+# - "*Rust extension*" → rust
+# - "*CI/CD*" → component:ci
+# - "*Container/Docker*" → component:container
+# - "*Documentation*" → documentation (remove from primary)
+# - "*Testing*" → component:testing
+# - "*Security*" → component:security
+# - "*Dependency*" → dependencies (add as primary)
+#
+# Priority mapping (based on severity field):
+# - "Critical (blocks all usage)" → priority:critical
+# - "High (blocks major functionality)" → priority:high  
+# - "Medium (workaround available)" → priority:medium
+# - "Low (minor inconvenience)" → priority:low
+#
+# Environment mapping (when relevant):
+# - python_version: "3.9" → python:3.9, etc.
+# - os: "macOS*" → os:macos, "Linux*" → os:linux, "Windows*" → os:windows, "WSL*" → os:wsl
+#
+# Feature flags:
+# - rust_extension: "Yes" → rust
 
 body:
   - type: markdown

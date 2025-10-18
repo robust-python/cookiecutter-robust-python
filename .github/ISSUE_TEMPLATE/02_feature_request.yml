@@ -1,7 +1,34 @@
 name: '✨ Feature Request'
 description: Suggest new features or improvements for the template or generated projects
-labels: [enhancement]
+labels: [enhancement, needs-triage]
 title: '[Feature] '
+
+# Label Mapping Documentation for GitHub Actions:
+#
+# Scope mapping (based on feature_scope field):
+# - "Template (cookiecutter options, generation process)" → scope:template
+# - "Generated Project (nox sessions, tooling, structure)" → scope:generated
+# - "Both" → scope:both
+#
+# Component mapping (based on feature_category field):
+# - "*nox*" → component:nox
+# - "*hooks*" → component:hooks
+# - "*Rust*" → rust
+# - "*CI/CD*" → component:ci
+# - "*Container*" → component:container
+# - "*Documentation*" → documentation (add as primary)
+# - "*Testing*" → component:testing
+# - "*Security*" → component:security
+# - "*Dependency*" → dependencies (add as primary)
+#
+# Priority mapping (based on priority field):
+# - "Critical" → priority:critical
+# - "Important" → priority:high
+# - "Nice to have" → priority:medium
+#
+# Feature flags:
+# - rust_impact: "Yes*" → rust
+# - breaking_change: "Yes - Requires migration" → breaking-change
 
 body:
   - type: markdown

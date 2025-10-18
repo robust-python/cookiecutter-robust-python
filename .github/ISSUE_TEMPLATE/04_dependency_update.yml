@@ -1,7 +1,24 @@
 name: '📦 Dependency Update'
 description: Suggest updates to dependencies, tools, or versions
-labels: [dependencies, maintenance]
+labels: [dependencies, needs-triage]
 title: '[Dependency] '
+
+# Label Mapping Documentation for GitHub Actions:
+#
+# Scope mapping (based on update_scope field):
+# - "Template only" → scope:template
+# - "Generated projects only" → scope:generated
+# - "Both template and generated projects" → scope:both
+#
+# Priority mapping (based on urgency field):
+# - "Critical - Security vulnerability" → priority:critical
+# - "High - Breaks functionality" → priority:high
+# - "Medium - Improvement needed" → priority:medium
+# - "Low - Nice to have" → priority:low
+#
+# Feature flags:
+# - affects_rust: "Yes*" → rust
+# - breaking_change: "Major - Significant changes required" → breaking-change
 
 body:
   - type: markdown

@@ -1,7 +1,23 @@
 name: '📖 Documentation Issue'
 description: Report documentation issues or suggest improvements
-labels: [documentation]
+labels: [documentation, needs-triage]
 title: '[Docs] '
+
+# Label Mapping Documentation for GitHub Actions:
+#
+# Scope mapping (based on doc_scope field):
+# - "Template (this repository)" → scope:template
+# - "Generated Project (documentation templates)" → scope:generated
+# - "Both" → scope:both
+#
+# Priority mapping (based on priority field):
+# - "Critical - Incorrect information" → priority:critical
+# - "High - Blocks understanding" → priority:high
+# - "Medium - Affects usability" → priority:medium
+# - "Low - Minor improvement" → priority:low
+#
+# Feature flags:
+# - affects_rust: "Yes*" → rust
 
 body:
   - type: markdown

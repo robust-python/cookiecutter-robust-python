@@ -1,0 +1,163 @@
+name: '✨ Feature Request'
+description: Suggest new features or improvements for the template or generated projects
+labels: [enhancement]
+title: '[Feature] '
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Request
+        
+        Suggest improvements for either the cookiecutter template or generated projects.
+
+  - type: dropdown
+    id: feature_scope
+    attributes:
+      label: 🎯 Feature Scope
+      description: Is this for the template or generated projects?
+      options:
+        - Template (cookiecutter options, generation process)
+        - Generated Project (nox sessions, tooling, structure)
+        - Both
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 🎯 Problem Statement
+      description: What problem would this feature solve? What use case would it enable?
+      placeholder: |
+        Describe the problem or use case this feature addresses...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 💡 Proposed Solution
+      description: Describe your proposed solution or feature in detail
+      placeholder: |
+        Describe how this feature would work...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feature_category
+    attributes:
+      label: 🏷️ Feature Category
+      description: Select the category that best describes this feature
+      options:
+        # Template features
+        - Template - New cookiecutter variable/option
+        - Template - New template files or structure
+        - Template - New post-generation hooks
+        - Template - New nox sessions
+        - Template - Documentation improvements
+        - Template - Testing improvements
+        # Generated project features
+        - Generated - New nox session
+        - Generated - Dependency/tooling updates
+        - Generated - Testing improvements
+        - Generated - Build/packaging enhancements
+        - Generated - Documentation improvements
+        - Generated - Security enhancements
+        - Generated - CI/CD workflow improvements
+        - Generated - Development experience
+        - Generated - Rust extension features
+        - Generated - Container/deployment features
+        - Generated - Project structure improvements
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: rust_impact
+    attributes:
+      label: 🦀 Rust Extension Impact
+      description: Does this feature affect Rust extension projects?
+      options:
+        - "No - Python only"
+        - "Yes - Rust extension projects only"
+        - "Yes - Both Python and Rust projects"
+        - "N/A - Template feature"
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: 🔧 Implementation Ideas
+      description: How could this feature be implemented? Any technical considerations?
+      placeholder: |
+        Describe potential implementation approaches...
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 🔄 Alternatives Considered
+      description: What other approaches have you considered?
+      placeholder: |
+        List any alternative solutions you've considered...
+    validations:
+      required: false
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: 🔗 Examples or References
+      description: Links to similar implementations or examples from other projects
+      placeholder: |
+        - https://github.com/example/project
+        - Similar feature in X project...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: breaking_change
+    attributes:
+      label: ⚠️ Breaking Change
+      description: Would this change break existing usage?
+      options:
+        - "No - Fully backward compatible"
+        - "Yes - Requires migration"
+        - "Only affects new projects"
+        - "Unsure"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 📊 Priority
+      description: How important is this feature to you?
+      options:
+        - "Nice to have"
+        - "Important"
+        - "Critical"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: 🤝 Contribution
+      description: Are you willing to contribute to this feature?
+      options:
+        - label: I am willing to submit a PR for this feature
+          required: false
+        - label: I am willing to help test this feature
+          required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: 📝 Additional Context
+      description: Any other relevant information about this feature request
+      placeholder: |
+        Additional details, use cases, or considerations...
+    validations:
+      required: false

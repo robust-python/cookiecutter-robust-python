@@ -1,0 +1,199 @@
+name: '🐛 Bug Report'
+description: Report a bug with the template or generated projects
+labels: [bug]
+title: '[Bug] '
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug Report
+        
+        Report issues with either the cookiecutter template or generated projects.
+
+  - type: dropdown
+    id: issue_scope
+    attributes:
+      label: 🎯 Issue Scope
+      description: Is this a template issue or generated project issue?
+      options:
+        - Template (generation, hooks, template scripts)
+        - Generated Project (nox, dependencies, tooling)
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 📝 Bug Description
+      description: Clearly describe what went wrong
+      placeholder: |
+        A clear and concise description of the bug...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue_category
+    attributes:
+      label: 🏷️ Issue Category
+      description: Select the category that best describes the issue
+      options:
+        # Template-specific options
+        - Template - Cookiecutter prompts/input
+        - Template - File generation
+        - Template - Post-generation hooks
+        - Template - Nox commands (generate-demo, lint, test)
+        - Template - Documentation/structure
+        # Generated project options
+        - Generated - Nox session failures
+        - Generated - Dependency/package management
+        - Generated - Build/packaging problems
+        - Generated - Testing framework issues
+        - Generated - Documentation build issues
+        - Generated - Linting/formatting configuration
+        - Generated - Type checking issues
+        - Generated - Security scanning problems
+        - Generated - CI/CD workflow issues
+        - Generated - Rust extension issues
+        - Generated - Container/Docker issues
+        - Generated - Project structure/files
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 🔄 Steps to Reproduce
+      description: Provide clear steps to reproduce the issue
+      value: |
+        1. 
+        2. 
+        3. 
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: ✅ Expected Behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: ❌ Actual Behavior
+      description: What actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: cookiecutter_config
+    attributes:
+      label: ⚙️ Cookiecutter Configuration
+      description: Paste your .cookiecutter.json file contents or the options you selected
+      render: json
+      placeholder: |
+        {
+          "project_name": "my-project",
+          "add_rust_extension": "no",
+          ...
+        }
+    validations:
+      required: false
+
+  - type: dropdown
+    id: rust_extension
+    attributes:
+      label: 🦀 Rust Extension
+      description: Does your project include Rust extensions?
+      options:
+        - "No"
+        - "Yes"
+        - "N/A - Template issue"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: python_version
+    attributes:
+      label: 🐍 Python Version
+      description: Which Python version are you using?
+      options:
+        - "3.9"
+        - "3.10"
+        - "3.11"
+        - "3.12"
+        - "3.13"
+        - "Other (specify in environment)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: 💻 Operating System
+      description: Which OS are you using?
+      options:
+        - macOS (Intel)
+        - macOS (Apple Silicon)
+        - Linux (Ubuntu/Debian)
+        - Linux (Fedora/RHEL)
+        - Linux (Arch)
+        - Linux (Other)
+        - Windows 10
+        - Windows 11
+        - WSL2
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: 🖥️ Environment Details
+      description: Additional environment information
+      value: |
+        - uv version: 
+        - nox version: 
+        - Cookiecutter version: 
+        - Template version/commit: 
+        - Other relevant tools: 
+    validations:
+      required: true
+
+  - type: textarea
+    id: error_output
+    attributes:
+      label: 🚨 Error Output
+      description: Paste the complete error message, stack trace, or command output
+      render: shell
+      placeholder: |
+        Paste full error output here...
+    validations:
+      required: false
+
+  - type: textarea
+    id: workaround
+    attributes:
+      label: 🔧 Workaround
+      description: If you found a temporary solution, please describe it
+      placeholder: |
+        Describe any workaround you discovered...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: ⚡ Severity
+      description: How severe is this issue?
+      options:
+        - Critical (blocks all usage)
+        - High (blocks major functionality)
+        - Medium (workaround available)
+        - Low (minor inconvenience)
+    validations:
+      required: true

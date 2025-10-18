@@ -1,0 +1,171 @@
+name: '📦 Dependency Update'
+description: Suggest updates to dependencies, tools, or versions
+labels: [dependencies, maintenance]
+title: '[Dependency] '
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Dependency/Tooling Update
+        
+        Suggest updates to dependencies, tools, or versions used in the template or generated projects.
+
+  - type: dropdown
+    id: update_scope
+    attributes:
+      label: 🎯 Update Scope
+      description: Does this affect the template, generated projects, or both?
+      options:
+        - Template only
+        - Generated projects only
+        - Both template and generated projects
+    validations:
+      required: true
+
+  - type: dropdown
+    id: update_type
+    attributes:
+      label: 🏷️ Update Type
+      options:
+        - Python version support
+        - Core tooling (uv, nox, ruff, pyright)
+        - Development dependencies
+        - Documentation dependencies
+        - Security tools (bandit, pip-audit)
+        - Testing frameworks
+        - Rust toolchain/dependencies
+        - GitHub Actions
+        - Container base images
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: package_name
+    attributes:
+      label: 📦 Package/Tool Name
+      description: Name of the package or tool to update
+      placeholder: ruff, uv, pytest, etc.
+    validations:
+      required: true
+
+  - type: input
+    id: current_version
+    attributes:
+      label: 📅 Current Version
+      description: Current version or version range
+      placeholder: "0.1.0, >=3.9, etc."
+    validations:
+      required: true
+
+  - type: input
+    id: proposed_version
+    attributes:
+      label: ⬆️ Proposed Version
+      description: Proposed new version or version range
+      placeholder: "0.2.0, >=3.10, etc."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: update_reason
+    attributes:
+      label: 🎯 Primary Reason
+      description: Main reason for this update
+      options:
+        - Security fix
+        - Bug fixes
+        - New features we need
+        - Performance improvements
+        - EOL/deprecation
+        - Dependency compatibility
+        - Ecosystem alignment
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: ⚡ Urgency
+      description: How urgent is this update?
+      options:
+        - "Critical - Security vulnerability"
+        - "High - Breaks functionality"
+        - "Medium - Improvement needed"
+        - "Low - Nice to have"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: breaking_change
+    attributes:
+      label: ⚠️ Breaking Change
+      description: Would this update introduce breaking changes?
+      options:
+        - "No - Fully backward compatible"
+        - "Minor - Small changes needed"
+        - "Major - Significant changes required"
+        - "Unknown - Needs investigation"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affects_rust
+    attributes:
+      label: 🦀 Rust Extension Impact
+      description: Does this update affect Rust extension projects?
+      options:
+        - "No - Python only"
+        - "Yes - Rust projects only"
+        - "Yes - Both Python and Rust"
+        - "N/A"
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: 📝 Detailed Motivation
+      description: Explain why this update is needed and what benefits it provides
+      placeholder: |
+        Detailed explanation of why this update is beneficial...
+    validations:
+      required: true
+
+  - type: textarea
+    id: testing_needed
+    attributes:
+      label: 🧪 Testing Plan
+      description: What testing would be needed to validate this update?
+      placeholder: |
+        - Test template generation with both Python and Rust options
+        - Run all nox sessions
+        - Check CI workflows
+        - Test on multiple OS/Python versions
+    validations:
+      required: false
+
+  - type: textarea
+    id: links
+    attributes:
+      label: 🔗 References
+      description: Links to release notes, changelogs, or relevant documentation
+      placeholder: |
+        - Release notes: https://...
+        - Changelog: https://...
+        - Migration guide: https://...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: 🤝 Contribution
+      description: Are you willing to help with this update?
+      options:
+        - label: I am willing to submit a PR for this update
+          required: false
+        - label: I am willing to help test this update
+          required: false

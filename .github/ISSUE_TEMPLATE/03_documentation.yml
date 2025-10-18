@@ -1,136 +1,60 @@
 name: '📖 Documentation Issue'
 description: Report documentation issues or suggest improvements
-labels: [documentation, needs-triage]
+labels: [documentation]
 title: '[Docs] '
-
-# Label Mapping Documentation for GitHub Actions:
-#
-# Scope mapping (based on doc_scope field):
-# - "Template (this repository)" → scope:template
-# - "Generated Project (documentation templates)" → scope:generated
-# - "Both" → scope:both
-#
-# Priority mapping (based on priority field):
-# - "Critical - Incorrect information" → priority:critical
-# - "High - Blocks understanding" → priority:high
-# - "Medium - Affects usability" → priority:medium
-# - "Low - Minor improvement" → priority:low
-#
-# Feature flags:
-# - affects_rust: "Yes*" → rust
 
 body:
   - type: markdown
     attributes:
       value: |
-        ## Documentation Issue
-        
-        Report problems or suggest improvements for documentation.
-
-  - type: dropdown
-    id: doc_scope
-    attributes:
-      label: 🎯 Documentation Scope
-      description: Which documentation area is this about?
-      options:
-        - Template (this repository)
-        - Generated Project (documentation templates)
-        - Both
-    validations:
-      required: true
+        Help us improve our documentation!
 
   - type: dropdown
     id: doc_type
     attributes:
-      label: 📁 Documentation Type
-      options:
-        - README files
-        - API/code documentation
-        - Usage guides/tutorials
-        - Configuration documentation
-        - Troubleshooting guides
-        - Build/deployment documentation
-        - Development setup
-        - Contributing guidelines
-        - Other
-    validations:
-      required: true
-
-  - type: dropdown
-    id: issue_type
-    attributes:
-      label: 🏷️ Issue Type
+      label: What type of documentation issue is this?
       options:
         - Missing documentation
         - Incorrect/outdated information
         - Unclear explanation
-        - Documentation build failure
         - Broken links
-        - Formatting issues
-        - Suggestion for improvement
-        - Translation issue
+        - Other improvement
     validations:
       required: true
 
   - type: textarea
     id: description
     attributes:
-      label: 📝 Issue Description
-      description: Describe the documentation problem and suggest improvements
+      label: Description
+      description: Describe the documentation issue
       placeholder: |
-        Clear description of the documentation issue...
+        What's wrong with the documentation? What needs to be improved?
     validations:
       required: true
 
   - type: input
     id: link
     attributes:
-      label: 🔗 Documentation Link
+      label: Documentation Link
       description: Link to the problematic documentation (if applicable)
-      placeholder: https://cookiecutter-robust-python.readthedocs.io/en/latest/...
+      placeholder: https://...
     validations:
       required: false
 
-  - type: dropdown
-    id: affects_rust
-    attributes:
-      label: 🦀 Rust Extension
-      description: Does this documentation issue affect Rust extension projects?
-      options:
-        - "No - Python only"
-        - "Yes - Rust extension specific"
-        - "Yes - Both Python and Rust"
-        - "N/A"
-    validations:
-      required: true
-
-  - type: dropdown
-    id: priority
-    attributes:
-      label: 📊 Priority
-      description: How important is this documentation fix?
-      options:
-        - "Low - Minor improvement"
-        - "Medium - Affects usability"
-        - "High - Blocks understanding"
-        - "Critical - Incorrect information"
-    validations:
-      required: true
-
   - type: textarea
-    id: suggested_improvement
+    id: suggestion
     attributes:
-      label: ✨ Suggested Improvement
-      description: How can this documentation be improved? What would you like to see added or changed?
+      label: Suggested Improvement
+      description: How would you improve this documentation?
       placeholder: |
-        Specific suggestions for improvement...
+        What changes would make this clearer or more helpful?
     validations:
       required: false
 
   - type: checkboxes
     id: contribution
     attributes:
-      label: 🤝 Contribution
+      label: Contribution
       description: Are you willing to help improve this documentation?
       options:
         - label: I am willing to submit a PR to fix this documentation

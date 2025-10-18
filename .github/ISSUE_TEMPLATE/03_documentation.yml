@@ -1,21 +1,25 @@
-name: '📖 Documentation improvement'
-description: Report an issue with the documentation or suggest improvements
+name: '📖 Documentation Issue'
+description: Report documentation issues or suggest improvements
 labels: [documentation]
+title: '[Docs] '
 
 body:
   - type: markdown
     attributes:
       value: |
-        Use this template for issues with:
+        ## Documentation Issue
+        
+        Report problems or suggest improvements for:
         - Template documentation (README, docs/ folder)
-        - Generated project documentation
+        - Generated project documentation templates
         - Missing or unclear documentation
         - Documentation build issues
+        - API/code documentation
 
   - type: dropdown
     id: doc_type
     attributes:
-      label: Documentation type
+      label: 📁 Documentation Type
       options:
         - Template documentation (this repository)
         - Generated project documentation template
@@ -30,25 +34,26 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: Description
-      description: Describe the documentation issue and how it can be improved
-      placeholder: ex. The nox session documentation is missing examples for Rust projects...
+      label: 📝 Issue Description
+      description: Describe the documentation problem and suggest improvements
+      placeholder: |
+        Example: The nox session documentation is missing examples for Rust projects...
     validations:
       required: true
 
   - type: input
     id: link
     attributes:
-      label: Link
-      description: Link to the existing documentation (if applicable)
-      placeholder: ex. https://cookiecutter-robust-python.readthedocs.io/en/latest/...
+      label: 🔗 Documentation Link
+      description: Link to the problematic documentation (if applicable)
+      placeholder: https://cookiecutter-robust-python.readthedocs.io/en/latest/...
     validations:
       required: false
 
   - type: dropdown
     id: issue_type
     attributes:
-      label: Issue type
+      label: 🏷️ Issue Type
       options:
         - Missing documentation
         - Incorrect/outdated information
@@ -63,7 +68,9 @@ body:
   - type: textarea
     id: suggested_improvement
     attributes:
-      label: Suggested improvement
-      description: How should this documentation be improved?
+      label: ✨ Suggested Improvement
+      description: How can this documentation be improved? What would you like to see added or changed?
+      placeholder: |
+        Example: Add a section showing how to customize the nox configuration for different project types...
     validations:
       required: false

@@ -1,8 +1,8 @@
-blank_issues_enabled: true
+blank_issues_enabled: false
 contact_links:
-  - name: ❓ Question
+  - name: ❓ Questions & Support
     url: https://github.com/56kyle/cookiecutter-robust-python/discussions
-    about: Ask and answer questions about cookiecutter-robust-python in Discussions
-  - name: 🔧 Troubleshooting
+    about: Ask questions and get help using cookiecutter-robust-python
+  - name: 💬 General Discussion
     url: https://github.com/56kyle/cookiecutter-robust-python/discussions
-    about: For troubleshooting help, see the Discussions
+    about: Discuss ideas, best practices, and share your projects

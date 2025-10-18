@@ -1,33 +1,41 @@
 name: '🔧 Template Bug Report'
 description: Report a bug with the cookiecutter template itself (generation process, hooks, scripts)
 labels: [bug, template]
+title: '[Template Bug] '
 
 body:
   - type: markdown
     attributes:
       value: |
-        **This template is for issues with the cookiecutter template itself** - problems during generation, template scripts, or template configuration.
+        ## Template Bug Report
         
-        For issues with the **generated project** (nox sessions, dependencies, tooling), please use the "Generated Project Bug Report" template instead.
+        Report issues with the **cookiecutter template itself** including:
+        - Template generation failures
+        - Post-generation hook errors  
+        - Template script problems
+        - Template configuration issues
+        
+        > **Note:** For issues with **generated projects** (nox sessions, dependencies, tooling), use the "Generated Project Bug Report" template instead.
 
   - type: textarea
     id: description
     attributes:
-      label: Bug description
-      description: A clear description of the template issue
-      placeholder: ex. Template generation fails when selecting Rust extension...
+      label: 📝 Bug Description
+      description: Clearly describe what went wrong with the template
+      placeholder: |
+        Example: Template generation fails when selecting Rust extension with error "...
     validations:
       required: true
 
   - type: dropdown
     id: issue_stage
     attributes:
-      label: When does the issue occur?
+      label: 🎯 When does the issue occur?
       options:
         - During cookiecutter prompts/input
         - During template file generation
         - During post-generation hooks
-        - When running template nox commands (generate-demo, lint, test, etc.)
+        - Template nox commands (generate-demo, lint, test, etc.)
         - Template documentation/structure issues
     validations:
       required: true
@@ -35,27 +43,39 @@ body:
   - type: textarea
     id: reproduction
     attributes:
-      label: Steps to reproduce
+      label: 🔄 Steps to Reproduce
+      description: Provide clear steps to reproduce the issue
       placeholder: |
-        1. Run `cookiecutter gh:56kyle/cookiecutter-robust-python`
-        2. Select options: {...}
-        3. See error during generation
+        1. Run: cookiecutter gh:56kyle/cookiecutter-robust-python
+        2. Select options: {project_name: "test", add_rust_extension: "yes"}
+        3. Error occurs: ...
+      value: |
+        1. 
+        2. 
+        3. 
     validations:
       required: true
 
   - type: textarea
     id: cookiecutter_config
     attributes:
-      label: Cookiecutter configuration
-      description: The options you selected (from .cookiecutter.json if generation succeeded)
+      label: ⚙️ Cookiecutter Configuration
+      description: Paste your .cookiecutter.json file contents or the options you selected
       render: json
+      placeholder: |
+        {
+          "project_name": "my-project",
+          "add_rust_extension": "yes",
+          ...
+        }
     validations:
       required: false
 
   - type: textarea
     id: environment
     attributes:
-      label: Environment
+      label: 🖥️ Environment
+      description: Please fill in your system information
       value: |
         - OS: 
         - Python version: 
@@ -67,8 +87,10 @@ body:
   - type: textarea
     id: error_output
     attributes:
-      label: Error output
-      description: Full error messages, stack traces, or command output
+      label: 🚨 Error Output
+      description: Paste the complete error message, stack trace, or command output
       render: shell
+      placeholder: |
+        Paste full error output here...
     validations:
       required: false

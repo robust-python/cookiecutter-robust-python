@@ -1,31 +1,40 @@
 name: '📦 Generated Project Bug Report'
 description: Report a bug with the generated project (nox sessions, dependencies, tooling, structure)
 labels: [bug, generated-project]
+title: '[Generated Project Bug] '
 
 body:
   - type: markdown
     attributes:
       value: |
-        **This template is for issues with generated projects** - problems with nox sessions, dependencies, tooling configuration, or project structure.
+        ## Generated Project Bug Report
         
-        For issues with the **cookiecutter template itself** (generation process, template scripts), please use the "Template Bug Report" template instead.
+        Report issues with **generated projects** including:
+        - Nox session failures
+        - Dependency or tooling problems
+        - Build/packaging issues
+        - Testing framework errors
+        - Project configuration problems
+        
+        > **Note:** For issues with the **cookiecutter template itself** (generation process, template scripts), use the "Template Bug Report" template instead.
 
   - type: textarea
     id: description
     attributes:
-      label: Bug description
-      description: A clear description of the issue in the generated project
-      placeholder: ex. nox -s tests-python fails with import errors...
+      label: 📝 Bug Description
+      description: Clearly describe the issue in your generated project
+      placeholder: |
+        Example: Running 'nox -s tests-python' fails with import errors...
     validations:
       required: true
 
   - type: dropdown
     id: issue_category
     attributes:
-      label: Issue category
+      label: 🏷️ Issue Category
       options:
         - Nox session failures
-        - Dependency/package management issues
+        - Dependency/package management
         - Build/packaging problems
         - Testing framework issues
         - Documentation build issues
@@ -33,9 +42,9 @@ body:
         - Type checking issues
         - Security scanning problems
         - CI/CD workflow issues
-        - Rust extension issues (if applicable)
+        - Rust extension issues
         - Container/Docker issues
-        - Project structure/template files
+        - Project structure/files
         - Other
     validations:
       required: true
@@ -43,28 +52,41 @@ body:
   - type: textarea
     id: reproduction
     attributes:
-      label: Steps to reproduce
+      label: 🔄 Steps to Reproduce
+      description: Provide clear steps to reproduce the issue
       placeholder: |
-        1. Generate project with: cookiecutter gh:56kyle/cookiecutter-robust-python
-        2. Select options: {...}
-        3. Run: nox -s tests-python
-        4. See error: {...}
+        1. Generate project: cookiecutter gh:56kyle/cookiecutter-robust-python
+        2. Select options: {project_name: "test", add_rust_extension: "no"}
+        3. Run command: nox -s tests-python
+        4. Error occurs: ...
+      value: |
+        1. 
+        2. 
+        3. 
+        4. 
     validations:
       required: true
 
   - type: textarea
     id: cookiecutter_config
     attributes:
-      label: Project configuration
-      description: Contents of .cookiecutter.json from your generated project
+      label: ⚙️ Project Configuration
+      description: Paste the contents of .cookiecutter.json from your generated project
       render: json
+      placeholder: |
+        {
+          "project_name": "my-project",
+          "add_rust_extension": "no",
+          ...
+        }
     validations:
       required: true
 
   - type: dropdown
     id: rust_extension
     attributes:
-      label: Does your project use Rust extension?
+      label: 🦀 Rust Extension
+      description: Does your project include Rust extensions?
       options:
         - "No"
         - "Yes"
@@ -74,7 +96,8 @@ body:
   - type: textarea
     id: environment
     attributes:
-      label: Environment
+      label: 🖥️ Environment
+      description: Please fill in your system information
       value: |
         - OS: 
         - Python version: 
@@ -87,16 +110,20 @@ body:
   - type: textarea
     id: command_output
     attributes:
-      label: Command output
-      description: Full output of the failing command(s)
+      label: 💻 Command Output
+      description: Paste the complete output of the failing command(s)
       render: shell
+      placeholder: |
+        Paste full command output here...
     validations:
       required: false
 
   - type: textarea
     id: workaround
     attributes:
-      label: Workaround (if any)
-      description: If you found a way to work around the issue, please describe it
+      label: 🔧 Workaround
+      description: If you found a temporary solution, please describe it
+      placeholder: |
+        Example: Manually editing pyproject.toml to fix the dependency version...
     validations:
       required: false

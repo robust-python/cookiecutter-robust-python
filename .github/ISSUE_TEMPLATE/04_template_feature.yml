@@ -1,37 +1,46 @@
 name: '✨ Template Feature Request'
-description: Suggest a new feature or improvement for the cookiecutter template itself
+description: Suggest new features or improvements for the cookiecutter template itself
 labels: [enhancement, template]
+title: '[Template Feature] '
 
 body:
   - type: markdown
     attributes:
       value: |
-        **This template is for feature requests for the cookiecutter template itself** - new cookiecutter options, template structure changes, or template functionality.
+        ## Template Feature Request
         
-        For improvements to **generated projects** (new nox sessions, tooling updates, project features), please use the "Generated Project Feature Request" template instead.
+        Suggest improvements for the **cookiecutter template itself** including:
+        - New cookiecutter options/variables
+        - Template structure changes
+        - New post-generation hooks
+        - Template functionality enhancements
+        
+        > **Note:** For improvements to **generated projects** (new nox sessions, tooling updates), use the "Generated Project Feature Request" template instead.
 
   - type: textarea
     id: problem
     attributes:
-      label: Problem or use case
+      label: 🎡 Problem or Use Case
       description: What problem would this feature solve? What use case would it enable?
-      placeholder: ex. I want to be able to choose between different CI providers during template generation...
+      placeholder: |
+        Example: I want to choose between different CI providers during template generation...
     validations:
       required: true
 
   - type: textarea
     id: solution
     attributes:
-      label: Proposed solution
-      description: Describe your proposed solution or feature
-      placeholder: ex. Add a new cookiecutter variable 'ci_provider' with options for GitHub Actions, GitLab CI, etc...
+      label: 💡 Proposed Solution
+      description: Describe your proposed solution or feature in detail
+      placeholder: |
+        Example: Add a new cookiecutter variable 'ci_provider' with options for GitHub Actions, GitLab CI, etc...
     validations:
       required: true
 
   - type: dropdown
     id: feature_type
     attributes:
-      label: Feature type
+      label: 🏷️ Feature Type
       options:
         - New cookiecutter variable/option
         - New template files or structure
@@ -46,23 +55,27 @@ body:
   - type: textarea
     id: implementation
     attributes:
-      label: Implementation ideas
-      description: Any ideas on how this could be implemented? (optional)
+      label: 🔧 Implementation Ideas
+      description: How could this feature be implemented? Any technical considerations?
+      placeholder: |
+        Example: Modify cookiecutter.json to add the variable, create conditional template files...
     validations:
       required: false
 
   - type: textarea
     id: alternatives
     attributes:
-      label: Alternatives considered
-      description: What alternatives have you considered?
+      label: 🔀 Alternatives Considered
+      description: What other approaches have you considered?
+      placeholder: |
+        Example: Could use environment variables instead of cookiecutter variables...
     validations:
       required: false
 
   - type: dropdown
     id: breaking_change
     attributes:
-      label: Would this be a breaking change?
+      label: ⚠️ Breaking Change Impact
       description: Would this change break existing template usage or generated projects?
       options:
         - "No - backward compatible"
@@ -74,7 +87,9 @@ body:
   - type: textarea
     id: additional_context
     attributes:
-      label: Additional context
-      description: Add any other context, screenshots, or examples
+      label: 📝 Additional Context
+      description: Any other relevant information, examples, or references
+      placeholder: |
+        Links to similar implementations, screenshots, or additional details...
     validations:
       required: false

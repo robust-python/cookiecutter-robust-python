@@ -1,27 +1,31 @@
 name: '📦 Dependency/Tooling Update'
 description: Suggest updates to dependencies, tools, or versions used in the template or generated projects
 labels: [dependencies, maintenance]
+title: '[Dependency Update] '
 
 body:
   - type: markdown
     attributes:
       value: |
-        Use this template to suggest updates to:
+        ## Dependency/Tooling Update
+        
+        Suggest updates to:
         - Python version ranges
         - Tool versions (uv, nox, ruff, pyright, etc.)
         - Dependencies in template or generated projects
         - Rust toolchain versions (if applicable)
         - GitHub Actions versions
+        - Container base images
 
   - type: dropdown
     id: update_type
     attributes:
-      label: Update type
+      label: 🏷️ Update Type
       options:
         - Python version support (min/max versions)
         - Core tooling (uv, nox, ruff, pyright, etc.)
         - Development dependencies
-        - Documentation dependencies  
+        - Documentation dependencies
         - Security tools (bandit, pip-audit)
         - Testing framework updates
         - Rust toolchain/dependencies
@@ -34,34 +38,37 @@ body:
   - type: textarea
     id: current_version
     attributes:
-      label: Current version/configuration
+      label: 📅 Current Version/Configuration
       description: What is currently being used?
-      placeholder: ex. Python 3.9-3.13, ruff 0.1.0, etc.
+      placeholder: |
+        Example: Python 3.9-3.13, ruff 0.1.0, etc.
     validations:
       required: true
 
   - type: textarea
     id: proposed_version
     attributes:
-      label: Proposed version/configuration
+      label: ⬆️ Proposed Version/Configuration
       description: What should it be updated to?
-      placeholder: ex. Python 3.10-3.13, ruff 0.2.0, etc.
+      placeholder: |
+        Example: Python 3.10-3.13, ruff 0.2.0, etc.
     validations:
       required: true
 
   - type: textarea
     id: motivation
     attributes:
-      label: Motivation
+      label: 🎡 Motivation
       description: Why should this be updated?
-      placeholder: ex. New version includes security fixes, performance improvements, new features we could use...
+      placeholder: |
+        Example: New version includes security fixes, performance improvements, new features we could use...
     validations:
       required: true
 
   - type: dropdown
     id: breaking_change
     attributes:
-      label: Breaking change impact
+      label: ⚠️ Breaking Change Impact
       options:
         - "No impact - backward compatible"
         - "Minor - affects edge cases only"
@@ -74,16 +81,19 @@ body:
   - type: textarea
     id: testing_needed
     attributes:
-      label: Testing considerations
+      label: 🧪 Testing Considerations
       description: What testing would be needed to validate this update?
-      placeholder: ex. Test template generation, run all nox sessions, check CI workflows...
+      placeholder: |
+        Example: Test template generation, run all nox sessions, check CI workflows...
     validations:
       required: false
 
   - type: textarea
     id: links
     attributes:
-      label: Links and references
+      label: 🔗 Links and References
       description: Links to release notes, changelogs, or relevant documentation
+      placeholder: |
+        Example: https://github.com/project/repo/releases/tag/v1.0.0
     validations:
       required: false

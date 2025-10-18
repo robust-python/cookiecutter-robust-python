@@ -14,8 +14,8 @@ body:
     attributes:
       label: Is this a template issue or generated project issue?
       options:
-        - Template (generation, hooks, scripts)
-        - Generated Project (nox, dependencies, tooling)
+        - Template/Cookiecutter
+        - Generated Project
     validations:
       required: true
 
@@ -34,26 +34,8 @@ body:
     attributes:
       label: Steps to Reproduce
       description: How can we reproduce this issue?
-      value: |
-        1.
-        2.
-        3.
-    validations:
-      required: true
-
-  - type: textarea
-    id: expected_behavior
-    attributes:
-      label: Expected Behavior
-      description: What did you expect to happen?
-    validations:
-      required: true
-
-  - type: textarea
-    id: actual_behavior
-    attributes:
-      label: Actual Behavior
-      description: What actually happened?
+      placeholder: |
+        Either a minimum reproducible example or detailed steps.
     validations:
       required: true
 
@@ -69,15 +51,6 @@ body:
         - Project configuration (rust extension enabled?):
     validations:
       required: true
-
-  - type: textarea
-    id: logs
-    attributes:
-      label: Relevant Logs/Output
-      description: Please paste any relevant error messages or logs
-      render: shell
-    validations:
-      required: false
 
   - type: textarea
     id: additional

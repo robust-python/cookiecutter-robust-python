@@ -1,0 +1,52 @@
+name: '📖 Documentation Issue'
+description: Report documentation issues or suggest improvements
+labels: [documentation]
+title: '[Docs] '
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Help us improve our documentation!
+
+  - type: dropdown
+    id: doc_type
+    attributes:
+      label: What type of documentation issue is this?
+      options:
+        - Missing documentation
+        - Incorrect/outdated information
+        - Unclear explanation
+        - Broken links
+        - Other improvement
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the documentation issue
+      placeholder: |
+        What's wrong with the documentation? What needs to be improved?
+    validations:
+      required: true
+
+  - type: input
+    id: link
+    attributes:
+      label: Documentation Link
+      description: Link to the problematic documentation (if applicable)
+      placeholder: https://...
+    validations:
+      required: false
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested Improvement
+      description: How would you improve this documentation?
+      placeholder: |
+        What changes would make this clearer or more helpful?
+    validations:
+      required: false

@@ -58,7 +58,7 @@ UPDATE_DEMO_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="generate-demo")
 def generate_demo(session: Session) -> None:
     """Generates a project demo using the cookiecutter-robust-python template."""
-    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "typer")
+    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "python-dotenv", "typer")
     session.run("python", GENERATE_DEMO_SCRIPT, *GENERATE_DEMO_OPTIONS, *session.posargs)
 
 
@@ -136,7 +136,7 @@ def test(session: Session) -> None:
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="update-demo")
 def update_demo(session: Session, add_rust_extension: bool) -> None:
     session.log("Installing script dependencies for updating generated project demos...")
-    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "typer")
+    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "python-dotenv", "typer")
 
     session.log("Updating generated project demos...")
     args: list[str] = [*UPDATE_DEMO_OPTIONS]

@@ -4,6 +4,7 @@ from __future__ import annotations
 import os
 import shutil
 from pathlib import Path
+from typing import Optional
 
 import nox
 import platformdirs
@@ -13,7 +14,6 @@ from nox.sessions import Session
 from tools import config
 from tools import demo
 from tools import lint
-from tools import docs as docs_tools
 
 
 nox.options.default_venv_backend = "uv"
@@ -30,7 +30,7 @@ COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER: Path = platformdirs.user_cache_path(
 ).resolve()
 
 DEFAULT_PROJECT_DEMOS_FOLDER: Path = COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER / "project_demos"
-PROJECT_DEMOS_FOLDER_ENV: str | None = os.getenv("COOKIECUTTER_ROBUST_PYTHON_PROJECT_DEMOS_FOLDER")
+PROJECT_DEMOS_FOLDER_ENV: Optional[str] = os.getenv("COOKIECUTTER_ROBUST_PYTHON_PROJECT_DEMOS_FOLDER")
 PROJECT_DEMOS_FOLDER: Path = Path(PROJECT_DEMOS_FOLDER_ENV).resolve() if PROJECT_DEMOS_FOLDER_ENV else DEFAULT_PROJECT_DEMOS_FOLDER
 
 DEFAULT_DEMO_NAME: str = "robust-python-demo"
@@ -165,7 +165,7 @@ def release_template(session: Session) -> None:
     session.log("Checking Commitizen availability via uvx.")
     session.run("cz", "--version", successcodes=[0])
 
-    increment: str | None = session.posargs[0] if session.posargs else None
+    increment: Optional[str] = session.posargs[0] if session.posargs else None
     session.log(
         "Bumping template version and tagging release (increment: %s).",
         increment if increment else "default",

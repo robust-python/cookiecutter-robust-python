@@ -57,14 +57,14 @@ The template provides a suite of tools for maintaining code quality, integrated 
 - **Format Code:** Code formatting and import sorting is handled by {ruff}`Ruff<>` ([Topic 03](topics/03_code-formatting.md)) using the configuration in `.ruff.toml`. Your pre-commit hooks automatically fix these on commit. To format manually:
 
   ```bash
-  uvx nox -s lint # Includes a formatting check
-  # Or directly via uv run (often requires specific args): uv run ruff format .
+  uvx nox -s format-python # Format Python code with Ruff
+  uvx nox -s lint-python   # Lint Python code with Ruff (includes formatting check)
   ```
 
 - **Lint Code:** Linting checks for code style (beyond formatting), errors, potential bugs, and code smells using {ruff}`Ruff<>` and {pydocstyle}`pydocstyle<>` ([Topic 04](topics/04_code-linting.md)). Run checks via Task Automation:
 
   ```bash
-  uvx nox -s lint
+  uvx nox -s lint-python
   ```
 
 - **Type Check Code:** Static type analysis using {pyright}`Pyright<>` ([Topic 05](topics/05_type-checking.md)) based on `pyrightconfig.json`:
@@ -76,12 +76,15 @@ The template provides a suite of tools for maintaining code quality, integrated 
 - **Security Checks:** Scan for dependency vulnerabilities with {pip-audit}`pip-audit<>` and code security issues with {bandit-bandit}`Bandit<>` ([Topic 08](topics/08_security-checks.md)):
 
   ```bash
-  uvx nox -s security
+  uvx nox -s security-python
   ```
 
 - **Run All Core Checks:**
   ```bash
-  uvx nox -s check
+  # Run individual checks:
+  uvx nox -s format-python lint-python typecheck security-python
+  # Or use quality tag:
+  uvx nox -t quality
   ```
 
 ## Testing
@@ -91,9 +94,9 @@ The template uses {pytest-pytest-cov}`pytest<>` ([Topic 06](topics/06_testing-co
 - **Write Tests:** Place test files (e.g., `test_*.py` or `*_test.py`) in the `tests/` directory.
 - **Run Tests with Coverage:**
   ```bash
-  uvx nox -s test
+  uvx nox -s tests-python
   ```
-  This runs tests across applicable Python versions and measures code coverage with {coveragepy-coverage}`coverage.py<>` ([Topic 06](topics/06_testing-coverage.md)) based on `.coveragerc`. Reports are generated (JUnit XML for CI, terminal summary).
+  This runs tests across applicable Python versions and measures code coverage with {coveragepy}`coverage.py<>` ([Topic 06](topics/06_testing-coverage.md)) based on `.coveragerc`. Reports are generated (JUnit XML for CI, terminal summary).
 
 ## Building and Publishing
 
@@ -101,11 +104,11 @@ Create and publish your package following Python standards ([Topic 09](topics/09
 
 - **Build Package:** Create standard `sdist` (`.tar.gz`) and `wheel` (`.whl`) files in the `dist/` directory.
   ```bash
-  uvx nox -s build
+  uvx nox -s build-python
   ```
 - **Publish Package:** Upload built packages using {uv}`uv<>`'s publish command. Requires credentials set via environment variables (e.g., `UV_TOKEN` or `TWINE_API_KEY`).
   ```bash
-  uvx nox -s publish
+  uvx nox -s publish-python
   ```
 
 ## Containerization
@@ -114,7 +117,7 @@ Define and build Docker container images for your application ([Topic 11](topics
 
 - **Build Application Image:** Uses the `Dockerfile` in the project root.
   ```bash
-  uvx nox -s container
+  uvx nox -s build-container
   ```
 - **Run with Docker Compose:**
   ```bash
@@ -128,7 +131,7 @@ Use {commitizen}`Commitizen<>` ([Topic 12](topics/12_task-automation.md)) via {u
 
 - **Bump Version:** Automatically determine the next version (major, minor, patch, etc.) based on commit messages since the last tag, update version strings, and create a Git tag.
   ```bash
-  uvx nox -s release -- [major|minor|patch] # e.g., uvx nox -s release -- minor
+  uvx nox -s setup-release -- [major|minor|patch] # e.g., uvx nox -s setup-release -- minor
   ```
   Follow the prompts. Requires following {conventional-commits}`Conventional Commits<>`. Pushing the resulting tag often triggers the CD pipeline.
 

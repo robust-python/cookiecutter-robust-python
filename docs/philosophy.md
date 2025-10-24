@@ -40,6 +40,19 @@ These principles form the basis for the evaluation criteria and justifications d
 
 ## Solved Issues
 
-The [Robust Python Cookiecutter] also exists to solve a few key issues that were omnipresent in [cookiecutter-hypermodern-python].
+The Robust Python Cookiecutter addresses several key challenges that existed in the original cookiecutter-hypermodern-python:
 
-###
+### Template Update Propagation
+One major issue with traditional cookiecutter workflows is the difficulty of propagating template updates to existing projects. The Robust Python Cookiecutter includes built-in support for Cruft, enabling projects to receive template updates through manageable pull requests rather than manual recreation.
+
+### Project Domain Expansion  
+While pure Python projects are common, many modern Python packages benefit from optional Rust extensions for performance-critical components. The template includes configurable Rust support via Maturin, allowing projects to start as pure Python and add Rust components when needed without architectural disruption.
+
+### Documentation of Decisions
+Rather than just providing tooling, this template documents the reasoning behind each tool choice. This enables maintainers to evaluate whether decisions remain valid as the ecosystem evolves, supporting long-term template maintenance.
+
+### CI/CD Vendor Independence
+The template is designed to work across GitHub Actions, GitLab CI, and Bitbucket Pipelines by centralizing logic in Nox sessions rather than platform-specific workflow syntax. This ensures consistency and portability.
+
+### Long-term Maintenance Strategy
+The template includes comprehensive testing infrastructure with automated demo projects and integration tests, helping ensure changes don't break the generation process and providing confidence in template evolution.

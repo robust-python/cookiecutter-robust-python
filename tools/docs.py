@@ -1,4 +1,5 @@
 """Documentation generation utilities for the template."""
+from __future__ import annotations
 
 import logging
 import re

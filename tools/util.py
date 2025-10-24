@@ -17,6 +17,7 @@ from typing import overload
 
 import cruft
 from cookiecutter.utils import work_in
+from loguru import logger
 
 from tools.config import DEVELOP_BRANCH
 from tools.config import MAIN_BRANCH
@@ -50,8 +51,10 @@ def run_command(command: str, *args: str, ignore_error: bool = False) -> Optiona
     except subprocess.CalledProcessError as error:
         if ignore_error:
             return None
-        print(error.stdout, end="")
-        print(error.stderr, end="", file=sys.stderr)
+        if error.stdout:
+            logger.error(error.stdout)
+        if error.stderr:
+            logger.error(error.stderr)
         raise
 
 
@@ -125,12 +128,12 @@ def _remove_existing_demo(demo_path: Path) -> None:
     if demo_path.exists() and demo_path.is_dir():
         previous_demo_pyproject: Path = Path(demo_path, "pyproject.toml")
         if not previous_demo_pyproject.exists():
-            print(f"Warning: No pyproject.toml found at {previous_demo_pyproject}")
-            response = input("This folder may not be a demo. Continue? [y/N]: ").strip().lower()
+            logger.warning(f"No pyproject.toml found at {previous_demo_pyproject}")
+            response: str = input("This folder may not be a demo. Continue? [y/N]: ").strip().lower()
             if response != "y":
                 raise RuntimeError("Aborted removal of non-demo directory")
 
-        print(f"Removing existing demo project at {demo_path}")
+        logger.info(f"Removing existing demo project at {demo_path}")
         shutil.rmtree(demo_path, onerror=remove_readonly)
 
 

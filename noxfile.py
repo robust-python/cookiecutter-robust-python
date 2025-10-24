@@ -1,4 +1,5 @@
 """Noxfile for the cookiecutter-robust-python template."""
+from __future__ import annotations
 
 import os
 import shutil
@@ -39,7 +40,7 @@ DEMO_ROOT_FOLDER: Path = PROJECT_DEMOS_FOLDER / DEFAULT_DEMO_NAME
 
 
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="generate-demo")
-def generate_demo_session(session: Session) -> None:
+def generate_demo(session: Session) -> None:
     """Generates a project demo using the cookiecutter-robust-python template."""
     session.log("Generating demo project...")
     session.install("cookiecutter", "cruft", "platformdirs", "python-dotenv")
@@ -67,7 +68,7 @@ def clear_cache(session: Session) -> None:
 
 
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION)
-def lint_template(session: Session) -> None:
+def lint(session: Session) -> None:
     """Lint the template's own Python files and configurations."""
     session.log("Installing linting dependencies for the template source...")
     session.install("-e", ".", "--group", "lint")
@@ -80,7 +81,7 @@ def lint_template(session: Session) -> None:
 
 
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="lint-from-demo")
-def lint_from_demo_session(session: Session) -> None:
+def lint_from_demo(session: Session) -> None:
     """Lint the generated project's Python files and configurations."""
     session.log("Installing linting dependencies for the generated project...")
     session.install("-e", ".", "--group", "dev", "--group", "lint", "pre-commit", "retrocookie")
@@ -132,7 +133,7 @@ def test(session: Session) -> None:
 
 @nox.parametrize(arg_names="add_rust_extension", arg_values_list=[False, True], ids=["no-rust", "rust"])
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="update-demo")
-def update_demo_session(session: Session, add_rust_extension: bool) -> None:
+def update_demo(session: Session, add_rust_extension: bool) -> None:
     """Update an existing demo project to the latest template version."""
     session.log("Installing script dependencies for updating generated project demos...")
     session.install("cookiecutter", "cruft", "platformdirs", "python-dotenv")

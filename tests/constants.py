@@ -8,7 +8,6 @@ from typing import Any
 REPO_FOLDER: Path = Path(__file__).parent.parent
 COOKIECUTTER_FOLDER: Path = REPO_FOLDER / "{{cookiecutter.project_name}}"
 HOOKS_FOLDER: Path = REPO_FOLDER / "hooks"
-SCRIPTS_FOLDER: Path = REPO_FOLDER / "scripts"
 GITHUB_ACTIONS_FOLDER: Path = COOKIECUTTER_FOLDER / ".github"
 
 COOKIECUTTER_JSON_PATH: Path = REPO_FOLDER / "cookiecutter.json"

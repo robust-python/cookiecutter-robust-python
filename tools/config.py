@@ -28,5 +28,4 @@ MAIN_BRANCH: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_MAIN_BRANCH", "main")
 DEVELOP_BRANCH: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_DEVELOP_BRANCH", "develop")
 
 # Path constants
-SCRIPTS_FOLDER: Path = REPO_ROOT / "scripts"
 TEMPLATE_FOLDER: Path = REPO_ROOT / "{{cookiecutter.project_name}}"

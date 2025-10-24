@@ -49,6 +49,20 @@ Alternatively, you can set these as system environment variables directly, and t
 
 The template repository uses its own `noxfile.py` at the **template repository root** (separate from the `noxfile.py` generated in projects) to automate common template maintenance tasks. These tasks run within the template's development environment.
 
+### Architecture
+
+The noxfile imports from a `tools/` package that provides reusable Python modules for template management:
+
+- `tools/config.py` - Centralized environment variable loading and configuration constants
+- `tools/util.py` - Shared utilities (git operations, demo generation, repository validation)
+- `tools/demo.py` - Demo generation and update logic
+- `tools/lint.py` - Lint-from-demo functionality (applies linting changes back to the template)
+- `tools/docs.py` - Documentation generation utilities
+
+This structure allows the noxfile to call functions directly instead of running subprocess scripts, reducing overhead and improving maintainability.
+
+### Running Tasks
+
 1.  **List Available Template Tasks:**
 
     ```bash
@@ -67,6 +81,14 @@ The template repository uses its own `noxfile.py` at the **template repository r
     This builds the documentation you are currently reading, using the Sphinx configuration (`docs/conf.py`) at the template root.
     ```bash
     uvx nox -s docs # Builds the template's sphinx documentation site
+    ```
+
+4.  **Generate and Update Demo Projects:**
+    ```bash
+    uvx nox -s generate-demo      # Create a demo project from the current template
+    uvx nox -s update-demo        # Update existing demo projects to the latest template version
+    uvx nox -s lint-from-demo     # Lint a generated demo and apply changes back to template
+    uvx nox -s clear-cache        # Clear the demo project cache if needed
     ```
 
 ## Keeping Template Tooling and Dependencies Current

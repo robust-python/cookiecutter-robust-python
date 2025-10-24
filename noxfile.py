@@ -23,12 +23,10 @@ DEFAULT_TEMPLATE_PYTHON_VERSION: str = "3.9"
 REPO_ROOT: Path = Path(__file__).parent.resolve()
 TEMPLATE_FOLDER: Path = REPO_ROOT / "{{cookiecutter.project_name}}"
 
-COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER: Path = Path(
-    platformdirs.user_cache_path(
-        appname="cookiecutter-robust-python",
-        appauthor=config.APP_AUTHOR,
-        ensure_exists=True,
-    )
+COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER: Path = platformdirs.user_cache_path(
+    appname="cookiecutter-robust-python",
+    appauthor=config.APP_AUTHOR,
+    ensure_exists=True,
 ).resolve()
 
 DEFAULT_PROJECT_DEMOS_FOLDER: Path = COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER / "project_demos"

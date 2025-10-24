@@ -1,65 +1,58 @@
 """Noxfile for the cookiecutter-robust-python template."""
+
 import os
 import shutil
 from pathlib import Path
 
 import nox
 import platformdirs
-from dotenv import load_dotenv
 from nox.command import CommandFailed
 from nox.sessions import Session
+
+from tools import config
+from tools import demo
+from tools import lint
+from tools import docs as docs_tools
 
 
 nox.options.default_venv_backend = "uv"
 
-DEFAULT_TEMPLATE_PYTHON_VERSION = "3.9"
+DEFAULT_TEMPLATE_PYTHON_VERSION: str = "3.9"
 
 REPO_ROOT: Path = Path(__file__).parent.resolve()
-SCRIPTS_FOLDER: Path = REPO_ROOT / "scripts"
 TEMPLATE_FOLDER: Path = REPO_ROOT / "{{cookiecutter.project_name}}"
 
-
-# Load environment variables from .env and .env.local (if present)
-_env_file: Path = REPO_ROOT / ".env"
-_env_local_file: Path = REPO_ROOT / ".env.local"
-if _env_file.exists():
-    load_dotenv(_env_file)
-if _env_local_file.exists():
-    load_dotenv(_env_local_file, override=True)
-
-APP_AUTHOR: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_APP_AUTHOR", "robust-python")
 COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER: Path = Path(
     platformdirs.user_cache_path(
         appname="cookiecutter-robust-python",
-        appauthor=APP_AUTHOR,
+        appauthor=config.APP_AUTHOR,
         ensure_exists=True,
     )
 ).resolve()
 
-DEFAULT_PROJECT_DEMOS_FOLDER = COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER / "project_demos"
-PROJECT_DEMOS_FOLDER: Path = Path(os.getenv(
-    "COOKIECUTTER_ROBUST_PYTHON_PROJECT_DEMOS_FOLDER", default=DEFAULT_PROJECT_DEMOS_FOLDER
-)).resolve()
+DEFAULT_PROJECT_DEMOS_FOLDER: Path = COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER / "project_demos"
+PROJECT_DEMOS_FOLDER_ENV: str | None = os.getenv("COOKIECUTTER_ROBUST_PYTHON_PROJECT_DEMOS_FOLDER")
+PROJECT_DEMOS_FOLDER: Path = Path(PROJECT_DEMOS_FOLDER_ENV).resolve() if PROJECT_DEMOS_FOLDER_ENV else DEFAULT_PROJECT_DEMOS_FOLDER
+
 DEFAULT_DEMO_NAME: str = "robust-python-demo"
 DEMO_ROOT_FOLDER: Path = PROJECT_DEMOS_FOLDER / DEFAULT_DEMO_NAME
 
-GENERATE_DEMO_SCRIPT: Path = SCRIPTS_FOLDER / "generate-demo.py"
-GENERATE_DEMO_OPTIONS: tuple[str, ...] = (
-    *("--demos-cache-folder", PROJECT_DEMOS_FOLDER),
-)
-
-LINT_FROM_DEMO_SCRIPT: Path = SCRIPTS_FOLDER / "lint-from-demo.py"
-LINT_FROM_DEMO_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
-
-UPDATE_DEMO_SCRIPT: Path = SCRIPTS_FOLDER / "update-demo.py"
-UPDATE_DEMO_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
-
 
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="generate-demo")
-def generate_demo(session: Session) -> None:
+def generate_demo_session(session: Session) -> None:
     """Generates a project demo using the cookiecutter-robust-python template."""
-    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "python-dotenv", "typer")
-    session.run("python", GENERATE_DEMO_SCRIPT, *GENERATE_DEMO_OPTIONS, *session.posargs)
+    session.log("Generating demo project...")
+    session.install("cookiecutter", "cruft", "platformdirs", "python-dotenv")
+
+    try:
+        demo.generate_demo(
+            demos_cache_folder=PROJECT_DEMOS_FOLDER,
+            add_rust_extension=False,
+            no_cache=False,
+        )
+        session.log("Demo generation completed successfully.")
+    except Exception as error:
+        session.error(f"Failed to generate demo: {error}")
 
 
 @nox.session(python=False, name="clear-cache")
@@ -74,7 +67,7 @@ def clear_cache(session: Session) -> None:
 
 
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION)
-def lint(session: Session):
+def lint_template(session: Session) -> None:
     """Lint the template's own Python files and configurations."""
     session.log("Installing linting dependencies for the template source...")
     session.install("-e", ".", "--group", "lint")
@@ -87,24 +80,29 @@ def lint(session: Session):
 
 
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="lint-from-demo")
-def lint_from_demo(session: Session):
+def lint_from_demo_session(session: Session) -> None:
     """Lint the generated project's Python files and configurations."""
     session.log("Installing linting dependencies for the generated project...")
-    session.install("-e", ".", "--group", "dev", "--group", "lint")
-    session.run("python", LINT_FROM_DEMO_SCRIPT, *LINT_FROM_DEMO_OPTIONS, *session.posargs)
+    session.install("-e", ".", "--group", "dev", "--group", "lint", "pre-commit", "retrocookie")
+
+    try:
+        lint.lint_from_demo(
+            demos_cache_folder=PROJECT_DEMOS_FOLDER,
+            add_rust_extension=False,
+            no_cache=False,
+        )
+        session.log("Lint-from-demo completed successfully.")
+    except Exception as error:
+        session.error(f"Lint-from-demo failed: {error}")
 
 
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION)
-def docs(session: Session):
+def docs(session: Session) -> None:
     """Build the template documentation website."""
     session.log("Installing documentation dependencies for the template docs...")
-    session.install("-e", ".", "--group", "docs")
+    session.install("-e", ".", "--group", "docs", "tomli")
 
-    session.log(f"Building template documentation with py{session.python}.")
-    # Set path to allow Sphinx to import from template root if needed (e.g., __version__.py)
-    # session.env["PYTHONPATH"] = str(Path(".").resolve()) # Add template root to PYTHONPATH for Sphinx
-
-    docs_build_dir = Path("docs") / "_build" / "html"
+    docs_build_dir: Path = Path("docs") / "_build" / "html"
 
     session.log(f"Cleaning template docs build directory: {docs_build_dir}")
     docs_build_dir.parent.mkdir(parents=True, exist_ok=True)
@@ -134,19 +132,24 @@ def test(session: Session) -> None:
 
 @nox.parametrize(arg_names="add_rust_extension", arg_values_list=[False, True], ids=["no-rust", "rust"])
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="update-demo")
-def update_demo(session: Session, add_rust_extension: bool) -> None:
+def update_demo_session(session: Session, add_rust_extension: bool) -> None:
+    """Update an existing demo project to the latest template version."""
     session.log("Installing script dependencies for updating generated project demos...")
-    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "python-dotenv", "typer")
+    session.install("cookiecutter", "cruft", "platformdirs", "python-dotenv")
 
     session.log("Updating generated project demos...")
-    args: list[str] = [*UPDATE_DEMO_OPTIONS]
-    if add_rust_extension:
-        args.append("--add-rust-extension")
-    session.run("python", UPDATE_DEMO_SCRIPT, *args)
+    try:
+        demo.update_demo(
+            demos_cache_folder=PROJECT_DEMOS_FOLDER,
+            add_rust_extension=add_rust_extension,
+        )
+        session.log("Demo update completed successfully.")
+    except Exception as error:
+        session.error(f"Failed to update demo: {error}")
 
 
 @nox.session(python=False, name="release-template")
-def release_template(session: Session):
+def release_template(session: Session) -> None:
     """Run the release process for the TEMPLATE using Commitizen.
 
     Requires uvx in PATH (from uv install). Requires Git.
@@ -163,13 +166,13 @@ def release_template(session: Session):
     session.log("Checking Commitizen availability via uvx.")
     session.run("cz", "--version", successcodes=[0])
 
-    increment = session.posargs[0] if session.posargs else None
+    increment: str | None = session.posargs[0] if session.posargs else None
     session.log(
         "Bumping template version and tagging release (increment: %s).",
         increment if increment else "default",
     )
 
-    cz_bump_args = ["uvx", "cz", "bump", "--changelog"]
+    cz_bump_args: list[str] = ["uvx", "cz", "bump", "--changelog"]
 
     if increment:
         cz_bump_args.append(f"--increment={increment}")
@@ -187,4 +190,3 @@ def remove_demo_release(session: Session) -> None:
     """Deletes the latest demo release."""
     session.run("git", "branch", "-d", f"release/{session.posargs[0]}", external=True)
     session.run("git", "push", "--progress", "--porcelain", "origin", f"release/{session.posargs[0]}", external=True)
-

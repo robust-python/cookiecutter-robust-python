@@ -1,4 +1,5 @@
-"""Module containing utility functions used throughout cookiecutter_robust_python scripts."""
+"""Shared utility functions for template development tools."""
+
 import os
 import shutil
 import stat
@@ -15,37 +16,11 @@ from typing import Optional
 from typing import overload
 
 import cruft
-import typer
 from cookiecutter.utils import work_in
-from dotenv import load_dotenv
-from typer.models import OptionInfo
 
-
-REPO_FOLDER: Path = Path(__file__).resolve().parent.parent
-
-
-def _load_env() -> None:
-    """Load environment variables from .env and .env.local (if present).
-
-    .env.local takes precedence over .env for any overlapping variables.
-    """
-    env_file: Path = REPO_FOLDER / ".env"
-    env_local_file: Path = REPO_FOLDER / ".env.local"
-
-    if env_file.exists():
-        load_dotenv(env_file)
-
-    if env_local_file.exists():
-        load_dotenv(env_local_file, override=True)
-
-
-# Load environment variables at module import time
-_load_env()
-
-
-FolderOption: partial[OptionInfo] = partial(
-    typer.Option, dir_okay=True, file_okay=False, resolve_path=True, path_type=Path
-)
+from tools.config import DEVELOP_BRANCH
+from tools.config import MAIN_BRANCH
+from tools.config import REPO_ROOT
 
 
 def remove_readonly(func: Callable[[str], Any], path: str, _: Any) -> None:
@@ -86,17 +61,14 @@ uv: partial[subprocess.CompletedProcess] = partial(run_command, "uv")
 
 def require_clean_and_up_to_date_repo() -> None:
     """Checks if the repo is clean and up to date with any important branches."""
-    main_branch: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_MAIN_BRANCH", "main")
-    develop_branch: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_DEVELOP_BRANCH", "develop")
-
     git("fetch")
     git("status", "--porcelain")
-    if not is_branch_synced_with_remote(develop_branch):
-        raise ValueError(f"{develop_branch} is not synced with origin/{develop_branch}")
-    if not is_branch_synced_with_remote(main_branch):
-        raise ValueError(f"{main_branch} is not synced with origin/{main_branch}")
-    if not is_ancestor(main_branch, develop_branch):
-        raise ValueError(f"{main_branch} is not an ancestor of {develop_branch}")
+    if not is_branch_synced_with_remote(DEVELOP_BRANCH):
+        raise ValueError(f"{DEVELOP_BRANCH} is not synced with origin/{DEVELOP_BRANCH}")
+    if not is_branch_synced_with_remote(MAIN_BRANCH):
+        raise ValueError(f"{MAIN_BRANCH} is not synced with origin/{MAIN_BRANCH}")
+    if not is_ancestor(MAIN_BRANCH, DEVELOP_BRANCH):
+        raise ValueError(f"{MAIN_BRANCH} is not an ancestor of {DEVELOP_BRANCH}")
 
 
 def is_branch_synced_with_remote(branch: str) -> bool:
@@ -105,7 +77,7 @@ def is_branch_synced_with_remote(branch: str) -> bool:
 
 
 def is_ancestor(ancestor: str, descendent: str) -> bool:
-    """Checks if the branch is synced with its remote."""
+    """Checks if ancestor is an ancestor of descendent."""
     return git("merge-base", "--is-ancestor", ancestor, descendent).returncode == 0
 
 
@@ -139,7 +111,7 @@ def generate_demo(
     if no_cache:
         _remove_existing_demo(demo_path=demos_cache_folder / demo_name)
     cruft.create(
-        template_git_url=str(REPO_FOLDER),
+        template_git_url=str(REPO_ROOT),
         output_dir=demos_cache_folder,
         extra_context={"project_name": demo_name, "add_rust_extension": add_rust_extension, **kwargs},
         no_input=True,
@@ -153,18 +125,16 @@ def _remove_existing_demo(demo_path: Path) -> None:
     if demo_path.exists() and demo_path.is_dir():
         previous_demo_pyproject: Path = Path(demo_path, "pyproject.toml")
         if not previous_demo_pyproject.exists():
-            typer.secho(f"No pyproject.toml found at {previous_demo_pyproject=}.", fg="red")
-            typer.confirm(
-                "This folder may not be a demo, are you sure you would like to continue?",
-                default=False,
-                abort=True,
-                show_default=True
-            )
+            print(f"Warning: No pyproject.toml found at {previous_demo_pyproject}")
+            response = input("This folder may not be a demo. Continue? [y/N]: ").strip().lower()
+            if response != "y":
+                raise RuntimeError("Aborted removal of non-demo directory")
 
-        typer.secho(f"Removing existing demo project at {demo_path=}.", fg="yellow")
+        print(f"Removing existing demo project at {demo_path}")
         shutil.rmtree(demo_path, onerror=remove_readonly)
 
 
 def get_demo_name(add_rust_extension: bool) -> str:
+    """Get the demo project name based on rust extension setting."""
     name_modifier: str = "maturin" if add_rust_extension else "python"
     return f"robust-{name_modifier}-demo"

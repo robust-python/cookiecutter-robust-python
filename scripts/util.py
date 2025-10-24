@@ -17,10 +17,30 @@ from typing import overload
 import cruft
 import typer
 from cookiecutter.utils import work_in
+from dotenv import load_dotenv
 from typer.models import OptionInfo
 
 
 REPO_FOLDER: Path = Path(__file__).resolve().parent.parent
+
+
+def _load_env() -> None:
+    """Load environment variables from .env and .env.local (if present).
+
+    .env.local takes precedence over .env for any overlapping variables.
+    """
+    env_file: Path = REPO_FOLDER / ".env"
+    env_local_file: Path = REPO_FOLDER / ".env.local"
+
+    if env_file.exists():
+        load_dotenv(env_file)
+
+    if env_local_file.exists():
+        load_dotenv(env_local_file, override=True)
+
+
+# Load environment variables at module import time
+_load_env()
 
 
 FolderOption: partial[OptionInfo] = partial(
@@ -66,14 +86,17 @@ uv: partial[subprocess.CompletedProcess] = partial(run_command, "uv")
 
 def require_clean_and_up_to_date_repo() -> None:
     """Checks if the repo is clean and up to date with any important branches."""
+    main_branch: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_MAIN_BRANCH", "main")
+    develop_branch: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_DEVELOP_BRANCH", "develop")
+
     git("fetch")
     git("status", "--porcelain")
-    if not is_branch_synced_with_remote("develop"):
-        raise ValueError("develop is not synced with origin/develop")
-    if not is_branch_synced_with_remote("main"):
-        raise ValueError("main is not synced with origin/main")
-    if not is_ancestor("main", "develop"):
-        raise ValueError("main is not an ancestor of develop")
+    if not is_branch_synced_with_remote(develop_branch):
+        raise ValueError(f"{develop_branch} is not synced with origin/{develop_branch}")
+    if not is_branch_synced_with_remote(main_branch):
+        raise ValueError(f"{main_branch} is not synced with origin/{main_branch}")
+    if not is_ancestor(main_branch, develop_branch):
+        raise ValueError(f"{main_branch} is not an ancestor of {develop_branch}")
 
 
 def is_branch_synced_with_remote(branch: str) -> bool:

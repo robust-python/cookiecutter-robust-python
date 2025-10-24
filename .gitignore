@@ -62,4 +62,7 @@ Thumbs.db      # Windows thumbnail cache
 debug.log
 nohup.out
 
+# Local environment overrides
+.env.local
+
 /.idea/

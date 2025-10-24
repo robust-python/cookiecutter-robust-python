@@ -22,6 +22,29 @@ uv sync # This installs deps from the template's pyproject.toml into a .venv for
 
 Refer to the [Getting Started: Contributing to the Template](getting-started-template-contributing.md) guide for initial setup details.
 
+## Customizing Template Development with .env.local
+
+The template uses environment variables to make demo generation and repository management scripts user-agnostic. Default values are provided in `.env` at the template repository root.
+
+### Available Environment Variables
+
+- `COOKIECUTTER_ROBUST_PYTHON_APP_AUTHOR` - App author name used for cache directory paths (default: `robust-python`)
+- `COOKIECUTTER_ROBUST_PYTHON_MAIN_BRANCH` - Main branch name for version control (default: `main`)
+- `COOKIECUTTER_ROBUST_PYTHON_DEVELOP_BRANCH` - Development branch name (default: `develop`)
+
+### Overriding Defaults
+
+If you maintain your own forks of the demo repositories or use different branch conventions, create a `.env.local` file at the template repository root (this file is git-ignored and will not be committed):
+
+```bash
+# .env.local (not committed to git)
+COOKIECUTTER_ROBUST_PYTHON_APP_AUTHOR=my-org
+COOKIECUTTER_ROBUST_PYTHON_MAIN_BRANCH=master
+COOKIECUTTER_ROBUST_PYTHON_DEVELOP_BRANCH=development
+```
+
+Alternatively, you can set these as system environment variables directly, and the `.env.local` file will override them if present.
+
 ## Task Automation for Template Maintenance
 
 The template repository uses its own `noxfile.py` at the **template repository root** (separate from the `noxfile.py` generated in projects) to automate common template maintenance tasks. These tasks run within the template's development environment.

@@ -5,7 +5,7 @@ from pathlib import Path
 
 import nox
 import platformdirs
-from dotenv import load_dotenv
+
 from nox.command import CommandFailed
 from nox.sessions import Session
 
@@ -17,15 +17,6 @@ DEFAULT_TEMPLATE_PYTHON_VERSION = "3.9"
 REPO_ROOT: Path = Path(__file__).parent.resolve()
 SCRIPTS_FOLDER: Path = REPO_ROOT / "scripts"
 TEMPLATE_FOLDER: Path = REPO_ROOT / "{{cookiecutter.project_name}}"
-
-
-# Load environment variables from .env and .env.local (if present)
-_env_file: Path = REPO_ROOT / ".env"
-_env_local_file: Path = REPO_ROOT / ".env.local"
-if _env_file.exists():
-    load_dotenv(_env_file)
-if _env_local_file.exists():
-    load_dotenv(_env_local_file, override=True)
 
 APP_AUTHOR: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_APP_AUTHOR", "robust-python")
 COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER: Path = Path(
@@ -58,7 +49,7 @@ UPDATE_DEMO_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="generate-demo")
 def generate_demo(session: Session) -> None:
     """Generates a project demo using the cookiecutter-robust-python template."""
-    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "python-dotenv", "typer")
+    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "typer")
     session.run("python", GENERATE_DEMO_SCRIPT, *GENERATE_DEMO_OPTIONS, *session.posargs)
 
 
@@ -136,7 +127,7 @@ def test(session: Session) -> None:
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="update-demo")
 def update_demo(session: Session, add_rust_extension: bool) -> None:
     session.log("Installing script dependencies for updating generated project demos...")
-    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "python-dotenv", "typer")
+    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "typer")
 
     session.log("Updating generated project demos...")
     args: list[str] = [*UPDATE_DEMO_OPTIONS]
@@ -161,7 +152,7 @@ def release_template(session: Session):
         session.skip("Git not available.")
 
     session.log("Checking Commitizen availability via uvx.")
-    session.run("cz", "--version", successcodes=[0])
+    session.run("cz", "--version", success_codes=[0])
 
     increment = session.posargs[0] if session.posargs else None
     session.log(

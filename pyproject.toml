@@ -10,7 +10,6 @@ dependencies = [
     "gitpython>=3.1.44",
     "loguru>=0.7.3",
     "platformdirs>=4.3.8",
-    "python-dotenv>=1.0.0",
     "retrocookie>=0.4.3",
     "typer>=0.15.4",
 ]

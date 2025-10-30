@@ -17,10 +17,31 @@ from typing import overload
 import cruft
 import typer
 from cookiecutter.utils import work_in
+from dotenv import load_dotenv
 from typer.models import OptionInfo
 
 
 REPO_FOLDER: Path = Path(__file__).resolve().parent.parent
+
+
+def _load_env() -> None:
+    """Load environment variables from .env and .env.local (if present).
+
+    .env.local takes precedence over .env for any overlapping variables.
+    """
+    env_file: Path = REPO_FOLDER / ".env"
+    env_local_file: Path = REPO_FOLDER / ".env.local"
+
+    if env_file.exists():
+        load_dotenv(env_file)
+
+    if env_local_file.exists():
+        load_dotenv(env_local_file, override=True)
+
+
+# Load environment variables at module import time
+_load_env()
+
 
 FolderOption: partial[OptionInfo] = partial(
     typer.Option, dir_okay=True, file_okay=False, resolve_path=True, path_type=Path

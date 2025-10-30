@@ -1,7 +1,7 @@
 """Noxfile for the cookiecutter-robust-python template."""
 
 # /// script
-# dependencies = ["python-dotenv>=1.0.0"]
+# dependencies = ["nox>=2025.5.1", "python-dotenv>=1.0.0"]
 # ///
 
 import os

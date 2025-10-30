@@ -1,4 +1,9 @@
 """Noxfile for the cookiecutter-robust-python template."""
+
+# /// script
+# dependencies = ["python-dotenv>=1.0.0"]
+# ///
+
 import os
 import shutil
 from pathlib import Path
@@ -20,12 +25,14 @@ TEMPLATE_FOLDER: Path = REPO_ROOT / "{{cookiecutter.project_name}}"
 
 
 # Load environment variables from .env and .env.local (if present)
-_env_file: Path = REPO_ROOT / ".env"
-_env_local_file: Path = REPO_ROOT / ".env.local"
-if _env_file.exists():
-    load_dotenv(_env_file)
-if _env_local_file.exists():
-    load_dotenv(_env_local_file, override=True)
+LOCAL_ENV_FILE: Path = REPO_ROOT / ".env.local"
+DEFAULT_ENV_FILE: Path = REPO_ROOT / ".env"
+
+if LOCAL_ENV_FILE.exists():
+    load_dotenv(LOCAL_ENV_FILE)
+
+if DEFAULT_ENV_FILE.exists():
+    load_dotenv(DEFAULT_ENV_FILE)
 
 APP_AUTHOR: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_APP_AUTHOR", "robust-python")
 COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER: Path = Path(

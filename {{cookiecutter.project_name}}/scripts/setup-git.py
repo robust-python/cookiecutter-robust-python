@@ -37,7 +37,7 @@ def get_parser() -> argparse.ArgumentParser:
     """Creates the argument parser for setup-git."""
     parser: argparse.ArgumentParser = argparse.ArgumentParser(
         prog="setup-git",
-        usage="python ./scripts/setup-git.py . -u 56kyle -n robust-python-demo",
+        usage="python ./scripts/setup-git.py . -u robust-python -n robust-python-demo",
         description="Set up the provided cookiecutter-robust-python project's git repo.",
     )
     parser.add_argument(

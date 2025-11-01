@@ -60,7 +60,7 @@ uvx nox -s setup-remote
 For a general overview of where we are at with this template, please see the [roadmap](#roadmap) section.
 
 ## Example Output
-For an example of this template's output, please visit the [demo](https://github.com/56kyle/robust-python-demo) which is kept up to date with the current state of this template.
+For an example of this template's output, please visit the [demo](https://github.com/robust-python/robust-python-demo) which is kept up to date with the current state of this template.
 
 ## Roadmap
 

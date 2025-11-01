@@ -8,8 +8,8 @@ By participating in this project, you are expected to uphold our [Code of Conduc
 
 There are several ways to contribute:
 
-1.  **Reporting Bugs:** If you find an issue with the template itself (e.g., it doesn't generate correctly, the generated project's workflow doesn't work on a specific OS, a tool is misconfigured), please open an issue on the [issue tracker](https://github.com/56kyle/cookiecutter-robust-python/issues). Provide clear steps to reproduce the bug.
-2.  **Suggesting Enhancements:** Have an idea for a new feature, a different tool choice you think is better, or an improvement to the template structure or documentation? Open an issue on the [issue tracker](https://github.com/56kyle/cookiecutter-robust-python/issues) to discuss your suggestion. Clearly articulate the proposed change and the rationale behind it, ideally referencing the template's philosophy and criteria ([Template Philosophy](https://56kyle.github.io/cookiecutter-robust-python/philosophy.html), [Criteria for Tool Selection](https://56kyle.github.io/cookiecutter-robust-python/criteria.html)).
+1.  **Reporting Bugs:** If you find an issue with the template itself (e.g., it doesn't generate correctly, the generated project's workflow doesn't work on a specific OS, a tool is misconfigured), please open an issue on the [issue tracker](https://github.com/robust-python/cookiecutter-robust-python/issues). Provide clear steps to reproduce the bug.
+2.  **Suggesting Enhancements:** Have an idea for a new feature, a different tool choice you think is better, or an improvement to the template structure or documentation? Open an issue on the [issue tracker](https://github.com/robust-python/cookiecutter-robust-python/issues) to discuss your suggestion. Clearly articulate the proposed change and the rationale behind it, ideally referencing the template's philosophy and criteria ([Template Philosophy](https://56kyle.github.io/cookiecutter-robust-python/philosophy.html), [Criteria for Tool Selection](https://56kyle.github.io/cookiecutter-robust-python/criteria.html)).
 3.  **Submitting Code Contributions:** Ready to contribute code (e.g., fix a bug, implement a suggested enhancement, update a tool version)? Please fork the repository and submit a Pull Request.
 
 ## Setting Up Your Development Environment
@@ -35,6 +35,6 @@ If your contribution involves updating a major tool version or suggesting a diff
 
 ## Communication
 
-For questions or discussion about contributions, open an issue or a discussion on the [GitHub repository](https://github.com/56kyle/cookiecutter-robust-python).
+For questions or discussion about contributions, open an issue or a discussion on the [GitHub repository](https://github.com/robust-python/cookiecutter-robust-python).
 
 ---

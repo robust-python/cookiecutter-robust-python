@@ -4,7 +4,7 @@ A Python project template robust enough to follow up [cookiecutter-hypermodern-p
 
 ---
 
-**[📚 View Documentation](https://cookiecutter-robust-python.readthedocs.io/)** | **[🐛 Report a Bug](https://github.com/56kyle/cookiecutter-robust-python/issues)** | **[✨ Request a Feature](https://github.com/56kyle/cookiecutter-robust-python/issues)**
+**[📚 View Documentation](https://cookiecutter-robust-python.readthedocs.io/)** | **[🐛 Report a Bug](https://github.com/robust-python/cookiecutter-robust-python/issues)** | **[✨ Request a Feature](https://github.com/robust-python/cookiecutter-robust-python/issues)**
 
 ---
 
@@ -17,14 +17,14 @@ The only requirement is [uv].
 Navigate to where you want to create your project and run:
 
 ```bash
-uvx cruft create https://github.com/56kyle/cookiecutter-robust-python.git
+uvx cruft create https://github.com/robust-python/cookiecutter-robust-python.git
 ```
 
 This will prompt you for a few inputs to customize your project:
 ```
 [1/15] project_name (robust-python): my-awesome-project
-[2/15] package_name (my_awesome_project): 
-[3/15] friendly_name (My Awesome Project): 
+[2/15] package_name (my_awesome_project):
+[3/15] friendly_name (My Awesome Project):
 ...
 ```
 
@@ -182,7 +182,7 @@ of trusted individuals to ensure the project is taken care of.
 [bitbucket-pipelines]: https://support.atlassian.com/bitbucket-cloud/docs/write-a-pipe-for-bitbucket-pipelines/
 [cookiecutter]: https://cookiecutter.readthedocs.io/en/stable/
 [cookiecutter-hypermodern-python]: https://github.com/cjolowicz/cookiecutter-hypermodern-python
-[cookiecutter-robust-python]: https://github.com/56kyle/cookiecutter-robust-python
+[cookiecutter-robust-python]: https://github.com/robust-python/cookiecutter-robust-python
 [cruft]: https://cruft.github.io/cruft/
 [github]: https://github.com
 [github-actions]: https://docs.github.com/en/actions
@@ -193,11 +193,11 @@ of trusted individuals to ensure the project is taken care of.
 [monorepos]: https://en.wikipedia.org/wiki/Monorepo
 [my personal fork]: https://github.com/56kyle/cookiecutter-hypermodern-python
 [nox]: https://nox.thea.codes/
-[noxfile]: https://github.com/56kyle/cookiecutter-robust-python/blob/main/%7B%7Bcookiecutter.project_name%7D%7D/noxfile.py
+[noxfile]: https://github.com/robust-python/cookiecutter-robust-python/blob/main/%7B%7Bcookiecutter.project_name%7D%7D/noxfile.py
 [poetry]: https://python-poetry.org/docs/
 [polars]: https://github.com/pola-rs/polars
 [python]: https://www.python.org/
-[robust python cookiecutter]: https://github.com/56kyle/cookiecutter-robust-python
+[robust python cookiecutter]: https://github.com/robust-python/cookiecutter-robust-python
 [ruff]: https://docs.astral.sh/ruff/
 [rust]: https://www.rust-lang.org/learn
 [rye]: https://rye.astral.sh/

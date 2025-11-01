@@ -15,7 +15,7 @@ The template's `pyproject.toml` file at the **template repository root** lists t
 To set up your environment for working _on the template_, clone the repository and install its dependencies:
 
 ```bash
-git clone https://github.com/56kyle/cookiecutter-robust-python.git # **UPDATE WITH TEMPLATE REPO URL**
+git clone https://github.com/robust-python/cookiecutter-robust-python.git # **UPDATE WITH TEMPLATE REPO URL**
 cd cookiecutter-robust-python
 uv sync # This installs deps from the template's pyproject.toml into a .venv for template dev
 ```

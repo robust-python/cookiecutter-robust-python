@@ -210,4 +210,4 @@ _This project was generated from the [cookiecutter-robust-python][cookiecutter-r
 [bandit-documentation]: https://bandit.readthedocs.io/
 [conventional-commits]: https://www.conventionalcommits.org/
 [pytest-documentation]: https://docs.pytest.org/
-[cookiecutter-robust-python]: https://github.com/56kyle/cookiecutter-robust-python
+[cookiecutter-robust-python]: https://github.com/robust-python/cookiecutter-robust-python

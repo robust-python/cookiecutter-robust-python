@@ -39,7 +39,7 @@ def get_parser() -> argparse.ArgumentParser:
     """Creates the argument parser for setup-remote."""
     parser: argparse.ArgumentParser = argparse.ArgumentParser(
         prog="setup-remote",
-        usage="python ./scripts/setup-remote.py . --host github.com --path 56kyle/robust-python-demo",
+        usage="python ./scripts/setup-remote.py . --host github.com --path robust-python/robust-python-demo",
         description="Set up the provided cookiecutter-robust-python project's remote repo connection.",
     )
     parser.add_argument(

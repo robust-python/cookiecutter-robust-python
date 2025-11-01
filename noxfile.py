@@ -1,10 +1,16 @@
 """Noxfile for the cookiecutter-robust-python template."""
+
+# /// script
+# dependencies = ["nox>=2025.5.1", "platformdirs>=4.3.8", "python-dotenv>=1.0.0"]
+# ///
+
 import os
 import shutil
 from pathlib import Path
 
 import nox
 import platformdirs
+from dotenv import load_dotenv
 from nox.command import CommandFailed
 from nox.sessions import Session
 
@@ -18,10 +24,21 @@ SCRIPTS_FOLDER: Path = REPO_ROOT / "scripts"
 TEMPLATE_FOLDER: Path = REPO_ROOT / "{{cookiecutter.project_name}}"
 
 
+# Load environment variables from .env and .env.local (if present)
+LOCAL_ENV_FILE: Path = REPO_ROOT / ".env.local"
+DEFAULT_ENV_FILE: Path = REPO_ROOT / ".env"
+
+if LOCAL_ENV_FILE.exists():
+    load_dotenv(LOCAL_ENV_FILE)
+
+if DEFAULT_ENV_FILE.exists():
+    load_dotenv(DEFAULT_ENV_FILE)
+
+APP_AUTHOR: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_APP_AUTHOR", "robust-python")
 COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER: Path = Path(
     platformdirs.user_cache_path(
         appname="cookiecutter-robust-python",
-        appauthor="56kyle",
+        appauthor=APP_AUTHOR,
         ensure_exists=True,
     )
 ).resolve()
@@ -48,7 +65,7 @@ UPDATE_DEMO_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="generate-demo")
 def generate_demo(session: Session) -> None:
     """Generates a project demo using the cookiecutter-robust-python template."""
-    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "typer")
+    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "python-dotenv", "typer")
     session.run("python", GENERATE_DEMO_SCRIPT, *GENERATE_DEMO_OPTIONS, *session.posargs)
 
 
@@ -126,7 +143,7 @@ def test(session: Session) -> None:
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="update-demo")
 def update_demo(session: Session, add_rust_extension: bool) -> None:
     session.log("Installing script dependencies for updating generated project demos...")
-    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "typer")
+    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "python-dotenv", "typer")
 
     session.log("Updating generated project demos...")
     args: list[str] = [*UPDATE_DEMO_OPTIONS]

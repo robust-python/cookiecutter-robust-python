@@ -91,5 +91,5 @@ Distributed under the terms of the **{{ cookiecutter.license }}** license. See [
 
 <!-- Reference Links -->
 
-[cookiecutter-robust-python]: https://github.com/56kyle/cookiecutter-robust-python
+[cookiecutter-robust-python]: https://github.com/robust-python/cookiecutter-robust-python
 [documentation]: https://{{ cookiecutter.project_name.replace('_', '-') }}.readthedocs.io/

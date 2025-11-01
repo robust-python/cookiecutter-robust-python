@@ -40,8 +40,13 @@ def test_demo_project_nox_pre_commit(robust_demo: Path) -> None:
     assert result.returncode == 0
 
 
-@pytest.mark.parametrize(argnames="robust_demo__add_rust_extension", argvalues=[True, False], indirect=True)
-@pytest.mark.parametrize(argnames="robust_demo__is_setup", argvalues=[False], indirect=True)
+@pytest.mark.parametrize(
+    argnames="robust_demo__add_rust_extension",
+    argvalues=[True, False],
+    indirect=True,
+    ids=["maturin", "python"]
+)
+@pytest.mark.parametrize(argnames="robust_demo__is_setup", argvalues=[False], indirect=True, ids=["no-setup"])
 def test_demo_project_nox_pre_commit_with_install(robust_demo: Path) -> None:
     command: list[str] = ["nox", "-s", "pre-commit", "--", "install"]
     pre_commit_hook_path: Path = robust_demo / ".git" / "hooks" / "pre-commit"

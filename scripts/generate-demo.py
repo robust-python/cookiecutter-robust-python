@@ -18,7 +18,7 @@ def main(
     add_rust_extension: Annotated[bool, typer.Option("--add-rust-extension", "-r")] = False,
     no_cache: Annotated[bool, typer.Option("--no-cache", "-n")] = False
 ) -> None:
-    """Updates the poetry.lock file."""
+    """Generates a project demo using the cookiecutter-robust-python template."""
     try:
         generate_demo(
             demos_cache_folder=demos_cache_folder,

@@ -26,7 +26,7 @@ cd ~/path/to/my/repos
 Generate your project from the template:
 
 ```bash
-uvx cruft create https://github.com/56kyle/cookiecutter-robust-python.git
+uvx cruft create https://github.com/robust-python/cookiecutter-robust-python.git
 ```
 
 Follow the prompts to customize your project.

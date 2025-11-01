@@ -17,7 +17,7 @@ To contribute to the template, you will need:
 1.  **Clone the Template Repository:**
 
     ```bash
-    git clone https://github.com/56kyle/cookiecutter-robust-python.git
+    git clone https://github.com/robust-python/cookiecutter-robust-python.git
     cd cookiecutter-robust-python
     ```
 

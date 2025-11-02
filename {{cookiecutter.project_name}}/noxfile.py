@@ -199,6 +199,7 @@ def docs_build(session: Session) -> None:
     session.log("Building documentation.")
     session.run("sphinx-build", "-b", "html", "docs", str(docs_build_dir), "-W")
 
+
 @nox.session(python=DEFAULT_PYTHON_VERSION, name="docs", tags=[DOCS, BUILD])
 def docs(session: Session) -> None:
     """Build and serve the project documentation (Sphinx)."""

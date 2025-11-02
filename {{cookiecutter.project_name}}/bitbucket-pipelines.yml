@@ -250,7 +250,7 @@ pipelines:
               script:
                 - curl -LsSf https://astral.sh/uv/install.sh | sh
                 - export PATH="$PATH:/root/.cargo/bin"
-                - uvx nox -s test-rust
+                - uvx nox -s tests-rust
 {%- endif %}
 
   # Pipeline for main/master branch

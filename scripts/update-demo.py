@@ -52,7 +52,9 @@ def update_demo(
                     f"'{current_commit}'."
                 )
 
-            git("checkout", "-b", current_branch)
+            if current_branch != develop_branch:
+                git("checkout", "-b", current_branch)
+
             uv("python", "pin", min_python_version)
             uv("python", "install", min_python_version)
             cruft.update(
@@ -67,7 +69,7 @@ def update_demo(
             )
             uv("lock")
             git("add", ".")
-            git("commit", "-m", "chore: update demo to the latest cookiecutter-robust-python", "--no-verify")
+            git("commit", "-m", f"chore: {last_update_commit} -> {current_commit}", "--no-verify")
             git("push")
 
     except Exception as error:

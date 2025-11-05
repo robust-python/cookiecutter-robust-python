@@ -1,4 +1,5 @@
 """Module containing utility functions used throughout cookiecutter_robust_python scripts."""
+import json
 import os
 import shutil
 import stat
@@ -17,6 +18,8 @@ from typing import overload
 import cruft
 import typer
 from cookiecutter.utils import work_in
+from cruft._commands.utils.cruft import get_cruft_file
+from cruft._commands.utils.cruft import json_dumps
 from dotenv import load_dotenv
 from typer.models import OptionInfo
 
@@ -106,7 +109,34 @@ def is_branch_synced_with_remote(branch: str) -> bool:
 
 def is_ancestor(ancestor: str, descendent: str) -> bool:
     """Checks if the branch is synced with its remote."""
-    return git("merge-base", "--is-ancestor", ancestor, descendent).returncode == 0
+    return git("merge-base", "--is-ancestor", ancestor, descendent, ignore_error=True) is not None
+
+
+def get_current_branch() -> str:
+    """Returns the current branch name."""
+    return git("branch", "--show-current").stdout.strip()
+
+
+def get_current_commit() -> str:
+    """Returns the current commit reference."""
+    return git("rev-parse", "HEAD").stdout.strip()
+
+
+def get_last_cruft_update_commit(demo_path: Path) -> str:
+    """Returns the commit id for the last time cruft update was ran."""
+    existing_cruft_config: dict[str, Any] = _read_cruft_file(demo_path)
+    last_cookiecutter_commit: Optional[str] = existing_cruft_config.get("commit", None)
+    if last_cookiecutter_commit is None:
+        raise ValueError("Could not find last commit id used to generate demo.")
+    return last_cookiecutter_commit
+
+
+def _read_cruft_file(project_path: Path) -> dict[str, Any]:
+    """Reads the cruft file for the project path provided and returns the results."""
+    cruft_path: Path = get_cruft_file(project_dir_path=project_path)
+    cruft_text: str = cruft_path.read_text()
+    cruft_config: dict[str, Any] = json.loads(cruft_text)
+    return cruft_config
 
 
 @contextmanager

@@ -49,14 +49,16 @@ def update_demo(
                     f"'{current_commit}'."
                 )
 
-            git("checkout", "-b", current_branch)
+            if current_branch != develop_branch:
+                git("checkout", "-b", current_branch)
+
             cruft.update(
                 project_dir=demo_path,
                 template_path=REPO_FOLDER,
                 extra_context={"project_name": demo_name, "add_rust_extension": add_rust_extension},
             )
             git("add", ".")
-            git("commit", "-m", "chore: update demo to the latest cookiecutter-robust-python", "--no-verify")
+            git("commit", "-m", f"chore: {last_update_commit} -> {current_commit}", "--no-verify")
             git("push")
 
     except Exception as error:

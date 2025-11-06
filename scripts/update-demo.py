@@ -30,26 +30,23 @@ def update_demo(
     try:
         demo_name: str = get_demo_name(add_rust_extension=add_rust_extension)
         demo_path: Path = demos_cache_folder / demo_name
-        develop_branch: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_DEVELOP_BRANCH", "develop")
 
         current_branch: str = get_current_branch()
         current_commit: str = get_current_commit()
 
         _validate_is_feature_branch(branch=current_branch)
 
+        last_update_commit: str = _get_last_demo_develop_cruft_update(demo_path=demo_path)
+
+        if not is_ancestor(last_update_commit, current_commit):
+            raise ValueError(
+                f"The last update commit '{last_update_commit}' is not an ancestor of the current commit "
+                f"'{current_commit}'."
+            )
+
         typer.secho(f"Updating demo project at {demo_path=}.", fg="yellow")
         with work_in(demo_path):
-            require_clean_and_up_to_date_repo()
-            git("checkout", develop_branch)
-
-            last_update_commit: str = get_last_cruft_update_commit(demo_path=demo_path)
-            if not is_ancestor(last_update_commit, current_commit):
-                raise ValueError(
-                    f"The last update commit '{last_update_commit}' is not an ancestor of the current commit "
-                    f"'{current_commit}'."
-                )
-
-            if current_branch != develop_branch:
+            if current_branch != "develop":
                 git("checkout", "-b", current_branch)
 
             cruft.update(
@@ -64,6 +61,20 @@ def update_demo(
     except Exception as error:
         typer.secho(f"error: {error}", fg="red")
         sys.exit(1)
+
+
+def _get_last_demo_develop_cruft_update(demo_path: Path) -> str:
+    """Gets the last cruft update commit for the demo project's develop branch."""
+    _prep_demo_develop(demo_path=demo_path)
+    last_update_commit: str = get_last_cruft_update_commit(demo_path=demo_path)
+    return last_update_commit
+
+
+def _prep_demo_develop(demo_path: Path) -> None:
+    """Checks out the demo development branch and validates it is up to date."""
+    with work_in(demo_path):
+        require_clean_and_up_to_date_repo()
+        git("checkout", "develop")
 
 
 def _validate_is_feature_branch(branch: str) -> None:

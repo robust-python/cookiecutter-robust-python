@@ -67,7 +67,7 @@ def update_demo(
             uv("lock")
             git("add", ".")
             git("commit", "-m", f"chore: {last_update_commit} -> {current_commit}", "--no-verify")
-            git("push")
+            git("push", "-u", "origin", current_branch)
 
     except Exception as error:
         typer.secho(f"error: {error}", fg="red")

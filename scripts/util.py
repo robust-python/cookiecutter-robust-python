@@ -17,6 +17,7 @@ from typing import overload
 
 import cruft
 import typer
+from bandit.plugins.injection_shell import subprocess_popen_with_shell_equals_true
 from cookiecutter.utils import work_in
 from cruft._commands.utils.cruft import get_cruft_file
 from cruft._commands.utils.cruft import json_dumps
@@ -109,7 +110,11 @@ def is_branch_synced_with_remote(branch: str) -> bool:
 
 def is_ancestor(ancestor: str, descendent: str) -> bool:
     """Checks if the branch is synced with its remote."""
-    return git("merge-base", "--is-ancestor", ancestor, descendent, ignore_error=True) is not None
+    try:
+        git("merge-base", "--is-ancestor", ancestor, descendent)
+        return True
+    except subprocess.CalledProcessError:
+        return False
 
 
 def get_current_branch() -> str:

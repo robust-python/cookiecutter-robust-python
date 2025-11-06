@@ -17,10 +17,9 @@ from typing import overload
 
 import cruft
 import typer
-from bandit.plugins.injection_shell import subprocess_popen_with_shell_equals_true
+
 from cookiecutter.utils import work_in
 from cruft._commands.utils.cruft import get_cruft_file
-from cruft._commands.utils.cruft import json_dumps
 from dotenv import load_dotenv
 from typer.models import OptionInfo
 
@@ -45,7 +44,6 @@ def _load_env() -> None:
 
 # Load environment variables at module import time
 _load_env()
-
 
 FolderOption: partial[OptionInfo] = partial(
     typer.Option, dir_okay=True, file_okay=False, resolve_path=True, path_type=Path

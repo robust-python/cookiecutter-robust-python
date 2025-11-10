@@ -114,7 +114,7 @@ typecheck-python:
   <<: *uv-cache
   parallel:
     matrix:
-      - PYTHON_VERSION: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+      - PYTHON_VERSION: ["3.10", "3.11", "3.12", "3.13", "3.14"]
   image: ghcr.io/astral-sh/uv:latest-python$PYTHON_VERSION-bookworm-slim
   script:
     - uvx nox -s typecheck-$PYTHON_VERSION
@@ -147,7 +147,7 @@ test-python:
   <<: *uv-cache
   parallel:
     matrix:
-      - PYTHON_VERSION: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+      - PYTHON_VERSION: ["3.10", "3.11", "3.12", "3.13", "3.14"]
   image: ghcr.io/astral-sh/uv:latest-python$PYTHON_VERSION-bookworm-slim
   script:
     - uvx nox -s tests-python-${PYTHON_VERSION//.}
@@ -178,7 +178,7 @@ test-python-macos:
     - curl -LsSf https://astral.sh/uv/install.sh | sh
     - export PATH="$PATH:$HOME/.cargo/bin"
   script:
-    - uvx nox -s tests-python-3.13
+    - uvx nox -s tests-python-3.14
   artifacts:
     reports:
       junit: tests/results/*.xml
@@ -206,7 +206,7 @@ test-python-windows:
     - powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
     - $env:PATH += ";$env:USERPROFILE\.cargo\bin"
   script:
-    - uvx nox -s tests-python-3.13
+    - uvx nox -s tests-python-3.14
   artifacts:
     reports:
       junit: tests/results/*.xml
@@ -264,7 +264,7 @@ test-rust:
     - curl -LsSf https://astral.sh/uv/install.sh | sh
     - export PATH="$PATH:/root/.cargo/bin"
   script:
-    - uvx nox -s test-rust
+    - uvx nox -s tests-rust
 {%- endif %}
 
 # Build Stage

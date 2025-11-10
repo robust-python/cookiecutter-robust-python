@@ -33,13 +33,13 @@ jobs:
     strategy:
       matrix:
         include:
-          - { python: "3.9", os: "ubuntu-latest" }
           - { python: "3.10", os: "ubuntu-latest" }
           - { python: "3.11", os: "ubuntu-latest" }
           - { python: "3.12", os: "ubuntu-latest" }
           - { python: "3.13", os: "ubuntu-latest" }
-          - { python: "3.13", os: "macos-latest" }
-          - { python: "3.13", os: "windows-latest" }
+          - { python: "3.14", os: "ubuntu-latest" }
+          - { python: "3.14", os: "macos-latest" }
+          - { python: "3.14", os: "windows-latest" }
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

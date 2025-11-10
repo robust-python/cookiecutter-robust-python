@@ -51,4 +51,4 @@ jobs:
           python-version-file: ".github/workflows/.python-version"
 
       - name: Run Rust tests
-        run: uvx nox -s test-rust
+        run: uvx nox -s tests-rust

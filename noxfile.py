@@ -59,7 +59,11 @@ LINT_FROM_DEMO_SCRIPT: Path = SCRIPTS_FOLDER / "lint-from-demo.py"
 LINT_FROM_DEMO_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
 
 UPDATE_DEMO_SCRIPT: Path = SCRIPTS_FOLDER / "update-demo.py"
-UPDATE_DEMO_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
+UPDATE_DEMO_OPTIONS: tuple[str, ...] = (
+    *GENERATE_DEMO_OPTIONS,
+    *("--min-python-version", "3.10"),
+    *("--max-python-version", "3.14")
+)
 
 
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="generate-demo")

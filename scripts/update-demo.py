@@ -2,6 +2,7 @@ import os
 import sys
 from pathlib import Path
 from typing import Annotated
+from typing import Any
 
 import cruft
 import typer
@@ -20,7 +21,9 @@ cli: typer.Typer = typer.Typer()
 @cli.callback(invoke_without_command=True)
 def update_demo(
     demos_cache_folder: Annotated[Path, FolderOption("--demos-cache-folder", "-c")],
-    add_rust_extension: Annotated[bool, typer.Option("--add-rust-extension", "-r")] = False
+    add_rust_extension: Annotated[bool, typer.Option("--add-rust-extension", "-r")] = False,
+    min_python_version: Annotated[str, typer.Option("--min-python-version")] = "3.10",
+    max_python_version: Annotated[str, typer.Option("--max-python-version")] = "3.14"
 ) -> None:
     """Runs precommit in a generated project and matches the template to the results."""
     try:
@@ -34,7 +37,12 @@ def update_demo(
             cruft.update(
                 project_dir=demo_path,
                 template_path=REPO_FOLDER,
-                extra_context={"project_name": demo_name, "add_rust_extension": add_rust_extension},
+                extra_context={
+                    "project_name": demo_name,
+                    "add_rust_extension": add_rust_extension,
+                    "min_python_version": min_python_version,
+                    "max_python_version": max_python_version
+                },
             )
             git("add", ".")
             git("commit", "-m", "chore: update demo to the latest cookiecutter-robust-python", "--no-verify")

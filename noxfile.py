@@ -17,7 +17,7 @@ from nox.sessions import Session
 
 nox.options.default_venv_backend = "uv"
 
-DEFAULT_TEMPLATE_PYTHON_VERSION = "3.9"
+DEFAULT_TEMPLATE_PYTHON_VERSION = "3.10"
 
 REPO_ROOT: Path = Path(__file__).parent.resolve()
 SCRIPTS_FOLDER: Path = REPO_ROOT / "scripts"

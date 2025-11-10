@@ -114,7 +114,7 @@ typecheck-python:
   <<: *uv-cache
   parallel:
     matrix:
-      - PYTHON_VERSION: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+      - PYTHON_VERSION: ["3.10", "3.11", "3.12", "3.13"]
   image: ghcr.io/astral-sh/uv:latest-python$PYTHON_VERSION-bookworm-slim
   script:
     - uvx nox -s typecheck-$PYTHON_VERSION
@@ -147,7 +147,7 @@ test-python:
   <<: *uv-cache
   parallel:
     matrix:
-      - PYTHON_VERSION: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+      - PYTHON_VERSION: ["3.10", "3.11", "3.12", "3.13", "3.14"]
   image: ghcr.io/astral-sh/uv:latest-python$PYTHON_VERSION-bookworm-slim
   script:
     - uvx nox -s tests-python-${PYTHON_VERSION//.}

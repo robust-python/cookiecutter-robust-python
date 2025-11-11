@@ -46,7 +46,7 @@ def update_demo(
                     "max_python_version": max_python_version
                 },
             )
-            uv("sync", "--all-groups")
+            uv("lock")
             git("add", ".")
             git("commit", "-m", "chore: update demo to the latest cookiecutter-robust-python", "--no-verify")
             git("push")

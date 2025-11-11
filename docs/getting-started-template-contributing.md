@@ -7,7 +7,7 @@ This section is for contributors looking to work on the `cookiecutter-robust-pyt
 To contribute to the template, you will need:
 
 1.  **Git**: For version control.
-2.  **Python 3.9+**: We recommend using a supported Python version.
+2.  **Python 3.10+**: We recommend using a supported Python version.
 3.  **uv**: Our chosen dependency manager (see [Dependency Management (02)](topics/02_dependency-management.md)). Install `uv` globally or in a base environment following the official {uv-install}`uv installation guide<>`.
 4.  **Docker or Podman**: Required for testing the containerization aspects of the generated template (see [Container Build (11)](topics/11_container-build.md), [Dev Containers (17)](topics/17_dev-containers.md)).
 5.  **Task Automation Tools**: The template uses `noxfile.py` for development workflows. We use `uvx` to run `nox` so that it automatically installs if needed.

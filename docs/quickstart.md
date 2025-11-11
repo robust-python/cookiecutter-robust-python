@@ -10,7 +10,7 @@ For detailed tool explanations and project philosophy, see the full documentatio
 
 Make sure you have these installed:
 
-- **Python 3.9+** (or your chosen template version).
+- **Python 3.10+** (or your chosen template version).
 - **Git**.
 - **uv**: Our chosen dependency manager. Install it {uv-install}`officially<>`.
 - **Docker or Podman**: If you plan to work with containers (most web apps will need this). Install {docker-install}`Docker<>` or {podman-install}`Podman<>`.

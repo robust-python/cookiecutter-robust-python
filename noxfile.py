@@ -17,7 +17,7 @@ from nox.sessions import Session
 
 nox.options.default_venv_backend = "uv"
 
-DEFAULT_TEMPLATE_PYTHON_VERSION = "3.9"
+DEFAULT_TEMPLATE_PYTHON_VERSION = "3.10"
 
 REPO_ROOT: Path = Path(__file__).parent.resolve()
 SCRIPTS_FOLDER: Path = REPO_ROOT / "scripts"
@@ -59,7 +59,11 @@ LINT_FROM_DEMO_SCRIPT: Path = SCRIPTS_FOLDER / "lint-from-demo.py"
 LINT_FROM_DEMO_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
 
 UPDATE_DEMO_SCRIPT: Path = SCRIPTS_FOLDER / "update-demo.py"
-UPDATE_DEMO_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
+UPDATE_DEMO_OPTIONS: tuple[str, ...] = (
+    *GENERATE_DEMO_OPTIONS,
+    *("--min-python-version", "3.10"),
+    *("--max-python-version", "3.14")
+)
 
 
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="generate-demo")

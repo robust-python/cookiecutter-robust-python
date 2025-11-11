@@ -2,7 +2,6 @@ import os
 import sys
 from pathlib import Path
 from typing import Annotated
-from typing import Any
 
 import cruft
 import typer
@@ -13,6 +12,7 @@ from util import git
 from util import FolderOption
 from util import REPO_FOLDER
 from util import require_clean_and_up_to_date_repo
+from util import uv
 
 
 cli: typer.Typer = typer.Typer()
@@ -34,6 +34,8 @@ def update_demo(
         with work_in(demo_path):
             require_clean_and_up_to_date_repo()
             git("checkout", develop_branch)
+            uv("python", "pin", min_python_version)
+            uv("python", "install", min_python_version)
             cruft.update(
                 project_dir=demo_path,
                 template_path=REPO_FOLDER,
@@ -44,6 +46,7 @@ def update_demo(
                     "max_python_version": max_python_version
                 },
             )
+            uv("sync", "--all-groups")
             git("add", ".")
             git("commit", "-m", "chore: update demo to the latest cookiecutter-robust-python", "--no-verify")
             git("push")

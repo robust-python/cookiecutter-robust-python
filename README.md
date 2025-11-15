@@ -1,10 +1,14 @@
-# Cookiecutter Robust Python
 
-<p align="center"><img alt="logo" src="docs/_static/cookiecutter-robust-python-logo.png" width="25%"/></p>
+<h1 align="center">
+  <a href="https://github.com/robust-python/cookiecutter-robust-python">
+    <img alt="cookiecutter-robust-python banner" src="docs/_static/cookiecutter-robust-python-banner.png"/>
+    <br>
+  </a>
+</h1>
 
-A Python project template robust enough to follow up [cookiecutter-hypermodern-python]
+# cookiecutter-robust-python
 
----
+**A template making robust design the default**
 
 **[📚 View Documentation](https://cookiecutter-robust-python.readthedocs.io/)** | **[🐛 Report a Bug](https://github.com/robust-python/cookiecutter-robust-python/issues)** | **[✨ Request a Feature](https://github.com/robust-python/cookiecutter-robust-python/issues)**
 

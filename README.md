@@ -1,6 +1,6 @@
 # Cookiecutter Robust Python
 
-<p align="center"><img alt="logo" src="docs/_static/cookiecutter-robust-python-logo.png" width="50%" /></p>
+<p style="text-align: center"><img alt="logo" src="docs/_static/cookiecutter-robust-python-logo.png" height="320" width="320"/></p>
 
 A Python project template robust enough to follow up [cookiecutter-hypermodern-python]
 

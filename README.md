@@ -1,10 +1,25 @@
-# Cookiecutter Robust Python
 
-<p align="center"><img alt="logo" src="docs/_static/cookiecutter-robust-python-logo.png" width="50%" /></p>
+<h1 align="center">
+  <a href="https://github.com/robust-python/cookiecutter-robust-python">
+    <img alt="cookiecutter-robust-python banner" src="docs/_static/cookiecutter-robust-python-banner.png"/>
+    <br>
+  </a>
+</h1>
 
-A Python project template robust enough to follow up [cookiecutter-hypermodern-python]
+<!-- badges-begin -->
 
----
+[![Maturin User Guide](https://img.shields.io/badge/user-guide-brightgreen?logo=readthedocs&style=flat-square)](https://robust-python.dev/cookiecutter)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json&style=flat-square)](https://github.com/astral-sh/uv)
+[![Python Versions](https://img.shields.io/pypi/pyversions/robust-python-demo?style=flat-square)](https://github.com/robust-python/cookiecutter-robust-python)
+[![Python demo status](https://github.com/robust-python/cookiecutter-robust-python/actions/workflows/python-demo.yml/badge.svg?style=flat-square)](https://github.com/robust-python/robust-python-demo/actions)
+[![Maturin demo status](https://github.com/robust-python/cookiecutter-robust-python/actions/workflows/maturin-demo.yml/badge.svg)](https://github.com/robust-python/robust-maturin-demo/actions)
+[![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?logo=discord&logoColor=white&style=flat-square)](https://discord.gg/robust-python)
+
+<!-- badges-end -->
+
+# cookiecutter-robust-python
+
+**A template making robust design the default**
 
 **[📚 View Documentation](https://cookiecutter-robust-python.readthedocs.io/)** | **[🐛 Report a Bug](https://github.com/robust-python/cookiecutter-robust-python/issues)** | **[✨ Request a Feature](https://github.com/robust-python/cookiecutter-robust-python/issues)**
 

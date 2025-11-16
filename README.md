@@ -6,6 +6,12 @@
   </a>
 </h1>
 
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+
+[![Python demo status](https://github.com/robust-python/cookiecutter-robust-python/actions/workflows/python-demo.yml/badge.svg)](https://github.com/robust-python/robust-python-demo/actions)
+[![Maturin demo status](https://github.com/robust-python/cookiecutter-robust-python/actions/workflows/maturin-demo.yml/badge.svg)](https://github.com/robust-python/robust-maturin-demo/actions)
+[![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?logo=discord&logoColor=white)](https://discord.gg/robust-python)
+
 # cookiecutter-robust-python
 
 **A template making robust design the default**

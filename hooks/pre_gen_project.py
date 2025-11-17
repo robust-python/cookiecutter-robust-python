@@ -1,7 +1,5 @@
-"""Cookiecutter hook that runs before template generation."""
+"""Cookiecutter hook that runs before template generation.
 
-
-ESCAPED_JINJA_SETUP: str = """
 {%- set min_minor = cookiecutter.min_python_version.split('.')[1] | int %}
 {%- set max_minor = cookiecutter.max_python_version.split('.')[1] | int %}
 {%- set versions = ["3." + (i|string) for i in range(min_minor, max_minor + 1)] %}

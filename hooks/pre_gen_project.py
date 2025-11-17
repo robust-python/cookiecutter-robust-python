@@ -8,6 +8,6 @@ ESCAPED_JINJA_SETUP: str = """
 {{ cookiecutter.update({
     "_min_python_version_minor_int": min_minor,
     "_max_python_version_minor_int": max_minor,
-    "python_versions": ["3." + (i|string) for i in range(min_minor, max_minor + 1)]
+    "python_versions": ["3.10", "3.11", "3.12", "3.13", "3.14"]
 }) }}
 """

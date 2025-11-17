@@ -69,6 +69,7 @@ build-backend = "maturin"
 
 [tool.maturin]
 rust-src = "rust"
+manifest-path = "rust/Cargo.toml"
 {% else -%}
 [build-system]
 requires = ["setuptools>=61.0"]

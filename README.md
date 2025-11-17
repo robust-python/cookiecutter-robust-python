@@ -13,7 +13,7 @@
 [![Python Versions](https://img.shields.io/pypi/pyversions/robust-python-demo?style=flat-square)](https://github.com/robust-python/cookiecutter-robust-python)
 [![Python demo status](https://github.com/robust-python/cookiecutter-robust-python/actions/workflows/python-demo.yml/badge.svg?style=flat-square)](https://github.com/robust-python/robust-python-demo/actions)
 [![Maturin demo status](https://github.com/robust-python/cookiecutter-robust-python/actions/workflows/maturin-demo.yml/badge.svg)](https://github.com/robust-python/robust-maturin-demo/actions)
-[![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?logo=discord&logoColor=white&style=flat-square)](https://discord.gg/robust-python)
+[![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?logo=discord&logoColor=white&style=flat-square)](https://discord.gg/XZAHSBgqXU)
 
 <!-- badges-end -->
 

@@ -13,8 +13,13 @@ keywords = [
     "{{cookiecutter.project_name.replace('_', '-')}}",
 ]
 classifiers = [
-    "Programming Language :: Python :: {{cookiecutter.min_python_version}}",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
+{%- for version in cookiecutter.python_versions %}
+    "Programming Language :: Python :: {{ version }}",
+{%- endfor %}
+    "{{ cookiecutter.development_status }}"
 ]
 dependencies = [
     "loguru>=0.7.3",

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""Cookiecutter hook that runs after template generation."""
 import json
 import shutil
 import stat

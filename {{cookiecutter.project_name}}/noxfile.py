@@ -12,6 +12,7 @@ from nox.sessions import Session
 
 
 nox.options.default_venv_backend = "uv"
+os.environ.setdefault("PYO3_USE_ABI3_FORWARD_COMPATIBILITY", "1")
 
 # Logic that helps avoid metaprogramming in cookiecutter-robust-python
 MIN_PYTHON_VERSION_SLUG: int = int("{{cookiecutter.min_python_version}}".lstrip("3."))

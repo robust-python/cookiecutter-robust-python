@@ -16,7 +16,7 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-{%- for version in {{cookiecutter.python_versions}} %}
+{%- for version in cookiecutter.python_versions %}
     "Programming Language :: Python :: {{ version }}",
 {%- endfor %}
     "{{ cookiecutter.development_status }}"

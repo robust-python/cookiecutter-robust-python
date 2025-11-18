@@ -1,4 +1,14 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#   "cookiecutter",
+#   "cruft",
+#   "python-dotenv",
+#   "typer",
+# ]
+# ///
 """Module containing utility functions used throughout cookiecutter_robust_python scripts."""
+
 import json
 import os
 import shutil

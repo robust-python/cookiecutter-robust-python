@@ -1,3 +1,14 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#   "cookiecutter",
+#   "cruft",
+#   "python-dotenv",
+#   "retrocookie",
+#   "typer",
+# ]
+# ///
+
 import os
 from pathlib import Path
 from typing import Annotated

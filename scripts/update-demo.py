@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#   "cookiecutter",
+#   "cruft",
+#   "python-dotenv",
+#   "typer",
+# ]
+# ///
+
 import sys
 from pathlib import Path
 from typing import Annotated
@@ -37,7 +47,7 @@ def update_demo(
         template_commit: str = get_current_commit()
 
         _validate_is_feature_branch(branch=current_branch)
-
+        _set_demo_to_clean_develop(demo_path=demo_path)
         last_update_commit: str = _get_last_demo_develop_cruft_update(demo_path=demo_path)
 
         if not is_ancestor(last_update_commit, template_commit):
@@ -73,18 +83,17 @@ def update_demo(
         sys.exit(1)
 
 
-def _get_last_demo_develop_cruft_update(demo_path: Path) -> str:
-    """Gets the last cruft update commit for the demo project's develop branch."""
-    _prep_demo_develop(demo_path=demo_path)
-    last_update_commit: str = get_last_cruft_update_commit(demo_path=demo_path)
-    return last_update_commit
-
-
-def _prep_demo_develop(demo_path: Path) -> None:
+def _set_demo_to_clean_develop(demo_path: Path) -> None:
     """Checks out the demo development branch and validates it is up to date."""
     with work_in(demo_path):
         require_clean_and_up_to_date_repo()
         git("checkout", "develop")
+
+
+def _get_last_demo_develop_cruft_update(demo_path: Path) -> str:
+    """Gets the last cruft update commit for the demo project's develop branch."""
+    last_update_commit: str = get_last_cruft_update_commit(demo_path=demo_path)
+    return last_update_commit
 
 
 def _validate_is_feature_branch(branch: str) -> None:

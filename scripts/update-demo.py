@@ -1,4 +1,3 @@
-import os
 import sys
 from pathlib import Path
 from typing import Annotated
@@ -35,16 +34,16 @@ def update_demo(
         demo_path: Path = demos_cache_folder / demo_name
 
         current_branch: str = get_current_branch()
-        current_commit: str = get_current_commit()
+        template_commit: str = get_current_commit()
 
         _validate_is_feature_branch(branch=current_branch)
 
         last_update_commit: str = _get_last_demo_develop_cruft_update(demo_path=demo_path)
 
-        if not is_ancestor(last_update_commit, current_commit):
+        if not is_ancestor(last_update_commit, template_commit):
             raise ValueError(
                 f"The last update commit '{last_update_commit}' is not an ancestor of the current commit "
-                f"'{current_commit}'."
+                f"'{template_commit}'."
             )
 
         typer.secho(f"Updating demo project at {demo_path=}.", fg="yellow")
@@ -66,7 +65,7 @@ def update_demo(
             )
             uv("lock")
             git("add", ".")
-            git("commit", "-m", f"chore: {last_update_commit} -> {current_commit}", "--no-verify")
+            git("commit", "-m", f"chore: {last_update_commit} -> {template_commit}", "--no-verify")
             git("push", "-u", "origin", current_branch)
 
     except Exception as error:

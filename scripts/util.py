@@ -60,6 +60,10 @@ FolderOption: partial[OptionInfo] = partial(
 )
 
 
+MAIN_BRANCH: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_MAIN_BRANCH", "main")
+DEVELOP_BRANCH: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_DEVELOP_BRANCH", "develop")
+
+
 def remove_readonly(func: Callable[[str], Any], path: str, _: Any) -> None:
     """Clears the readonly bit and attempts to call the provided function.
 
@@ -98,12 +102,9 @@ uv: partial[subprocess.CompletedProcess] = partial(run_command, "uv")
 
 def require_clean_and_up_to_date_repo() -> None:
     """Checks if the repo is clean and up to date with any important branches."""
-    main_branch: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_MAIN_BRANCH", "main")
-    develop_branch: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_DEVELOP_BRANCH", "develop")
-
     git("fetch")
     git("status", "--porcelain")
-    validate_is_synced_ancestor(ancestor=main_branch, descendent=develop_branch)
+    validate_is_synced_ancestor(ancestor=MAIN_BRANCH, descendent=DEVELOP_BRANCH)
 
 
 def validate_is_synced_ancestor(ancestor: str, descendent: str) -> None:

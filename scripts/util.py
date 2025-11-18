@@ -103,12 +103,17 @@ def require_clean_and_up_to_date_repo() -> None:
 
     git("fetch")
     git("status", "--porcelain")
-    if not is_branch_synced_with_remote(develop_branch):
-        raise ValueError(f"{develop_branch} is not synced with origin/{develop_branch}")
-    if not is_branch_synced_with_remote(main_branch):
-        raise ValueError(f"{main_branch} is not synced with origin/{main_branch}")
-    if not is_ancestor(main_branch, develop_branch):
-        raise ValueError(f"{main_branch} is not an ancestor of {develop_branch}")
+    validate_is_synced_ancestor(ancestor=main_branch, descendent=develop_branch)
+
+
+def validate_is_synced_ancestor(ancestor: str, descendent: str) -> None:
+    """Returns whether the given ancestor is actually an up-to-date ancestor of the given descendent branch."""
+    if not is_branch_synced_with_remote(branch=descendent):
+        raise ValueError(f"{descendent} is not synced with origin/{descendent}")
+    if not is_branch_synced_with_remote(branch=ancestor):
+        raise ValueError(f"{ancestor} is not synced with origin/{ancestor}")
+    if not is_ancestor(ancestor=ancestor, descendent=descendent):
+        raise ValueError(f"{ancestor} is not an ancestor of {descendent}")
 
 
 def is_branch_synced_with_remote(branch: str) -> bool:

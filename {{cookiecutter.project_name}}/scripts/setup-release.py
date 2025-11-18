@@ -4,6 +4,7 @@ import argparse
 import subprocess
 from typing import Optional
 
+from scripts.util import require_clean_and_up_to_date_repo
 from util import REPO_FOLDER
 from util import bump_version
 from util import check_dependencies
@@ -42,6 +43,7 @@ def setup_release(increment: Optional[str] = None) -> None:
     release or push any changes.
     """
     check_dependencies(path=REPO_FOLDER, dependencies=["git"])
+    require_clean_and_up_to_date_repo()
 
     current_version: str = get_package_version()
     new_version: str = get_bumped_package_version(increment=increment)

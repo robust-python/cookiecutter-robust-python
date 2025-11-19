@@ -81,7 +81,7 @@ def _rollback_release(version: str) -> None:
     ]
 
     for command in commands:
-        subprocess.run(command, cwd=REPO_FOLDER, check=True)
+        subprocess.run(command, cwd=REPO_FOLDER, check=False)
 
 
 if __name__ == "__main__":

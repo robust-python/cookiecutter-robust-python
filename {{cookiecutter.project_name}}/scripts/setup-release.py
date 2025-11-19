@@ -39,14 +39,26 @@ def get_parser() -> argparse.ArgumentParser:
 def setup_release(increment: Optional[str] = None) -> None:
     """Prepares a release of the {{cookiecutter.project_name}} package.
 
-    Sets up a release branch from the branch develop, bumps the version, and creates a release commit. Does not tag the
-    release or push any changes.
+    Will try to create the release and push, however will return to pre-existing state on error.
     """
     check_dependencies(path=REPO_FOLDER, dependencies=["git"])
     require_clean_and_up_to_date_repo()
 
     current_version: str = get_package_version()
     new_version: str = get_bumped_package_version(increment=increment)
+    try:
+        _setup_release(increment=increment, current_version=current_version, new_version=new_version)
+    except Exception as error:
+        _rollback_release(version=new_version)
+        raise error
+
+
+def _setup_release(increment: str, current_version: str, new_version: str) -> None:
+    """Prepares a release of the {{cookiecutter.project_name}} package.
+
+    Sets up a release branch from the branch develop, bumps the version, and creates a release commit. Does not tag the
+    release or push any changes.
+    """
     create_release_branch(new_version=new_version)
     bump_version(increment=increment)
 
@@ -58,6 +70,18 @@ def setup_release(increment: Optional[str] = None) -> None:
 
     for command in commands:
         subprocess.run(command, cwd=REPO_FOLDER, capture_output=True, check=True)
+
+
+def _rollback_release(version: str) -> None:
+    """Rolls back to the pre-existing state on error."""
+    commands: list[list[str]] = [
+        ["git", "checkout", "develop"],
+        ["git", "checkout", "."],
+        ["git", "branch", "-D", f"release/{version}"]
+    ]
+
+    for command in commands:
+        subprocess.run(command, cwd=REPO_FOLDER, check=True)
 
 
 if __name__ == "__main__":

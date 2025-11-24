@@ -63,7 +63,7 @@ Run quality checks and tests using the nox sessions:
 
 ```bash
 uvx nox -s lint-python      # Run Ruff linting
-uvx nox -s typecheck        # Run Pyright type checking
+uvx nox -s typecheck        # Run Basedpyright type checking
 uvx nox -s security-python  # Run Bandit and pip-audit
 uvx nox -s tests-python     # Run pytest with coverage
 ```

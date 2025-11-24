@@ -67,7 +67,7 @@ The template provides a suite of tools for maintaining code quality, integrated 
   uvx nox -s lint-python
   ```
 
-- **Type Check Code:** Static type analysis using {pyright}`Pyright<>` ([Topic 05](topics/05_type-checking.md)) based on `pyrightconfig.json`:
+- **Type Check Code:** Static type analysis using {basedpyright}`Basedpyright<>` ([Topic 05](topics/05_type-checking.md)) based on `pyrightconfig.json`:
 
   ```bash
   uvx nox -s typecheck

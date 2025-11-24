@@ -6,6 +6,7 @@
 
 import os
 import shutil
+from dataclasses import dataclass
 from pathlib import Path
 
 import nox
@@ -66,6 +67,25 @@ UPDATE_DEMO_OPTIONS: tuple[str, ...] = (
 )
 
 
+@dataclass
+class RepoMetadata:
+    """Metadata for a given repo."""
+    app_name: str
+    app_author: str
+    remote: str
+    main_branch: str
+    develop_branch: str
+
+
+TEMPLATE: RepoMetadata = RepoMetadata(
+    app_name=os.getenv("COOKIECUTTER_ROBUST_PYTHON__APP_NAME"),
+    app_author=os.getenv("COOKIECUTTER_ROBUST_PYTHON__APP_AUTHOR"),
+    remote=os.getenv("COOKIECUTTER_ROBUST_PYTHON__REMOTE"),
+    main_branch=os.getenv("COOKIECUTTER_ROBUST_PYTHON__MAIN_BRANCH"),
+    develop_branch=os.getenv("COOKIECUTTER_ROBUST_PYTHON__DEVELOP_BRANCH")
+)
+
+
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="generate-demo")
 def generate_demo(session: Session) -> None:
     """Generates a project demo using the cookiecutter-robust-python template."""
@@ -103,6 +123,7 @@ def lint_from_demo(session: Session):
     session.log("Installing linting dependencies for the generated project...")
     session.install("-e", ".", "--group", "dev", "--group", "lint")
     session.run("python", LINT_FROM_DEMO_SCRIPT, *LINT_FROM_DEMO_OPTIONS, *session.posargs)
+    session.install_and_run_script()
 
 
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION)

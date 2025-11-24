@@ -16,6 +16,7 @@ import stat
 import subprocess
 import sys
 from contextlib import contextmanager
+from dataclasses import dataclass
 from functools import partial
 from pathlib import Path
 from typing import Any
@@ -23,6 +24,7 @@ from typing import Callable
 from typing import Generator
 from typing import Literal
 from typing import Optional
+from typing import TypedDict
 from typing import overload
 
 import cruft
@@ -60,8 +62,31 @@ FolderOption: partial[OptionInfo] = partial(
 )
 
 
-MAIN_BRANCH: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_MAIN_BRANCH", "main")
-DEVELOP_BRANCH: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_DEVELOP_BRANCH", "develop")
+@dataclass
+class RepoMetadata:
+    """Metadata for a given repo."""
+    app_name: str
+    app_author: str
+    remote: str
+    main_branch: str
+    develop_branch: str
+
+
+TEMPLATE: RepoMetadata = RepoMetadata(
+    app_name=os.getenv("COOKIECUTTER_ROBUST_PYTHON__APP_NAME"),
+    app_author=os.getenv("COOKIECUTTER_ROBUST_PYTHON__APP_AUTHOR"),
+    remote=os.getenv("COOKIECUTTER_ROBUST_PYTHON__REMOTE"),
+    main_branch=os.getenv("COOKIECUTTER_ROBUST_PYTHON__MAIN_BRANCH"),
+    develop_branch=os.getenv("COOKIECUTTER_ROBUST_PYTHON__DEVELOP_BRANCH")
+)
+
+DEMO: RepoMetadata = RepoMetadata(
+    app_name=os.getenv("ROBUST_DEMO__APP_NAME"),
+    app_author=os.getenv("ROBUST_DEMO__APP_AUTHOR"),
+    remote=os.getenv("ROBUST_DEMO__REMOTE"),
+    main_branch=os.getenv("ROBUST_DEMO__MAIN_BRANCH"),
+    develop_branch=os.getenv("ROBUST_DEMO__DEVELOP_BRANCH")
+)
 
 
 def remove_readonly(func: Callable[[str], Any], path: str, _: Any) -> None:
@@ -93,18 +118,20 @@ def run_command(command: str, *args: str, ignore_error: bool = False) -> Optiona
             return None
         print(error.stdout, end="")
         print(error.stderr, end="", file=sys.stderr)
-        raise
+        raise error
 
 
 git: partial[subprocess.CompletedProcess] = partial(run_command, "git")
 uv: partial[subprocess.CompletedProcess] = partial(run_command, "uv")
+nox: partial[subprocess.CompletedProcess] = partial(run_command, "nox")
+gh: partial[subprocess.CompletedProcess] = partial(run_command, "gh")
 
 
 def require_clean_and_up_to_date_repo() -> None:
     """Checks if the repo is clean and up to date with any important branches."""
     git("fetch")
     git("status", "--porcelain")
-    validate_is_synced_ancestor(ancestor=MAIN_BRANCH, descendent=DEVELOP_BRANCH)
+    validate_is_synced_ancestor(ancestor=DEMO.main_branch, descendent=DEMO.develop_branch)
 
 
 def validate_is_synced_ancestor(ancestor: str, descendent: str) -> None:

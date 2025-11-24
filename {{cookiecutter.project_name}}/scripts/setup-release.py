@@ -4,13 +4,13 @@ import argparse
 import subprocess
 from typing import Optional
 
-from scripts.util import require_clean_and_up_to_date_repo
 from util import REPO_FOLDER
 from util import bump_version
 from util import check_dependencies
 from util import create_release_branch
 from util import get_bumped_package_version
 from util import get_package_version
+from util import require_clean_and_up_to_date_repo
 
 
 def main() -> None:
@@ -21,9 +21,9 @@ def main() -> None:
 
 
 def get_parser() -> argparse.ArgumentParser:
-    """Creates the argument parser for prepare-release."""
+    """Creates the argument parser for setup-release."""
     parser: argparse.ArgumentParser = argparse.ArgumentParser(
-        prog="prepare-release", usage="python ./scripts/prepare-release.py patch"
+        prog="setup-release", usage="python ./scripts/setup-release.py patch"
     )
     parser.add_argument(
         "increment",

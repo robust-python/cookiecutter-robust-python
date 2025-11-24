@@ -14,8 +14,6 @@
     ".coverage",
     "rust"
   ],
-  "venvPath": ".",
-  "venv": ".venv",
   "executionEnvironments": [
     {
       "root": ".",

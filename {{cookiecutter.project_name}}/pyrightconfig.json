@@ -32,8 +32,10 @@
   "reportPropertyTypeMismatch": "warning",
   "reportReturnTypeFromAnnotation": "warning",
   "reportMissingReturnType": "warning",
-  "basic": true,
   "reportMissingParameterType": "warning",
   "reportOptionalOperand": "warning",
-  "pythonVersion": "{{ cookiecutter.min_python_version }}"
+  "pythonVersion": "{{ cookiecutter.min_python_version }}",
+
+  "reportAny": "error",
+  "reportExplicitAny": "warning"
 }

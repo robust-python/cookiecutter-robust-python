@@ -118,11 +118,11 @@ def lint_rust(session: Session) -> None:
 {% endif -%}
 @nox.session(python=PYTHON_VERSIONS, name="typecheck")
 def typecheck(session: Session) -> None:
-    """Run static type checking (Pyright) on Python code."""
+    """Run static type checking (Basedpyright) on Python code."""
     session.log("Installing type checking dependencies...")
     session.install("-e", ".", "--group", "dev")
 
-    session.log(f"Running Pyright check with py{session.python}.")
+    session.log(f"Running Basedpyright check with py{session.python}.")
     session.run("pyright", "--pythonversion", session.python)
 
 

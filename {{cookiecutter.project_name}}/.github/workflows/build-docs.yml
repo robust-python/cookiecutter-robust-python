@@ -12,7 +12,7 @@ on:
       - "pyproject.toml"
       - ".github/workflows/build-docs.yml"
       - ".ruff.toml" # Affects docstrings via linting
-      - "pyrightconfig.json" # Affects type hints in docs
+      - "pyrightconfig.json" # Basedpyright config - affects type hints in docs
 
   push:
     branches:

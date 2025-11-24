@@ -65,7 +65,7 @@ We evaluated the leading options for Python code linting and static analysis:
 
 ### Option 3: {flake8}`Prospector<>`
 
-- **Description:** A meta-tool that runs multiple other Python analysis tools (like {flake8}`Flake8<>`, {pylint}`Pylint<>`, {bandit}`Bandit<>`, {pyright}`Mypy<>`) and aggregates their output into a unified report.
+- **Description:** A meta-tool that runs multiple other Python analysis tools (like {flake8}`Flake8<>`, {pylint}`Pylint<>`, {bandit}`Bandit<>`, {mypy}`Mypy<>`) and aggregates their output into a unified report.
 - **Evaluation:**
 
   - **Static Analysis Capabilities:** Varies (Delegated). Its capabilities are the sum of the tools it wraps.

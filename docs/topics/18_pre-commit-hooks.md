@@ -83,7 +83,7 @@ This section evaluates tools and approaches for setting up automated checks and 
 
 While {pre-commit}`pre-commit<>` itself doesn't define _which_ checks are run, the template configures **{ruff}`Ruff<>`** as the primary tool used by pre-commit hooks due to its exceptional **Performance** for formatting and linting, making these checks fast enough to run reliably on every commit without causing frustration. Hooks for `ruff-format` (covering formatting and import sorting) and `ruff` (for fast linting checks with autofixing) are essential here. We include other standard hooks (like YAML check, trailing whitespace) that are simple, fast, and universally beneficial.
 
-Comprehensive checks (full type checks via {pyright}`Pyright<>`, security scans via {bandit-bandit}`Bandit<>`/{pip-audit}`pip-audit<>`) are **not** mandated in pre-commit due to their potential performance overhead or complexity; they are deferred to the Task Automation layer ({nox}`Nox<>` - Area 12) and enforced in CI (Area 13), creating a layered approach to code quality where pre-commit provides the fastest initial feedback.
+Comprehensive checks (full type checks via {basedpyright}`Basedpyright<>`, security scans via {bandit-bandit}`Bandit<>`/{pip-audit}`pip-audit<>`) are **not** mandated in pre-commit due to their potential performance overhead or complexity; they are deferred to the Task Automation layer ({nox}`Nox<>` - Area 12) and enforced in CI (Area 13), creating a layered approach to code quality where pre-commit provides the fastest initial feedback.
 
 By using {pre-commit}`pre-commit<>` with well-chosen fast hooks, the template ensures that fundamental quality standards are applied consistently and automatically at the point of code contribution.
 

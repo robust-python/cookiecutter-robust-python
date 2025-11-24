@@ -123,7 +123,7 @@ def typecheck(session: Session) -> None:
     session.install("-e", ".", "--group", "dev")
 
     session.log(f"Running Basedpyright check with py{session.python}.")
-    session.run("pyright", "--pythonversion", session.python)
+    session.run("basedpyright", "--pythonversion", session.python)
 
 
 @nox.session(python=False, name="security-python", tags=[SECURITY])

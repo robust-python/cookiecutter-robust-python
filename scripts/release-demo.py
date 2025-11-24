@@ -53,7 +53,6 @@ def release_demo(
             raise error
 
         git("push", "-u")
-        _create_demo_pr(version=)
 
 
 def _ensure_github_repo_set(repo: RepoMetadata) -> None:

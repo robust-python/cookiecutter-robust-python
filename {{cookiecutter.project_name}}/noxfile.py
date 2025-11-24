@@ -2,6 +2,7 @@
 
 import os
 import shlex
+import shutil
 from pathlib import Path
 from textwrap import dedent
 from typing import List
@@ -121,9 +122,10 @@ def typecheck(session: Session) -> None:
     """Run static type checking (Basedpyright) on Python code."""
     session.log("Installing type checking dependencies...")
     session.install("-e", ".", "--group", "dev")
+    python_path: Path = Path(shutil.which("python", path=session.bin))
 
     session.log(f"Running Basedpyright check with py{session.python}.")
-    session.run("basedpyright", "--pythonversion", session.python)
+    session.run("basedpyright", "--pythonversion", session.python, "--pythonpath", python_path)
 
 
 @nox.session(python=False, name="security-python", tags=[SECURITY])

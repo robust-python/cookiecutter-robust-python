@@ -9,6 +9,7 @@
 # ///
 import itertools
 import subprocess
+import tempfile
 from pathlib import Path
 from typing import Annotated
 
@@ -23,7 +24,6 @@ from util import git
 from util import nox
 from util import require_clean_and_up_to_date_repo
 from util import FolderOption
-from util import RepoMetadata
 from util import DEMO
 
 
@@ -45,7 +45,7 @@ def release_demo(
         try:
             nox("setup-release", "--", "MINOR")
             logger.success(f"Successfully created release {demo_name}")
-            _ensure_github_repo_set(repo=DEMO)
+            gh("repo", "set-default", DEMO.app_author, DEMO.app_name)
 
         except subprocess.CalledProcessError as error:
             logger.warning(f"Failed to setup release: {error}")
@@ -53,11 +53,7 @@ def release_demo(
             raise error
 
         git("push", "-u")
-
-
-def _ensure_github_repo_set(repo: RepoMetadata) -> None:
-    """Ensures the repo has a github repo set."""
-    gh("repo", "set-default", repo.app_author, repo.app_name)
+        _create_demo_pr()
 
 
 def _rollback_failed_release() -> None:
@@ -71,12 +67,30 @@ def _rollback_failed_release() -> None:
     git("branch", "-D", starting_demo_branch)
 
 
-def _create_demo_pr(version: str) -> None:
+def _create_demo_pr() -> None:
     """Creates a pull request to merge the demo's feature branch into ."""
-    pr_kwargs: dict[str, str] = {
-        "--title": f"Release/{version}"
-    }
-    publish_release_commands: list[list[str]] = [
-        ["gh", "pr", "create", *itertools.chain(pr_kwargs.items())],
-    ]
+    current_branch: str = get_current_branch()
+    if not current_branch.startswith("release/"):
+        raise ValueError("Not in a release branch, canceling PR creation.")
+    title: str = current_branch.capitalize()
+    release_notes: str = __get_demo_release_notes()
 
+    pr_kwargs: dict[str, str] = {
+        "--title": title,
+        "--body": release_notes,
+        "--assignee": "@me",
+        "--base": "main",
+    }
+    command: list[str] = ["gh", "pr", "create", *itertools.chain(pr_kwargs.items())]
+    subprocess.run(command, check=True)
+
+
+def __get_demo_release_notes() -> str:
+    """Returns the release notes for the demo."""
+    temp_folder: Path = Path(tempfile.mkdtemp()).resolve()
+    notes_path: Path = temp_folder / "body.md"
+    command: list[str] = ["uv", "run", "./scripts/get-release-notes.py", notes_path]
+    subprocess.run(command, check=True)
+
+    notes_contents: str = notes_path.read_text()
+    return notes_contents

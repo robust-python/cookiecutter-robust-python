@@ -4,6 +4,12 @@ on:
     branches:
       - develop
 
+env:
+  COOKIECUTTER_ROBUST_PYTHON__DEMOS_CACHE_FOLDER: ${{ github.workspace }}
+  COOKIECUTTER_ROBUST_PYTHON__APP_AUTHOR: ${{ github.repository_owner }}
+  ROBUST_PYTHON_DEMO__APP_AUTHOR: ${{ github.repository_owner }}
+  ROBUST_MATURIN_DEMO__APP_AUTHOR: ${{ github.repository_owner }}
+
 jobs:
   merge-demo-feature:
     name: Merge Demo Feature
@@ -14,6 +20,12 @@ jobs:
           - "robust-python-demo"
           - "robust-maturin-demo"
     steps:
+      - name: Checkout Template
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          path: cookiecutter-robust-python
+
       - name: Sync Demo
         uses: "./.github/workflows/update-demo.yml"
         with:

@@ -6,16 +6,16 @@ on:
         required: true
         type: string
 
+env:
+  COOKIECUTTER_ROBUST_PYTHON__DEMOS_CACHE_FOLDER: ${{ github.workspace }}
+  COOKIECUTTER_ROBUST_PYTHON__APP_AUTHOR: ${{ github.repository_owner }}
+  ROBUST_PYTHON_DEMO__APP_AUTHOR: ${{ github.repository_owner }}
+  ROBUST_MATURIN_DEMO__APP_AUTHOR: ${{ github.repository_owner }}
+
 jobs:
   update-demo:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Template
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ github.repository }}
-          path: cookiecutter-robust-python
-
       - name: Checkout Demo
         uses: actions/checkout@v4
         with:

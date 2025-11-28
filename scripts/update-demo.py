@@ -43,49 +43,44 @@ def update_demo(
     max_python_version: Annotated[str, typer.Option("--max-python-version")] = "3.14"
 ) -> None:
     """Runs precommit in a generated project and matches the template to the results."""
-    try:
-        demo_name: str = get_demo_name(add_rust_extension=add_rust_extension)
-        demo_path: Path = demos_cache_folder / demo_name
+    demo_name: str = get_demo_name(add_rust_extension=add_rust_extension)
+    demo_path: Path = demos_cache_folder / demo_name
 
-        current_branch: str = get_current_branch()
-        template_commit: str = get_current_commit()
+    current_branch: str = get_current_branch()
+    template_commit: str = get_current_commit()
 
-        _validate_template_main_not_checked_out(branch=current_branch)
-        require_clean_and_up_to_date_repo(demo_path=demo_path)
-        _checkout_demo_develop_or_existing_branch(demo_path=demo_path, branch=current_branch)
-        last_update_commit: str = get_last_cruft_update_commit(demo_path=demo_path)
+    _validate_template_main_not_checked_out(branch=current_branch)
+    require_clean_and_up_to_date_repo(demo_path=demo_path)
+    _checkout_demo_develop_or_existing_branch(demo_path=demo_path, branch=current_branch)
+    last_update_commit: str = get_last_cruft_update_commit(demo_path=demo_path)
 
-        if not is_ancestor(last_update_commit, template_commit):
-            raise ValueError(
-                f"The last update commit '{last_update_commit}' is not an ancestor of the current commit "
-                f"'{template_commit}'."
-            )
+    if not is_ancestor(last_update_commit, template_commit):
+        raise ValueError(
+            f"The last update commit '{last_update_commit}' is not an ancestor of the current commit "
+            f"'{template_commit}'."
+        )
 
-        typer.secho(f"Updating demo project at {demo_path=}.", fg="yellow")
-        with work_in(demo_path):
-            if current_branch != "develop":
-                git("checkout", "-b", current_branch)
+    typer.secho(f"Updating demo project at {demo_path=}.", fg="yellow")
+    with work_in(demo_path):
+        if current_branch != "develop":
+            git("checkout", "-b", current_branch)
 
-            uv("python", "pin", min_python_version)
-            uv("python", "install", min_python_version)
-            cruft.update(
-                project_dir=demo_path,
-                template_path=REPO_FOLDER,
-                extra_context={
-                    "project_name": demo_name,
-                    "add_rust_extension": add_rust_extension,
-                    "min_python_version": min_python_version,
-                    "max_python_version": max_python_version
-                },
-            )
-            uv("lock")
-            git("add", ".")
-            git("commit", "-m", f"chore: {last_update_commit} -> {template_commit}", "--no-verify")
-            git("push", "-u", "origin", current_branch)
-
-    except Exception as error:
-        typer.secho(f"error: {error}", fg="red")
-        sys.exit(1)
+        uv("python", "pin", min_python_version)
+        uv("python", "install", min_python_version)
+        cruft.update(
+            project_dir=demo_path,
+            template_path=REPO_FOLDER,
+            extra_context={
+                "project_name": demo_name,
+                "add_rust_extension": add_rust_extension,
+                "min_python_version": min_python_version,
+                "max_python_version": max_python_version
+            },
+        )
+        uv("lock")
+        git("add", ".")
+        git("commit", "-m", f"chore: {last_update_commit} -> {template_commit}", "--no-verify")
+        git("push", "-u", "origin", current_branch)
 
 
 def _checkout_demo_develop_or_existing_branch(demo_path: Path, branch: str) -> None:

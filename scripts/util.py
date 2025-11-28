@@ -129,10 +129,14 @@ gh: partial[subprocess.CompletedProcess] = partial(run_command, "gh")
 
 def require_clean_and_up_to_date_repo(demo_path: Path) -> None:
     """Checks if the repo is clean and up to date with any important branches."""
-    with work_in(demo_path):
-        git("fetch")
-        git("status", "--porcelain")
-        validate_is_synced_ancestor(ancestor=DEMO.main_branch, descendent=DEMO.develop_branch)
+    try:
+        with work_in(demo_path):
+            git("fetch")
+            git("status", "--porcelain")
+            validate_is_synced_ancestor(ancestor=DEMO.main_branch, descendent=DEMO.develop_branch)
+    except Exception as e:
+        typer.secho(f"Failed initial repo state check.")
+        raise e
 
 
 def validate_is_synced_ancestor(ancestor: str, descendent: str) -> None:

@@ -62,9 +62,6 @@ def update_demo(
 
     typer.secho(f"Updating demo project at {demo_path=}.", fg="yellow")
     with work_in(demo_path):
-        if current_branch != "develop":
-            git("checkout", "-b", current_branch)
-
         uv("python", "pin", min_python_version)
         uv("python", "install", min_python_version)
         cruft.update(
@@ -112,12 +109,6 @@ def __has_existing_remote_demo_branch(demo_path: Path, branch: str) -> bool:
     with work_in(demo_path):
         remote_result: Optional[CompletedProcess] = git("ls-remote", DEMO.remote, branch)
         return remote_result is not None and branch in remote_result.stdout
-
-
-def _set_demo_to_clean_branch(demo_path: Path, branch: str) -> None:
-    """Checks out the demo branch and validates it is up to date."""
-    with work_in(demo_path):
-        git("checkout", "develop")
 
 
 def _validate_template_main_not_checked_out(branch: str) -> None:

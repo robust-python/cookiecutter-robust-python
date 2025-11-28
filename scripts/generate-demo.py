@@ -1,4 +1,14 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#   "cookiecutter",
+#   "cruft",
+#   "python-dotenv",
+#   "typer",
+# ]
+# ///
 """Python script for generating a demo project."""
+
 import sys
 from pathlib import Path
 from typing import Annotated

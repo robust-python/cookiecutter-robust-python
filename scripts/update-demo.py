@@ -8,7 +8,6 @@
 # ]
 # ///
 import itertools
-import subprocess
 from pathlib import Path
 from subprocess import CompletedProcess
 from typing import Annotated
@@ -156,18 +155,7 @@ def _get_demo_feature_pr_body(demo_path: Path, commit_start: str) -> str:
     if commit_end is None:
         raise ValueError(f"Unable to find latest commit in .cruft.json for demo at {demo_path}.")
     rev_range: str = f"{commit_start}..{commit_end}"
-    command: list[str] = [
-        "uvx",
-        "--from",
-        "commitizen",
-        "cz",
-        "changelog",
-        rev_range,
-        "--dry-run",
-        "--unreleased-version"
-    ]
-    section_notes: str = subprocess.check_output(command, text=True)
-    return section_notes.strip()
+    return rev_range
 
 
 if __name__ == '__main__':

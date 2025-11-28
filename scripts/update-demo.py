@@ -145,7 +145,7 @@ def _create_demo_pr(demo_path: Path, branch: str, commit_start: str) -> None:
         "--assignee": "@me",
         "--repo": f"{DEMO.app_author}/{DEMO.app_name}",
     }
-    gh("pr", "create", *itertools.chain(pr_kwargs.items()))
+    gh("pr", "create", *itertools.chain.from_iterable(pr_kwargs.items()))
 
 
 def _get_demo_feature_pr_body(demo_path: Path, commit_start: str) -> str:

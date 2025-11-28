@@ -133,7 +133,6 @@ def require_clean_and_up_to_date_repo(demo_path: Path) -> None:
         git("fetch")
         git("status", "--porcelain")
         validate_is_synced_ancestor(ancestor=DEMO.main_branch, descendent=DEMO.develop_branch)
-    typer.secho
 
 
 def validate_is_synced_ancestor(ancestor: str, descendent: str) -> None:

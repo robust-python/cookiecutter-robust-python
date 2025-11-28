@@ -8,7 +8,6 @@
 # ]
 # ///
 
-import sys
 from pathlib import Path
 from subprocess import CompletedProcess
 from typing import Annotated
@@ -20,6 +19,7 @@ from cookiecutter.utils import work_in
 
 from util import DEMO
 from util import is_ancestor
+from util import is_merge_commit
 from util import get_current_branch
 from util import get_current_commit
 from util import get_demo_name
@@ -27,7 +27,7 @@ from util import get_last_cruft_update_commit
 from util import git
 from util import FolderOption
 from util import REPO_FOLDER
-from util import require_clean_and_up_to_date_repo
+from util import require_clean_and_up_to_date_demo_repo
 from util import TEMPLATE
 from util import uv
 
@@ -48,9 +48,8 @@ def update_demo(
 
     current_branch: str = get_current_branch()
     template_commit: str = get_current_commit()
-
     _validate_template_main_not_checked_out(branch=current_branch)
-    require_clean_and_up_to_date_repo(demo_path=demo_path)
+    require_clean_and_up_to_date_demo_repo(demo_path=demo_path)
     _checkout_demo_develop_or_existing_branch(demo_path=demo_path, branch=current_branch)
     last_update_commit: str = get_last_cruft_update_commit(demo_path=demo_path)
 

@@ -126,7 +126,7 @@ nox: partial[subprocess.CompletedProcess] = partial(run_command, "nox")
 gh: partial[subprocess.CompletedProcess] = partial(run_command, "gh")
 
 
-def require_clean_and_up_to_date_repo(demo_path: Path) -> None:
+def require_clean_and_up_to_date_demo_repo(demo_path: Path) -> None:
     """Checks if the repo is clean and up to date with any important branches."""
     try:
         with work_in(demo_path):
@@ -160,6 +160,16 @@ def is_ancestor(ancestor: str, descendent: str) -> bool:
         return True
     except subprocess.CalledProcessError:
         return False
+
+
+def is_merge_commit() -> bool:
+    """Returns whether the latest commit was a merge commit."""
+    output: str = git("log", "--format=%P", "-n", "1", "HEAD").stdout.strip()
+    if output == "":
+        raise ValueError("No existing commit was found.")
+
+    parent_count: int = len(output.split(" "))
+    return parent_count > 1
 
 
 def get_current_branch() -> str:

@@ -21,7 +21,7 @@ from util import DEMO
 from util import git
 from util import FolderOption
 from util import in_new_demo
-from util import require_clean_and_up_to_date_repo
+from util import require_clean_and_up_to_date_demo_repo
 
 
 # These still may need linted, but retrocookie shouldn't be used on them
@@ -46,7 +46,7 @@ def lint_from_demo(
         add_rust_extension=add_rust_extension,
         no_cache=no_cache
     ) as demo_path:
-        require_clean_and_up_to_date_repo(demo_path=demo_path)
+        require_clean_and_up_to_date_demo_repo(demo_path=demo_path)
         git("checkout", DEMO.develop_branch)
         git("branch", "-D", "temp/lint-from-demo", ignore_error=True)
         git("checkout", "-b", "temp/lint-from-demo", DEMO.develop_branch)

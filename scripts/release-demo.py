@@ -22,7 +22,7 @@ from util import get_demo_name
 from util import gh
 from util import git
 from util import nox
-from util import require_clean_and_up_to_date_repo
+from util import require_clean_and_up_to_date_demo_repo
 from util import FolderOption
 from util import DEMO
 
@@ -40,7 +40,7 @@ def release_demo(
     demo_path: Path = demos_cache_folder / demo_name
 
     with work_in(demo_path):
-        require_clean_and_up_to_date_repo(demo_path)
+        require_clean_and_up_to_date_demo_repo(demo_path)
         git("checkout", DEMO.develop_branch)
         try:
             nox("setup-release", "--", "MINOR")

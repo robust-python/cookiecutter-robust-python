@@ -196,9 +196,7 @@ def update_demo(session: Session, demo: RepoMetadata) -> None:
     if "maturin" in demo.app_name:
         args.append("--add-rust-extension")
 
-    demo_env: dict[str, Any] = {
-        key.replace(demo.app_name.upper(), "ROBUST_DEMO"): value for key, value in asdict(demo).items()
-    }
+    demo_env: dict[str, Any] = {f"ROBUST_DEMO__{key.upper()}": value for key, value in asdict(demo).items()}
     session.run("python", UPDATE_DEMO_SCRIPT, *args, env=demo_env)
 
 

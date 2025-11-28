@@ -103,14 +103,14 @@ def _checkout_demo_develop_or_existing_branch(demo_path: Path, branch: str) -> N
 def __has_existing_local_demo_branch(demo_path: Path, branch: str) -> bool:
     """Returns whether a local branch has been made for the given branch."""
     with work_in(demo_path):
-        local_result: Optional[CompletedProcess] = git("branch", "--list", branch, text=True)
+        local_result: Optional[CompletedProcess] = git("branch", "--list", branch)
         return local_result is not None and branch in local_result.stdout
 
 
 def __has_existing_remote_demo_branch(demo_path: Path, branch: str) -> bool:
     """Returns whether a remote branch has been made for the given branch."""
     with work_in(demo_path):
-        remote_result: Optional[CompletedProcess] = git("ls-remote", DEMO.remote, branch, text=True)
+        remote_result: Optional[CompletedProcess] = git("ls-remote", DEMO.remote, branch)
         return remote_result is not None and branch in remote_result.stdout
 
 

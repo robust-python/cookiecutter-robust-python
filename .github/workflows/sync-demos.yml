@@ -17,9 +17,9 @@ jobs:
 
     strategy:
       matrix:
-        demo:
-          - { name: "robust-python-demo", session_modifier: "no-rust" }
-          - { name: "robust-maturin-demo", session_modifier: "rust" }
+        demo_name:
+          - "robust-python-demo"
+          - "robust-maturin-demo"
     steps:
       - name: Checkout Template
         uses: actions/checkout@v4
@@ -30,8 +30,8 @@ jobs:
       - name: Checkout Demo
         uses: actions/checkout@v4
         with:
-          repository: "${{ github.repository_owner }}/${{ matrix.demo.name }}"
-          path: ${{ matrix.demo.name }}
+          repository: "${{ github.repository_owner }}/${{ matrix.demo_name }}"
+          path: ${{ matrix.demo_name }}
           ref: develop
 
       - name: Set up uv
@@ -44,4 +44,4 @@ jobs:
 
       - name: Update Demo
         working-directory: "${{ github.workspace }}/cookiecutter-robust-python"
-        run: "uvx nox -s 'update-demo(${{ matrix.demo.session_modifier }})' -- --branch-override ${{ github.head_ref }}"
+        run: "uvx nox -s 'update-demo(${{ matrix.demo_name }})' -- --branch-override ${{ github.head_ref }}"

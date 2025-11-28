@@ -43,4 +43,5 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Update Demo
+        working-directory: "${{ github.workspace }}/cookiecutter-robust-python"
         run: "uvx nox -s 'update-demo(${{ matrix.demo.session_modifier }})' -- --branch-override ${{ github.head_ref }}"

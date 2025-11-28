@@ -41,8 +41,8 @@ Here is the breakdown of the chosen tool(s) for each defined area:
 
 - **05: Type Checking:**
 
-  - **Chosen:** {pyright}`Pyright<>`.
-  - **Why:** Provides **significantly faster static analysis** while maintaining comprehensive and strict PEP-compliant type checking. ([Details](topics/05_type-checking.md))
+  - **Chosen:** {basedpyright}`Basedpyright<>`.
+  - **Why:** Provides **significantly faster static analysis** while maintaining comprehensive and strict PEP-compliant type checking, backed by active community maintenance. ([Details](topics/05_type-checking.md))
 
 - **06: Testing and Coverage:**
 
@@ -117,7 +117,7 @@ The true power of this template lies in how these chosen tools work together coh
 1.  **Configuration:** Defined primarily in `pyproject.toml` and separate tool config files ([01](topics/01_project-structure.md)).
 2.  **Dependency/Environment Management:** Handled efficiently by {uv}`uv<>`, creating standard virtual environments and managing packages based on `pyproject.toml` and `uv.lock` ([02](topics/02_dependency-management.md)).
 3.  **Task Automation:** Orchestrated by {nox}`Nox<>`, calling commands from other tools via `uv run` (or `uvx`), providing the single interface for developers and CI/CD to run workflows ([12](topics/12_task-automation.md)).
-4.  **Code Quality & Testing:** Ensured by {ruff}`Ruff<>` (formatting/linting), {pyright}`Pyright<>` (typing), {pip-audit}`pip-audit<>` (dep security), and {bandit-bandit}`Bandit<>` (code security), along with {pytest-pytest-cov}`pytest<>`/{coveragepy}`coverage.py<>` for testing. These tools are installed via {uv}`uv<>` and executed via Task Automation ([03](topics/03_code-formatting.md)-[08](topics/08_security-checks.md), orchestrated by [12](topics/12_task-automation.md)).
+4.  **Code Quality & Testing:** Ensured by {ruff}`Ruff<>` (formatting/linting), {basedpyright}`Basedpyright<>` (typing), {pip-audit}`pip-audit<>` (dep security), and {bandit-bandit}`Bandit<>` (code security), along with {pytest-pytest-cov}`pytest<>`/{coveragepy}`coverage.py<>` for testing. These tools are installed via {uv}`uv<>` and executed via Task Automation ([03](topics/03_code-formatting.md)-[08](topics/08_security-checks.md), orchestrated by [12](topics/12_task-automation.md)).
 5.  **Packaging & Distribution:** Artifacts created via {uv}`uv<>` build using selected backends, and published via {uv}`uv<>` publish, orchestrated by Task Automation ([09](topics/09_packaging-build.md)-[10](topics/10_packaging-publish.md)).
 6.  **Containerization:** Defined by `Dockerfile`, built by {docker}`Docker<>`/{podman}`Podman<>` (often via `uv` installing deps inside), orchestrated by Task Automation. Local multi-container setups managed by {docker}`Docker Compose<>` ([11](topics/11_container-build.md), [15](topics/15_compose-local.md)).
 7.  **Automated Workflows:** Triggered by CI/CD platforms (configured to call Task Automation commands), handling matrices, secrets, and reporting ([13](topics/13_ci-orchestration.md)-[14](topics/14_cd-orchestration.md)).

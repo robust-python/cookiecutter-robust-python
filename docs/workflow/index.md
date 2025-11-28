@@ -28,7 +28,7 @@ Here's how the template facilitates your day-to-day coding work:
 
     Your environment is isolated using standard virtual environments ({venv}`venv<>`/{virtualenv}`virtualenv<>`).
 
-2.  **Code, Stage, and Commit:** As you write code, static analysis tools are often integrated into your editor via Language Server Protocol (LSP) for real-time feedback (using configurations like `pyrightconfig.json` ([Pyright (05)](../topics/05_type-checking.md)) and `.ruff.toml` ([Ruff (03, 04)](../topics/03_code-formatting.md))). When you're ready to commit changes:
+2.  **Code, Stage, and Commit:** As you write code, static analysis tools are often integrated into your editor via Language Server Protocol (LSP) for real-time feedback (using configurations like `pyrightconfig.json` ([Basedpyright (05)](../topics/05_type-checking.md)) and `.ruff.toml` ([Ruff (03, 04)](../topics/03_code-formatting.md))). When you're ready to commit changes:
 
     ```bash
     git add .

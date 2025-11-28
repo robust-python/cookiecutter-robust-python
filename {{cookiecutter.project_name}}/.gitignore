@@ -56,8 +56,9 @@ Thumbs.db      # Windows thumbnail cache
 # MyPy cache (if used standalone or by IDE)
 .mypy_cache/
 
-# Pyright cache
+# Pyright/Basedpyright cache
 .pyright/
+.basedpyright/
 
 # Ruff cache
 .ruff_cache/

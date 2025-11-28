@@ -14,7 +14,7 @@
   "ruff.args": ["--config", "${workspaceFolder}/.ruff.toml"],
   "python.linting.enabled": true,
   "python.linting.ruffEnabled": true,
-  // Pyright
+  // Basedpyright
   "python.analysis.typeCheckingMode": "basic",
 
   // Pytest

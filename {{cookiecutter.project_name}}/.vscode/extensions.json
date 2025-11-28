@@ -4,7 +4,7 @@
     "ms-python.python",
     "ms-python.vscode-pylance",
     "charliermarsh.ruff",
-    "ms-pyright.pyright",
+    "detachhead.basedpyright",
 
     // Git + pre-commit workflow
     "ryanluker.vscode-pre-commit",

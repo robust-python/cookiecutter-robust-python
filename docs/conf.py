@@ -61,6 +61,7 @@ extlinks = {
     "autopep8": ("https://pypi.org/project/autopep8/%s", None),
     "bandit-bandit": ("https://bandit.readthedocs.io/%s", None),
     "bandit": ("https://github.com/PyCQA/bandit/%s", None),
+    "basedpyright": ("https://docs.basedpyright.com/latest/%s", None),
     "beartype": ("https://beartype.readthedocs.io/%s", None),
     "bitbucket-pipelines": ("https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/%s", None),
     "black": ("https://black.readthedocs.io/%s", None),

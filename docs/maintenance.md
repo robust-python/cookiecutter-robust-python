@@ -71,7 +71,7 @@ The template repository uses its own `noxfile.py` at the **template repository r
 
 ## Keeping Template Tooling and Dependencies Current
 
-As the tools recommended by the template ({uv}`uv<>`, {ruff}`Ruff<>`, {pyright}`Pyright<>`, {pytest-pytest-cov}`pytest<>`, etc.) release new versions, you will need to:
+As the tools recommended by the template ({uv}`uv<>`, {ruff}`Ruff<>`, {basedpyright}`Basedpyright<>`, {pytest-pytest-cov}`pytest<>`, etc.) release new versions, you will need to:
 
 1.  **Update Template Dependencies:** Manually update the version specifiers for the desired tools in the template's **`pyproject.toml` at the template root**. Run `uv sync` at the template root to update the template's own `uv.lock` file with the new versions.
 2.  **Update Template Configuration:** Review release notes for the updated tools. Modify the **separate configuration files** (like `.ruff.toml`, `pyrightconfig.json`, `.coveragerc`) and `pyproject.toml` (e.g., `[tool.uv]`, `[tool.pytest]`) within the **template structure** (e.g., `{{cookiecutter.project_slug}}/pyproject.toml`, `{{cookiecutter.project_slug}}/.ruff.toml`) if the tools have breaking changes in configuration or recommended settings.

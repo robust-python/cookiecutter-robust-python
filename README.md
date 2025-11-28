@@ -85,7 +85,7 @@ This is a really brief/condensed idea of what is planned for this template, and 
 <details>
 <summary>Click to expand</summary>
 
-- [x] Swap to UV, Ruff, and Pyright (maybe ty later, but at the moment of writing this isn't ready yet)
+- [x] Swap to UV, Ruff, and Basedpyright (maybe ty later, but at the moment of writing this wasn't ready yet)
 - [x] Add cruft and commitizen
 - [x] Centralize CI/CD through noxfile using uv cache to maintain speed
 - [x] Add CI/CD for GitHub, Gitlab, and Bitbucket (Only GitHub guaranteed to work, but others should be close enough)

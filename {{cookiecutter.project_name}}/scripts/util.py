@@ -10,6 +10,8 @@ from typing import Optional
 
 
 REPO_FOLDER: Path = Path(__file__).resolve().parent.parent
+MAIN_BRANCH: str = "main"
+DEVELOP_BRANCH: str = "develop"
 
 
 class MissingDependencyError(Exception):
@@ -32,6 +34,22 @@ def check_dependencies(path: Path, dependencies: list[str]) -> None:
             subprocess.check_call([dependency, "--version"], cwd=path)
         except subprocess.CalledProcessError as e:
             raise MissingDependencyError(path, dependency) from e
+
+
+def require_clean_and_up_to_date_repo() -> None:
+    """Checks if the repo is clean and up to date with any important branches."""
+    commands: list[list[str]] = [
+        ["git", "fetch"],
+        ["git", "merge-base", "--is-ancestor", MAIN_BRANCH, f"origin/{MAIN_BRANCH}"],
+        ["git", "merge-base", "--is-ancestor", f"origin/{MAIN_BRANCH}", MAIN_BRANCH],
+        ["git", "merge-base", "--is-ancestor", DEVELOP_BRANCH, f"origin/{DEVELOP_BRANCH}"],
+        ["git", "merge-base", "--is-ancestor", f"origin/{DEVELOP_BRANCH}", DEVELOP_BRANCH],
+        ["git", "merge-base", "--is-ancestor", MAIN_BRANCH, DEVELOP_BRANCH],
+        ["git", "status", "--porcelain"],
+    ]
+
+    for command in commands:
+        subprocess.run(command, cwd=REPO_FOLDER, check=True)
 
 
 def existing_dir(value: str) -> Path:

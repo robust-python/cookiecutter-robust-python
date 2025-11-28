@@ -6,7 +6,10 @@
 
 import os
 import shutil
+from dataclasses import asdict
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 import nox
 import platformdirs
@@ -63,6 +66,41 @@ UPDATE_DEMO_OPTIONS: tuple[str, ...] = (
     *GENERATE_DEMO_OPTIONS,
     *("--min-python-version", "3.10"),
     *("--max-python-version", "3.14")
+)
+
+
+@dataclass
+class RepoMetadata:
+    """Metadata for a given repo."""
+    app_name: str
+    app_author: str
+    remote: str
+    main_branch: str
+    develop_branch: str
+
+
+TEMPLATE: RepoMetadata = RepoMetadata(
+    app_name=os.getenv("COOKIECUTTER_ROBUST_PYTHON__APP_NAME"),
+    app_author=os.getenv("COOKIECUTTER_ROBUST_PYTHON__APP_AUTHOR"),
+    remote=os.getenv("COOKIECUTTER_ROBUST_PYTHON__REMOTE"),
+    main_branch=os.getenv("COOKIECUTTER_ROBUST_PYTHON__MAIN_BRANCH"),
+    develop_branch=os.getenv("COOKIECUTTER_ROBUST_PYTHON__DEVELOP_BRANCH")
+)
+
+PYTHON_DEMO: RepoMetadata = RepoMetadata(
+    app_name=os.getenv("ROBUST_PYTHON_DEMO__APP_NAME"),
+    app_author=os.getenv("ROBUST_PYTHON_DEMO__APP_AUTHOR"),
+    remote=os.getenv("ROBUST_PYTHON_DEMO__REMOTE"),
+    main_branch=os.getenv("ROBUST_PYTHON_DEMO__MAIN_BRANCH"),
+    develop_branch=os.getenv("ROBUST_PYTHON_DEMO__DEVELOP_BRANCH")
+)
+
+MATURIN_DEMO: RepoMetadata = RepoMetadata(
+    app_name=os.getenv("ROBUST_MATURIN_DEMO__APP_NAME"),
+    app_author=os.getenv("ROBUST_MATURIN_DEMO__APP_AUTHOR"),
+    remote=os.getenv("ROBUST_MATURIN_DEMO__REMOTE"),
+    main_branch=os.getenv("ROBUST_MATURIN_DEMO__MAIN_BRANCH"),
+    develop_branch=os.getenv("ROBUST_MATURIN_DEMO__DEVELOP_BRANCH")
 )
 
 
@@ -143,17 +181,26 @@ def test(session: Session) -> None:
     session.run("pytest", "tests")
 
 
-@nox.parametrize(arg_names="add_rust_extension", arg_values_list=[False, True], ids=["no-rust", "rust"])
+@nox.parametrize(
+    arg_names="demo",
+    arg_values_list=[PYTHON_DEMO, MATURIN_DEMO],
+    ids=["robust-python-demo", "robust-maturin-demo"]
+)
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="update-demo")
-def update_demo(session: Session, add_rust_extension: bool) -> None:
+def update_demo(session: Session, demo: RepoMetadata) -> None:
     session.log("Installing script dependencies for updating generated project demos...")
     session.install("cookiecutter", "cruft", "platformdirs", "loguru", "python-dotenv", "typer")
 
     session.log("Updating generated project demos...")
     args: list[str] = [*UPDATE_DEMO_OPTIONS]
-    if add_rust_extension:
+    if "maturin" in demo.app_name:
         args.append("--add-rust-extension")
-    session.run("python", UPDATE_DEMO_SCRIPT, *args)
+
+    if session.posargs:
+        args.extend(session.posargs)
+
+    demo_env: dict[str, Any] = {f"ROBUST_DEMO__{key.upper()}": value for key, value in asdict(demo).items()}
+    session.run("python", UPDATE_DEMO_SCRIPT, *args, env=demo_env)
 
 
 @nox.session(python=False, name="release-template")

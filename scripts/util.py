@@ -127,11 +127,13 @@ nox: partial[subprocess.CompletedProcess] = partial(run_command, "nox")
 gh: partial[subprocess.CompletedProcess] = partial(run_command, "gh")
 
 
-def require_clean_and_up_to_date_repo() -> None:
+def require_clean_and_up_to_date_repo(demo_path: Path) -> None:
     """Checks if the repo is clean and up to date with any important branches."""
-    git("fetch")
-    git("status", "--porcelain")
-    validate_is_synced_ancestor(ancestor=DEMO.main_branch, descendent=DEMO.develop_branch)
+    with work_in(demo_path):
+        git("fetch")
+        git("status", "--porcelain")
+        validate_is_synced_ancestor(ancestor=DEMO.main_branch, descendent=DEMO.develop_branch)
+    typer.secho
 
 
 def validate_is_synced_ancestor(ancestor: str, descendent: str) -> None:

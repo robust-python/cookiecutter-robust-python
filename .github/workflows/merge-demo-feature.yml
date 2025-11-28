@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository }}
-          path: cookiecutter-robust-python
+          path: "${{ github.workspace }}/cookiecutter-robust-python"
 
       - name: Sync Demo
         uses: "./.github/workflows/update-demo.yml"

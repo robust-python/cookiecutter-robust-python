@@ -46,16 +46,16 @@ COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER: Path = Path(
     )
 ).resolve()
 
-DEFAULT_PROJECT_DEMOS_FOLDER = COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER / "project_demos"
-PROJECT_DEMOS_FOLDER: Path = Path(os.getenv(
-    "COOKIECUTTER_ROBUST_PYTHON_PROJECT_DEMOS_FOLDER", default=DEFAULT_PROJECT_DEMOS_FOLDER
+DEFAULT_DEMOS_CACHE_FOLDER = COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER / "project_demos"
+DEMOS_CACHE_FOLDER: Path = Path(os.getenv(
+    "COOKIECUTTER_ROBUST_PYTHON__DEMOS_CACHE_FOLDER", default=DEFAULT_DEMOS_CACHE_FOLDER
 )).resolve()
 DEFAULT_DEMO_NAME: str = "robust-python-demo"
-DEMO_ROOT_FOLDER: Path = PROJECT_DEMOS_FOLDER / DEFAULT_DEMO_NAME
+DEMO_ROOT_FOLDER: Path = DEMOS_CACHE_FOLDER / DEFAULT_DEMO_NAME
 
 GENERATE_DEMO_SCRIPT: Path = SCRIPTS_FOLDER / "generate-demo.py"
 GENERATE_DEMO_OPTIONS: tuple[str, ...] = (
-    *("--demos-cache-folder", PROJECT_DEMOS_FOLDER),
+    *("--demos-cache-folder", DEMOS_CACHE_FOLDER),
 )
 
 LINT_FROM_DEMO_SCRIPT: Path = SCRIPTS_FOLDER / "lint-from-demo.py"
@@ -118,7 +118,7 @@ def clear_cache(session: Session) -> None:
     Not commonly used, but sometimes permissions might get messed up if exiting mid-build and such.
     """
     session.log("Clearing cache of generated project demos...")
-    shutil.rmtree(PROJECT_DEMOS_FOLDER, ignore_errors=True)
+    shutil.rmtree(DEMOS_CACHE_FOLDER, ignore_errors=True)
     session.log("Cache cleared.")
 
 

@@ -5,7 +5,6 @@ on:
       - develop
 
 env:
-  COOKIECUTTER_ROBUST_PYTHON_PROJECT_DEMOS_FOLDER: ${{ github.workspace }}
   COOKIECUTTER_ROBUST_PYTHON__DEMOS_CACHE_FOLDER: ${{ github.workspace }}
   COOKIECUTTER_ROBUST_PYTHON__APP_AUTHOR: ${{ github.repository_owner }}
   ROBUST_PYTHON_DEMO__APP_AUTHOR: ${{ github.repository_owner }}

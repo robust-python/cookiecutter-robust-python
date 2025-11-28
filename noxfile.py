@@ -17,8 +17,6 @@ from dotenv import load_dotenv
 from nox.command import CommandFailed
 from nox.sessions import Session
 
-from scripts.util import get_current_branch
-
 
 nox.options.default_venv_backend = "uv"
 

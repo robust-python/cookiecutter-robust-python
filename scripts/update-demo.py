@@ -7,22 +7,26 @@
 #   "typer",
 # ]
 # ///
-
+import itertools
+import subprocess
 from pathlib import Path
 from subprocess import CompletedProcess
 from typing import Annotated
+from typing import Any
 from typing import Optional
 
 import cruft
 import typer
 from cookiecutter.utils import work_in
 
+from util import _read_cruft_file
 from util import DEMO
 from util import is_ancestor
 from util import get_current_branch
 from util import get_current_commit
 from util import get_demo_name
 from util import get_last_cruft_update_commit
+from util import gh
 from util import git
 from util import FolderOption
 from util import REPO_FOLDER
@@ -82,6 +86,8 @@ def update_demo(
         git("add", ".")
         git("commit", "-m", f"chore: {last_update_commit} -> {template_commit}", "--no-verify")
         git("push", "-u", "origin", current_branch)
+        if current_branch != "develop":
+            _create_demo_pr(demo_path=demo_path, branch=current_branch, commit_start=last_update_commit)
 
 
 def _checkout_demo_develop_or_existing_branch(demo_path: Path, branch: str) -> None:
@@ -125,6 +131,43 @@ def _validate_template_main_not_checked_out(branch: str) -> None:
     main_like_names: list[str] = ["main", "master"]
     if branch == TEMPLATE.main_branch or branch in main_like_names:
         raise ValueError(f"Updating demos directly to main is not allowed currently.")
+
+
+def _create_demo_pr(demo_path: Path, branch: str, commit_start: str) -> None:
+    """Creates a PR to merge the given branch into develop."""
+    gh("repo", "set-default", f"{DEMO.app_author}/{DEMO.app_name}")
+
+    body: str = _get_demo_feature_pr_body(demo_path=demo_path, commit_start=commit_start)
+
+    pr_kwargs: dict[str, Any] = {
+        "--title": branch.capitalize(),
+        "--body": body,
+        "--base": DEMO.develop_branch,
+        "--assignee": "@me",
+        "--repo": f"{DEMO.app_author}/{DEMO.app_name}",
+    }
+    gh("pr", "create", *itertools.chain(pr_kwargs.items()))
+
+
+def _get_demo_feature_pr_body(demo_path: Path, commit_start: str) -> str:
+    """Creates the body of the demo feature pull request."""
+    cruft_config: dict[str, Any] = _read_cruft_file(demo_path)
+    commit_end: Optional[str] = cruft_config.get("commit_end", None)
+    if commit_end is None:
+        raise ValueError(f"Unable to find latest commit in .cruft.json for demo at {demo_path}.")
+    rev_range: str = f"{commit_start}..{commit_end}"
+    command: list[str] = [
+        "uvx",
+        "--from",
+        "commitizen",
+        "cz",
+        "changelog",
+        rev_range,
+        "--dry-run",
+        "--unreleased-version"
+    ]
+    section_notes: str = subprocess.check_output(command, text=True)
+    return section_notes.strip()
 
 
 if __name__ == '__main__':

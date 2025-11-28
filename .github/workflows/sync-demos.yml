@@ -44,5 +44,3 @@ jobs:
 
       - name: Update Demo
         run: "uvx nox -s 'update-demo(${{ matrix.demo.session_modifier }})' -- --branch-override ${{ github.head_ref }}"
-
-

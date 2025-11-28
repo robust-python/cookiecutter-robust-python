@@ -19,7 +19,6 @@ from cookiecutter.utils import work_in
 
 from util import DEMO
 from util import is_ancestor
-from util import is_merge_commit
 from util import get_current_branch
 from util import get_current_commit
 from util import get_demo_name

@@ -162,16 +162,6 @@ def is_ancestor(ancestor: str, descendent: str) -> bool:
         return False
 
 
-def is_merge_commit() -> bool:
-    """Returns whether the latest commit was a merge commit."""
-    output: str = git("log", "--format=%P", "-n", "1", "HEAD").stdout.strip()
-    if output == "":
-        raise ValueError("No existing commit was found.")
-
-    parent_count: int = len(output.split(" "))
-    return parent_count > 1
-
-
 def get_current_branch() -> str:
     """Returns the current branch name."""
     return git("branch", "--show-current").stdout.strip()

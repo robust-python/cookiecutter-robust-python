@@ -26,7 +26,6 @@ jobs:
         with:
           repository: ${{ github.repository }}
           path: cookiecutter-robust-python
-          ref: ${{ github.head_ref }}
 
       - name: Checkout Demo
         uses: actions/checkout@v4
@@ -44,6 +43,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Update Demo
-        run: "uvx nox -s 'update-demo(${{ matrix.demo.session_modifier }})'"
+        run: "uvx nox -s 'update-demo(${{ matrix.demo.session_modifier }})' -- --branch-override ${{ github.head_ref }}"
 
 

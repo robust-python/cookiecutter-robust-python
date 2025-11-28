@@ -39,14 +39,20 @@ def update_demo(
     demos_cache_folder: Annotated[Path, FolderOption("--demos-cache-folder", "-c")],
     add_rust_extension: Annotated[bool, typer.Option("--add-rust-extension", "-r")] = False,
     min_python_version: Annotated[str, typer.Option("--min-python-version")] = "3.10",
-    max_python_version: Annotated[str, typer.Option("--max-python-version")] = "3.14"
+    max_python_version: Annotated[str, typer.Option("--max-python-version")] = "3.14",
+    branch_override: Annotated[Optional[str], typer.Option("--branch-override")] = None
 ) -> None:
     """Runs precommit in a generated project and matches the template to the results."""
     demo_name: str = get_demo_name(add_rust_extension=add_rust_extension)
     demo_path: Path = demos_cache_folder / demo_name
 
-    current_branch: str = get_current_branch()
+    if branch_override is not None:
+        typer.secho(f"Overriding current branch name for demo reference. Using '{branch_override}' instead.")
+        current_branch: str = branch_override
+    else:
+        current_branch: str = get_current_branch()
     template_commit: str = get_current_commit()
+
     _validate_template_main_not_checked_out(branch=current_branch)
     require_clean_and_up_to_date_demo_repo(demo_path=demo_path)
     _checkout_demo_develop_or_existing_branch(demo_path=demo_path, branch=current_branch)

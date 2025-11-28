@@ -21,27 +21,7 @@ jobs:
           - "robust-python-demo"
           - "robust-maturin-demo"
     steps:
-      - name: Checkout Template
-        uses: actions/checkout@v4
+      - name: Sync Demo
+        uses: "./.github/workflows/update-demo.yml"
         with:
-          repository: ${{ github.repository }}
-          path: cookiecutter-robust-python
-
-      - name: Checkout Demo
-        uses: actions/checkout@v4
-        with:
-          repository: "${{ github.repository_owner }}/${{ matrix.demo_name }}"
-          path: ${{ matrix.demo_name }}
-          ref: develop
-
-      - name: Set up uv
-        uses: astral-sh/setup-uv@v6
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Update Demo
-        working-directory: "${{ github.workspace }}/cookiecutter-robust-python"
-        run: "uvx nox -s 'update-demo(${{ matrix.demo_name }})' -- --branch-override ${{ github.head_ref }}"
+          demo_name: ${{ matrix.demo_name }}

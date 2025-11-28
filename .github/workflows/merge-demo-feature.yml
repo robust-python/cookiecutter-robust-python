@@ -1,0 +1,24 @@
+name: merge-demo-feature.yml
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  merge-demo-feature:
+    name: Merge Demo Feature
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        demo_name:
+          - "robust-python-demo"
+          - "robust-maturin-demo"
+    steps:
+      - name: Sync Demo
+        uses: "./.github/workflows/update-demo.yml"
+        with:
+          demo_name: ${{ matrix.demo_name }}
+
+      - name: Merge Demo Feature PR into Develop
+        working-directory: "${{ github.workspace }}/${{ matrix.demo_name }}"
+        run: "uvx nox -s merge-demo-feature(${{ matrix.demo_name }}) -- ${{ github.head_ref }}"

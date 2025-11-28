@@ -1,0 +1,36 @@
+name: update-demo.yml
+on:
+  workflow_call:
+    inputs:
+      demo_name:
+        required: true
+        type: string
+
+jobs:
+  update-demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Template
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          path: cookiecutter-robust-python
+
+      - name: Checkout Demo
+        uses: actions/checkout@v4
+        with:
+          repository: "${{ github.repository_owner }}/${{ inputs.demo_name }}"
+          path: ${{ inputs.demo_name }}
+          ref: develop
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".github/workflows/.python-version"
+
+      - name: Update Demo
+        working-directory: "${{ github.workspace }}/cookiecutter-robust-python"
+        run: "uvx nox -s 'update-demo(${{ inputs.demo_name }})' -- --branch-override ${{ github.head_ref }}"

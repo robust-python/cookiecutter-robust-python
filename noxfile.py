@@ -17,6 +17,8 @@ from dotenv import load_dotenv
 from nox.command import CommandFailed
 from nox.sessions import Session
 
+from scripts.util import get_current_branch
+
 
 nox.options.default_venv_backend = "uv"
 
@@ -67,6 +69,9 @@ UPDATE_DEMO_OPTIONS: tuple[str, ...] = (
     *("--min-python-version", "3.10"),
     *("--max-python-version", "3.14")
 )
+
+MERGE_DEMO_FEATURE_SCRIPT: Path = SCRIPTS_FOLDER / "merge-demo-feature.py"
+MERGE_DEMO_FEATURE_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
 
 
 @dataclass
@@ -200,7 +205,26 @@ def update_demo(session: Session, demo: RepoMetadata) -> None:
         args.extend(session.posargs)
 
     demo_env: dict[str, Any] = {f"ROBUST_DEMO__{key.upper()}": value for key, value in asdict(demo).items()}
-    session.run("python", UPDATE_DEMO_SCRIPT, *args, env=demo_env)
+    session.run("uv", "run", UPDATE_DEMO_SCRIPT, *args, env=demo_env)
+
+
+@nox.parametrize(
+    arg_names="demo",
+    arg_values_list=[PYTHON_DEMO, MATURIN_DEMO],
+    ids=["robust-python-demo", "robust-maturin-demo"]
+)
+@nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="merge-demo-feature")
+def merge_demo_feature(session: Session, demo: RepoMetadata) -> None:
+    """Automates merging the current feature branch to develop in all templates.
+
+    Assumes that all PR's already exist.
+    """
+    args: list[str] = [*MERGE_DEMO_FEATURE_OPTIONS]
+    if "maturin" in demo.app_name:
+        args.append("--add-rust-extension")
+    if session.posargs:
+        args.extend(session.posargs)
+    session.run("uv", "run", MERGE_DEMO_FEATURE_SCRIPT, *args)
 
 
 @nox.session(python=False, name="release-template")

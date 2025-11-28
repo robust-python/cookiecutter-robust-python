@@ -77,7 +77,7 @@ def _rollback_release(version: str) -> None:
     commands: list[list[str]] = [
         ["git", "checkout", "develop"],
         ["git", "checkout", "."],
-        ["git", "branch", "-D", f"release/{version}"]
+        ["git", "branch", "-D", f"release/{version}"],
     ]
 
     for command in commands:

@@ -141,7 +141,6 @@ def lint_from_demo(session: Session):
     session.log("Installing linting dependencies for the generated project...")
     session.install("-e", ".", "--group", "dev", "--group", "lint")
     session.run("python", LINT_FROM_DEMO_SCRIPT, *LINT_FROM_DEMO_OPTIONS, *session.posargs)
-    session.install_and_run_script()
 
 
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION)

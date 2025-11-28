@@ -24,7 +24,6 @@ from typing import Callable
 from typing import Generator
 from typing import Literal
 from typing import Optional
-from typing import TypedDict
 from typing import overload
 
 import cruft

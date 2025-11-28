@@ -152,7 +152,7 @@ def _create_demo_pr(demo_path: Path, branch: str, commit_start: str) -> None:
 def _get_demo_feature_pr_body(demo_path: Path, commit_start: str) -> str:
     """Creates the body of the demo feature pull request."""
     cruft_config: dict[str, Any] = _read_cruft_file(demo_path)
-    commit_end: Optional[str] = cruft_config.get("commit_end", None)
+    commit_end: Optional[str] = cruft_config.get("commit", None)
     if commit_end is None:
         raise ValueError(f"Unable to find latest commit in .cruft.json for demo at {demo_path}.")
     rev_range: str = f"{commit_start}..{commit_end}"

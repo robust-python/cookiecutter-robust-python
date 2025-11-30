@@ -61,6 +61,12 @@ def update_demo(
     _checkout_demo_develop_or_existing_branch(demo_path=demo_path, branch=desired_branch_name)
     last_update_commit: str = get_last_cruft_update_commit(demo_path=demo_path)
 
+    if template_commit == last_update_commit:
+        typer.secho(
+            f"{demo_name} is already up to date with {desired_branch_name} at {last_update_commit}",
+            fg=typer.colors.YELLOW
+        )
+
     if not is_ancestor(last_update_commit, template_commit):
         raise ValueError(
             f"The last update commit '{last_update_commit}' is not an ancestor of the current commit "

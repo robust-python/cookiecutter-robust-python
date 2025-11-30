@@ -27,7 +27,7 @@ jobs:
           path: "${{ github.workspace }}/cookiecutter-robust-python"
 
       - name: Sync Demo
-        uses: "${{ github.workspace }}/cookiecutter-robust-python/.github/workflows/update-demo.yml"
+        uses: "./.github/workflows/update-demo.yml"
         with:
           demo_name: ${{ matrix.demo_name }}
 

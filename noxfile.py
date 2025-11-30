@@ -72,6 +72,7 @@ MERGE_DEMO_FEATURE_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
 
 BUMP_VERSION_SCRIPT: Path = SCRIPTS_FOLDER / "bump-version.py"
 GET_RELEASE_NOTES_SCRIPT: Path = SCRIPTS_FOLDER / "get-release-notes.py"
+SETUP_RELEASE_SCRIPT: Path = SCRIPTS_FOLDER / "setup-release.py"
 TAG_VERSION_SCRIPT: Path = SCRIPTS_FOLDER / "tag-version.py"
 
 
@@ -226,6 +227,20 @@ def merge_demo_feature(session: Session, demo: RepoMetadata) -> None:
     if session.posargs:
         args.extend(session.posargs)
     session.run("uv", "run", MERGE_DEMO_FEATURE_SCRIPT, *args)
+
+
+@nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="setup-release")
+def setup_release(session: Session) -> None:
+    """Prepare a release by creating a release branch and bumping the version.
+
+    Creates a release branch from develop, bumps the version using CalVer,
+    and creates the initial bump commit. Does not push any changes.
+
+    Usage:
+      nox -s setup-release          # Auto-increment micro for current month
+      nox -s setup-release -- 5     # Force micro version to 5
+    """
+    session.install_and_run_script(SETUP_RELEASE_SCRIPT, *session.posargs)
 
 
 @nox.session(python=False, name="bump-version")

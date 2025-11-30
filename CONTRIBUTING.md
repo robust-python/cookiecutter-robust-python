@@ -14,20 +14,121 @@ There are several ways to contribute:
 
 ## Setting Up Your Development Environment
 
-Refer to the **[Getting Started: Contributing to the Template](https://robust-python.github.io/cookiecutter-robust-python/getting-started-template-contributing.html)** section in the template documentation for instructions on cloning the repository, installing template development dependencies (using uv), setting up the template's pre-commit hooks, and running template checks/tests.
+1.  **Clone** the repository:
+    ```bash
+    git clone https://github.com/robust-python/cookiecutter-robust-python.git
+    cd cookiecutter-robust-python
+    ```
+
+2.  **Install dependencies** using uv:
+    ```bash
+    uv sync --all-groups
+    ```
+
+3.  **Install pre-commit hooks**:
+    ```bash
+    uvx nox -s pre-commit -- install
+    ```
+
+4.  **Generate a demo project** to test changes:
+    ```bash
+    nox -s generate-demo
+    ```
+
+Refer to the **[Getting Started: Contributing to the Template](https://robust-python.github.io/cookiecutter-robust-python/getting-started-template-contributing.html)** section in the template documentation for more detailed instructions.
+
+## Development Commands
+
+### Code Quality
+```bash
+# Lint the template source code
+nox -s lint
+
+# Lint from generated demo project
+nox -s lint-from-demo
+
+# Run template tests
+nox -s test
+
+# Build template documentation
+nox -s docs
+```
+
+### Demo Projects
+```bash
+# Generate a demo project for testing
+nox -s generate-demo
+
+# Generate demo with Rust extension
+nox -s generate-demo -- --add-rust-extension
+
+# Update existing demo projects
+nox -s update-demo
+
+# Clear demo cache
+nox -s clear-cache
+```
 
 ## Contribution Workflow
 
 1.  **Fork** the repository and **clone** your fork.
-2.  Create a **new branch** for your contribution based on the main branch. Use a descriptive name (e.g., `fix/ci-workflow-on-windows`, `feat/update-uv-version`).
-3.  Set up your development environment following the [Getting Started](https://robust-python.github.io/cookiecutter-robust-python/getting-started-template-contributing.html) guide (clone, `uv sync`, `uvx nox -s pre-commit -- install`).
+2.  Create a **new branch** for your contribution based on the `develop` branch. Use a descriptive name (e.g., `fix/ci-workflow-on-windows`, `feat/update-uv-version`).
+3.  Set up your development environment as described above.
 4.  Make your **code or documentation changes**.
-5.  Ensure your changes adhere to the template's **code quality standards** (configured in the template's `.pre-commit-config.yaml`, `.ruff.toml`, etc.). The pre-commit hooks will help with this. Run `uvx nox -s lint`, `uvx nox -s check` in the template repository for more comprehensive checks.
-6.  Ensure your changes **do not break existing functionality**. Run the template's test suite: `uvx nox -s test`. Ideally, add tests for new functionality or bug fixes.
-7.  Ensure the **template documentation builds correctly** with your changes: `uvx nox -s docs`.
-8.  Write clear, concise **commit messages** following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification where possible, especially for significant changes (fixes, features, chore updates, etc.).
-9.  **Push** your branch to your fork.
-10. **Open a Pull Request** from your branch to the main branch of the main template repository. Provide a clear description of your changes. Link to any relevant issues.
+5.  Ensure your changes adhere to the template's **code quality standards**. Run:
+    ```bash
+    nox -s lint
+    nox -s test
+    ```
+6.  Ensure the **template documentation builds correctly**:
+    ```bash
+    nox -s docs
+    ```
+7.  Write clear, concise **commit messages** following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. This is **required** as we use Commitizen to generate changelogs automatically.
+8.  **Push** your branch to your fork.
+9.  **Open a Pull Request** from your branch to the `develop` branch of the main repository. Provide a clear description of your changes. Link to any relevant issues.
+
+## Commit Message Guidelines
+
+We use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages. This enables automatic changelog generation via Commitizen.
+
+### Format
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Types
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation only changes
+- `style`: Changes that do not affect the meaning of the code
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `perf`: A code change that improves performance
+- `test`: Adding missing tests or correcting existing tests
+- `build`: Changes that affect the build system or external dependencies
+- `ci`: Changes to CI configuration files and scripts
+- `chore`: Other changes that don't modify src or test files
+
+### Examples
+```
+feat(template): add support for Python 3.13
+fix(ci): correct workflow trigger for demo sync
+docs(readme): update installation instructions
+chore(deps): bump ruff to 0.12.0
+```
+
+## Versioning
+
+This template uses **Calendar Versioning (CalVer)** with the format `YYYY.MM.MICRO`:
+- `YYYY`: Four-digit year
+- `MM`: Month (1-12, no leading zero)
+- `MICRO`: Incremental patch number, resets to 0 each new month
+
+Releases are handled automatically via CI when changes are merged to `main`. Contributors do not need to bump versions manually.
 
 ## Updating Tool Evaluations
 
@@ -36,5 +137,3 @@ If your contribution involves updating a major tool version or suggesting a diff
 ## Communication
 
 For questions or discussion about contributions, open an issue or a discussion on the [GitHub repository](https://github.com/robust-python/cookiecutter-robust-python).
-
----

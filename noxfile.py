@@ -1,17 +1,12 @@
 """Noxfile for the cookiecutter-robust-python template."""
 
 # /// script
-# dependencies = ["nox>=2025.5.1", "platformdirs>=4.3.8", "python-dotenv>=1.0.0", "tomli>=2.0.0;python_version<'3.11'"]
+# dependencies = ["nox>=2025.5.1", "platformdirs>=4.3.8", "python-dotenv>=1.0.0"]
 # ///
 
 import os
 import shutil
 from dataclasses import asdict
-
-try:
-    import tomllib
-except ModuleNotFoundError:
-    import tomli as tomllib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -19,7 +14,6 @@ from typing import Any
 import nox
 import platformdirs
 from dotenv import load_dotenv
-from nox.command import CommandFailed
 from nox.sessions import Session
 
 
@@ -30,7 +24,6 @@ DEFAULT_TEMPLATE_PYTHON_VERSION = "3.10"
 REPO_ROOT: Path = Path(__file__).parent.resolve()
 SCRIPTS_FOLDER: Path = REPO_ROOT / "scripts"
 TEMPLATE_FOLDER: Path = REPO_ROOT / "{{cookiecutter.project_name}}"
-
 
 # Load environment variables from .env and .env.local (if present)
 LOCAL_ENV_FILE: Path = REPO_ROOT / ".env.local"
@@ -52,9 +45,11 @@ COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER: Path = Path(
 ).resolve()
 
 DEFAULT_DEMOS_CACHE_FOLDER = COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER / "project_demos"
-DEMOS_CACHE_FOLDER: Path = Path(os.getenv(
-    "COOKIECUTTER_ROBUST_PYTHON__DEMOS_CACHE_FOLDER", default=DEFAULT_DEMOS_CACHE_FOLDER
-)).resolve()
+DEMOS_CACHE_FOLDER: Path = Path(
+    os.getenv(
+        "COOKIECUTTER_ROBUST_PYTHON__DEMOS_CACHE_FOLDER", default=DEFAULT_DEMOS_CACHE_FOLDER
+    )
+).resolve()
 DEFAULT_DEMO_NAME: str = "robust-python-demo"
 DEMO_ROOT_FOLDER: Path = DEMOS_CACHE_FOLDER / DEFAULT_DEMO_NAME
 
@@ -75,6 +70,10 @@ UPDATE_DEMO_OPTIONS: tuple[str, ...] = (
 
 MERGE_DEMO_FEATURE_SCRIPT: Path = SCRIPTS_FOLDER / "merge-demo-feature.py"
 MERGE_DEMO_FEATURE_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
+
+BUMP_VERSION_SCRIPT: Path = SCRIPTS_FOLDER / "bump-version.py"
+GET_RELEASE_NOTES_SCRIPT: Path = SCRIPTS_FOLDER / "get-release-notes.py"
+TAG_VERSION_SCRIPT: Path = SCRIPTS_FOLDER / "tag-version.py"
 
 
 @dataclass
@@ -230,9 +229,6 @@ def merge_demo_feature(session: Session, demo: RepoMetadata) -> None:
     session.run("uv", "run", MERGE_DEMO_FEATURE_SCRIPT, *args)
 
 
-BUMP_VERSION_SCRIPT: Path = SCRIPTS_FOLDER / "bump-version.py"
-
-
 @nox.session(python=False, name="bump-version")
 def bump_version(session: Session) -> None:
     """Bump version using CalVer (YYYY.MM.MICRO).
@@ -282,19 +278,8 @@ def tag_version(session: Session) -> None:
       nox -s tag-version           # Create tag locally
       nox -s tag-version -- push   # Create and push tag
     """
-    with open(REPO_ROOT / "pyproject.toml", "rb") as f:
-        version = tomllib.load(f)["project"]["version"]
-
-    tag_name = f"v{version}"
-    session.log(f"Creating tag: {tag_name}")
-    session.run("git", "tag", "-a", tag_name, "-m", f"Release {version}", external=True)
-
-    if "push" in session.posargs:
-        session.log(f"Pushing tag {tag_name} to origin...")
-        session.run("git", "push", "origin", tag_name, external=True)
-
-
-GET_RELEASE_NOTES_SCRIPT: Path = SCRIPTS_FOLDER / "get-release-notes.py"
+    args: list[str] = ["--push"] if "push" in session.posargs else []
+    session.run("python", TAG_VERSION_SCRIPT, *args, external=True)
 
 
 @nox.session(python=False, name="get-release-notes")
@@ -313,4 +298,3 @@ def remove_demo_release(session: Session) -> None:
     """Deletes the latest demo release."""
     session.run("git", "branch", "-d", f"release/{session.posargs[0]}", external=True)
     session.run("git", "push", "--progress", "--porcelain", "origin", f"release/{session.posargs[0]}", external=True)
-

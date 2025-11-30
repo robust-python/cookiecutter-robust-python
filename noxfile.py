@@ -1,12 +1,17 @@
 """Noxfile for the cookiecutter-robust-python template."""
 
 # /// script
-# dependencies = ["nox>=2025.5.1", "platformdirs>=4.3.8", "python-dotenv>=1.0.0"]
+# dependencies = ["nox>=2025.5.1", "platformdirs>=4.3.8", "python-dotenv>=1.0.0", "tomli>=2.0.0;python_version<'3.11'"]
 # ///
 
 import os
 import shutil
 from dataclasses import asdict
+
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -225,41 +230,82 @@ def merge_demo_feature(session: Session, demo: RepoMetadata) -> None:
     session.run("uv", "run", MERGE_DEMO_FEATURE_SCRIPT, *args)
 
 
-@nox.session(python=False, name="release-template")
-def release_template(session: Session):
-    """Run the release process for the TEMPLATE using Commitizen.
+BUMP_VERSION_SCRIPT: Path = SCRIPTS_FOLDER / "bump-version.py"
 
-    Requires uvx in PATH (from uv install). Requires Git.
-    Assumes Conventional Commits practice is followed for TEMPLATE repository.
-    Optionally accepts increment level (major, minor, patch) after '--'.
+
+@nox.session(python=False, name="bump-version")
+def bump_version(session: Session) -> None:
+    """Bump version using CalVer (YYYY.MM.MICRO).
+
+    Usage:
+      nox -s bump-version          # Auto-increment micro for current month
+      nox -s bump-version -- 5     # Force micro version to 5
     """
-    session.log("Running release process for the TEMPLATE using Commitizen...")
-    try:
-        session.run("git", "version", success_codes=[0], external=True, silent=True)
-    except CommandFailed:
-        session.log("Git command not found. Commitizen requires Git.")
-        session.skip("Git not available.")
+    session.run("python", BUMP_VERSION_SCRIPT, *session.posargs, external=True)
 
-    session.log("Checking Commitizen availability via uvx.")
-    session.run("cz", "--version", successcodes=[0])
 
-    increment = session.posargs[0] if session.posargs else None
-    session.log(
-        "Bumping template version and tagging release (increment: %s).",
-        increment if increment else "default",
-    )
+@nox.session(python=False, name="build-python")
+def build_python(session: Session) -> None:
+    """Build sdist and wheel packages for the template."""
+    session.log("Building sdist and wheel packages...")
+    dist_dir = REPO_ROOT / "dist"
+    if dist_dir.exists():
+        shutil.rmtree(dist_dir)
+    session.run("uv", "build", external=True)
+    session.log(f"Packages built in {dist_dir}")
 
-    cz_bump_args = ["uvx", "cz", "bump", "--changelog"]
 
-    if increment:
-        cz_bump_args.append(f"--increment={increment}")
+@nox.session(python=False, name="publish-python")
+def publish_python(session: Session) -> None:
+    """Publish packages to PyPI.
 
-    session.log("Running cz bump with args: %s", cz_bump_args)
-    # success_codes=[0, 1] -> Allows code 1 which means 'nothing to bump' if no conventional commits since last release
-    session.run(*cz_bump_args, success_codes=[0, 1], external=True)
+    Usage:
+      nox -s publish-python                    # Publish to PyPI
+      nox -s publish-python -- --test-pypi     # Publish to TestPyPI
+    """
+    session.log("Checking built packages with Twine.")
+    session.run("uvx", "twine", "check", "dist/*", external=True)
 
-    session.log("Template version bumped and tag created locally via Commitizen/uvx.")
-    session.log("IMPORTANT: Push commits and tags to remote (`git push --follow-tags`) to trigger CD for the TEMPLATE.")
+    if "--test-pypi" in session.posargs:
+        session.log("Publishing packages to TestPyPI.")
+        session.run("uv", "publish", "--publish-url", "https://test.pypi.org/legacy/", external=True)
+    else:
+        session.log("Publishing packages to PyPI.")
+        session.run("uv", "publish", external=True)
+
+
+@nox.session(python=False, name="tag-version")
+def tag_version(session: Session) -> None:
+    """Create and push a git tag for the current version.
+
+    Usage:
+      nox -s tag-version           # Create tag locally
+      nox -s tag-version -- push   # Create and push tag
+    """
+    with open(REPO_ROOT / "pyproject.toml", "rb") as f:
+        version = tomllib.load(f)["project"]["version"]
+
+    tag_name = f"v{version}"
+    session.log(f"Creating tag: {tag_name}")
+    session.run("git", "tag", "-a", tag_name, "-m", f"Release {version}", external=True)
+
+    if "push" in session.posargs:
+        session.log(f"Pushing tag {tag_name} to origin...")
+        session.run("git", "push", "origin", tag_name, external=True)
+
+
+GET_RELEASE_NOTES_SCRIPT: Path = SCRIPTS_FOLDER / "get-release-notes.py"
+
+
+@nox.session(python=False, name="get-release-notes")
+def get_release_notes(session: Session) -> None:
+    """Extract release notes for the current version.
+
+    Usage:
+      nox -s get-release-notes                      # Write to release_notes.md
+      nox -s get-release-notes -- /path/to/file.md  # Write to custom path
+    """
+    session.run("python", GET_RELEASE_NOTES_SCRIPT, *session.posargs, external=True)
 
 
 @nox.session(python=False, name="remove-demo-release")

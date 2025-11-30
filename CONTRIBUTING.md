@@ -27,7 +27,7 @@ There are several ways to contribute:
 
 3.  **Install pre-commit hooks**:
     ```bash
-    uvx nox -s pre-commit -- install
+    uvx pre-commit install
     ```
 
 4.  **Generate a demo project** to test changes:

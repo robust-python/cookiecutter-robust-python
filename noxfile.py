@@ -207,7 +207,7 @@ def update_demo(session: Session, demo: RepoMetadata) -> None:
         args.extend(session.posargs)
 
     demo_env: dict[str, Any] = {f"ROBUST_DEMO__{key.upper()}": value for key, value in asdict(demo).items()}
-    session.run("uv", "run", UPDATE_DEMO_SCRIPT, *args, env=demo_env)
+    session.install_and_run_script(UPDATE_DEMO_SCRIPT, *args, env=demo_env)
 
 
 @nox.parametrize(

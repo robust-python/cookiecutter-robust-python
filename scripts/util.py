@@ -4,7 +4,6 @@
 #   "cookiecutter",
 #   "cruft",
 #   "python-dotenv",
-#   "tomli>=2.0.0;python_version<'3.11'",
 #   "typer",
 # ]
 # ///
@@ -255,19 +254,6 @@ def get_package_version() -> str:
     """Gets the current package version using commitizen."""
     result = run_command("uvx", "--from", "commitizen", "cz", "version", "-p")
     return result.stdout.strip()
-
-
-def get_current_version() -> str:
-    """Read current version from pyproject.toml."""
-    try:
-        import tomllib
-    except ModuleNotFoundError:
-        import tomli as tomllib
-
-    pyproject_path: Path = REPO_FOLDER / "pyproject.toml"
-    with pyproject_path.open("rb") as f:
-        data: dict[str, Any] = tomllib.load(f)
-        return data["project"]["version"]
 
 
 def calculate_calver(current_version: str, micro_override: Optional[int] = None) -> str:

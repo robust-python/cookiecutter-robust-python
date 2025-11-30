@@ -30,7 +30,6 @@ try:
 except ModuleNotFoundError:
     import tomli as tomllib
 
-
 cli: typer.Typer = typer.Typer()
 
 

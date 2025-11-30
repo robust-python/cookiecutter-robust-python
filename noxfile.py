@@ -35,8 +35,8 @@ if LOCAL_ENV_FILE.exists():
 if DEFAULT_ENV_FILE.exists():
     load_dotenv(DEFAULT_ENV_FILE)
 
-APP_AUTHOR: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_APP_AUTHOR", "robust-python")
-COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER: Path = Path(
+APP_AUTHOR: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON__APP_AUTHOR", "robust-python")
+COOKIECUTTER_ROBUST_PYTHON__CACHE_FOLDER: Path = Path(
     platformdirs.user_cache_path(
         appname="cookiecutter-robust-python",
         appauthor=APP_AUTHOR,
@@ -44,14 +44,13 @@ COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER: Path = Path(
     )
 ).resolve()
 
-DEFAULT_DEMOS_CACHE_FOLDER = COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER / "project_demos"
+DEFAULT_DEMOS_CACHE_FOLDER = COOKIECUTTER_ROBUST_PYTHON__CACHE_FOLDER / "project_demos"
 DEMOS_CACHE_FOLDER: Path = Path(
     os.getenv(
         "COOKIECUTTER_ROBUST_PYTHON__DEMOS_CACHE_FOLDER", default=DEFAULT_DEMOS_CACHE_FOLDER
     )
 ).resolve()
 DEFAULT_DEMO_NAME: str = "robust-python-demo"
-DEMO_ROOT_FOLDER: Path = DEMOS_CACHE_FOLDER / DEFAULT_DEMO_NAME
 
 GENERATE_DEMO_SCRIPT: Path = SCRIPTS_FOLDER / "generate-demo.py"
 GENERATE_DEMO_OPTIONS: tuple[str, ...] = (

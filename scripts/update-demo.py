@@ -51,14 +51,14 @@ def update_demo(
 
     if branch_override is not None:
         typer.secho(f"Overriding current branch name for demo reference. Using '{branch_override}' instead.")
-        current_branch: str = branch_override
+        desired_branch_name: str = branch_override
     else:
-        current_branch: str = get_current_branch()
+        desired_branch_name: str = get_current_branch()
     template_commit: str = get_current_commit()
 
-    _validate_template_main_not_checked_out(branch=current_branch)
+    _validate_template_main_not_checked_out(branch=desired_branch_name)
     require_clean_and_up_to_date_demo_repo(demo_path=demo_path)
-    _checkout_demo_develop_or_existing_branch(demo_path=demo_path, branch=current_branch)
+    _checkout_demo_develop_or_existing_branch(demo_path=demo_path, branch=desired_branch_name)
     last_update_commit: str = get_last_cruft_update_commit(demo_path=demo_path)
 
     if not is_ancestor(last_update_commit, template_commit):
@@ -69,6 +69,9 @@ def update_demo(
 
     typer.secho(f"Updating demo project at {demo_path=}.", fg="yellow")
     with work_in(demo_path):
+        if get_current_branch() != desired_branch_name:
+            git("checkout", "-b", desired_branch_name, DEMO.develop_branch)
+
         uv("python", "pin", min_python_version)
         uv("python", "install", min_python_version)
         cruft.update(
@@ -84,9 +87,9 @@ def update_demo(
         uv("lock")
         git("add", ".")
         git("commit", "-m", f"chore: {last_update_commit} -> {template_commit}", "--no-verify")
-        git("push", "-u", "origin", current_branch)
-        if current_branch != "develop":
-            _create_demo_pr(demo_path=demo_path, branch=current_branch, commit_start=last_update_commit)
+        git("push", "-u", "origin", desired_branch_name)
+        if desired_branch_name != "develop":
+            _create_demo_pr(demo_path=demo_path, branch=desired_branch_name, commit_start=last_update_commit)
 
 
 def _checkout_demo_develop_or_existing_branch(demo_path: Path, branch: str) -> None:

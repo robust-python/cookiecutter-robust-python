@@ -248,3 +248,98 @@ def _remove_existing_demo(demo_path: Path) -> None:
 def get_demo_name(add_rust_extension: bool) -> str:
     name_modifier: str = "maturin" if add_rust_extension else "python"
     return f"robust-{name_modifier}-demo"
+
+
+def get_package_version() -> str:
+    """Gets the current package version using commitizen."""
+    result = run_command("uvx", "--from", "commitizen", "cz", "version", "-p")
+    return result.stdout.strip()
+
+
+def calculate_calver(current_version: str, micro_override: Optional[int] = None) -> str:
+    """Calculate the next CalVer version.
+
+    CalVer format: YYYY.MM.MICRO
+    - YYYY: Four-digit year
+    - MM: Month (1-12, no leading zero)
+    - MICRO: Incremental patch number, resets to 0 each month
+
+    Args:
+        current_version: The current version string
+        micro_override: Optional manual micro version override
+
+    Returns:
+        The new CalVer version string (YYYY.MM.MICRO)
+    """
+    from datetime import date
+
+    today = date.today()
+    year, month = today.year, today.month
+
+    if micro_override is not None:
+        micro = micro_override
+    else:
+        # Auto-calculate micro
+        try:
+            parts: list[str] = current_version.split(".")
+            curr_year, curr_month, curr_micro = int(parts[0]), int(parts[1]), int(parts[2])
+            if curr_year == year and curr_month == month:
+                micro = curr_micro + 1  # Same month, increment
+            else:
+                micro = 0  # New month, reset
+        except (ValueError, IndexError):
+            micro = 0  # Invalid version format, start fresh
+
+    return f"{year}.{month}.{micro}"
+
+
+def bump_version(new_version: str) -> None:
+    """Bump version using commitizen.
+
+    Args:
+        new_version: The version to bump to
+    """
+    cmd: list[str] = ["uvx", "--from", "commitizen", "cz", "bump", "--changelog", "--yes", "--no-tag", new_version]
+    # Exit code 1 means 'nothing to bump' - treat as success
+    result: subprocess.CompletedProcess = subprocess.run(cmd, cwd=REPO_FOLDER)
+    if result.returncode not in (0, 1):
+        raise RuntimeError(f"Version bump failed with exit code {result.returncode}")
+
+
+def get_latest_tag() -> Optional[str]:
+    """Gets the latest git tag, or None if no tags exist."""
+    result = run_command("git", "describe", "--tags", "--abbrev=0", ignore_error=True)
+    if result is None:
+        return None
+    tag = result.stdout.strip()
+    return tag if tag else None
+
+
+def get_latest_release_notes() -> str:
+    """Gets the release notes for the current version.
+
+    Assumes the tag hasn't been applied yet.
+    """
+    latest_tag: Optional[str] = get_latest_tag()
+    latest_version: str = get_package_version()
+
+    # Build the revision range for changelog
+    if latest_tag is None:
+        rev_range = ""
+    else:
+        # Strip 'v' prefix if present for comparison
+        tag_version = latest_tag.lstrip("v")
+        if tag_version == latest_version:
+            raise ValueError(
+                "The latest tag and version are the same. "
+                "Please ensure the release notes are taken before tagging."
+            )
+        rev_range = f"{latest_tag}.."
+
+    result = run_command(
+        "uvx", "--from", "commitizen", "cz", "changelog",
+        rev_range,
+        "--dry-run",
+        "--unreleased-version", latest_version
+    )
+    return result.stdout

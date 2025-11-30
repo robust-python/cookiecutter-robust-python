@@ -9,7 +9,6 @@
 # ]
 # ///
 
-import os
 from pathlib import Path
 from typing import Annotated
 
@@ -29,7 +28,6 @@ IGNORED_FILES: list[str] = [
     "pyproject.toml",
     "uv.lock",
 ]
-
 
 cli: typer.Typer = typer.Typer()
 

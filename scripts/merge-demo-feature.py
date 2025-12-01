@@ -41,7 +41,7 @@ def merge_demo_feature(
 
     with work_in(demo_path):
         pr_number_query: subprocess.CompletedProcess = gh(
-            "pr", "list", "--head", branch, "--base", DEMO.develop_branch, "--json", "number", "--jq", "'.[0].number'"
+            "pr", "list", "--head", branch, "--base", DEMO.develop_branch, "--json", "number", "--jq", ".[0].number"
         )
         pr_number: str = pr_number_query.stdout.strip()
         if pr_number == "":

@@ -222,11 +222,11 @@ def merge_demo_feature(session: Session, demo: RepoMetadata) -> None:
     Assumes that all PR's already exist.
     """
     args: list[str] = [*MERGE_DEMO_FEATURE_OPTIONS]
+    if session.posargs:
+        args = [*session.posargs, *args]
     if "maturin" in demo.app_name:
         args.append("--add-rust-extension")
-    if session.posargs:
-        args.extend(session.posargs)
-    session.run("uv", "run", MERGE_DEMO_FEATURE_SCRIPT, *args)
+    session.install_and_run_script(MERGE_DEMO_FEATURE_SCRIPT, *args)
 
 
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="setup-release")

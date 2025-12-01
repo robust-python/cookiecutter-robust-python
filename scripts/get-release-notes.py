@@ -1,6 +1,8 @@
 # /// script
 # requires-python = ">=3.10"
 # dependencies = [
+#   "cookiecutter",
+#   "cruft",
 #   "python-dotenv",
 #   "typer",
 # ]

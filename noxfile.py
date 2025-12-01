@@ -195,9 +195,6 @@ def test(session: Session) -> None:
 )
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="update-demo")
 def update_demo(session: Session, demo: RepoMetadata) -> None:
-    session.log("Installing script dependencies for updating generated project demos...")
-    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "python-dotenv", "typer")
-
     session.log("Updating generated project demos...")
     args: list[str] = [*UPDATE_DEMO_OPTIONS]
     if "maturin" in demo.app_name:

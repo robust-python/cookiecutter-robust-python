@@ -1,0 +1,414 @@
+## v2025.12.0 (2025-12-01)
+
+### Feat
+
+- add uv sync call to setup-release script to ensure lockfile gets updated
+- remove unneeded prior install now that PEP 723 is being used
+- add default option to use current branch and add placeholder default for cache folder for the time until it gets moved to config passthrough later
+- add small check to gracefully exit when trying to create an existing PR
+- add check for when the template is already in sync with the demo
+- add initial implementation of setup-release nox session and corresponding script prior to review
+- add initial implementation of the calendar version release cicd
+- move initial template checkout back into the primary workflows to ensure that the reusable workflow exists and is checked out prior to attempting to reference it
+- break out demo updates into its own reusable local github action workflow and add in additional syncing for demos with feature branch PR's and general push workflow on develop
+- add basedpyright specific configuration based on https://github.com/robust-python/cookiecutter-robust-python/issues/60#issuecomment-3565750469
+- temporarily remove the body generation of the feature to develop PR
+- add on automated demo PR creation from feature branches into develop
+- alter sync demo process to use ephemeral github commits for generation so that everything is more accurate
+- remove unused merge commit check
+- add initial attempt at a template level github action to sync demos on PR updates that target develop
+- update demo handling to create new feature branches when targeting template feature branches
+- improve logic for creating demo releases in github
+- add a ton of half finished logic for release handling that will be refactored soon
+- update logic in release rollback to not get hung up on faulty cleanup
+- add logic for rolling back release creation
+- add a check to the setup-release script in generated project along with light refactors
+- add PEP 723 syntax installs
+- swap to making a new feature branch in demo rather than working from develop always
+- rebase branching pattern on develop
+- add a prettier ignore file for cookiecutter and cruft generated files
+- add python_versions as a cookiecutter derived value and corresponding classifiers
+- add placeholder badge examples
+- add banner logo in place of old logo
+- add a logo to the readme
+- update most references to support 3.10 to 3.14
+- remove python-dotenv dependency and loading
+- add preparations for moving to org
+- add initial generation of some templates
+- add placeholders for a template and configuration
+- adjust setup-remote to fetch after creation of the remote instead of before
+- change the default project name to reflect the repo name
+- remove redundant nox tags
+- add proper rust caching to github workflows and ensure cargo audit is installed in rust security nox session
+- swap set up rust step in lint-rust workflow to use dtolnay/rust-toolchain
+- add initial attempt for build-rust workflow
+- add build-rust as a nox session
+- add repository provider as a part of the testing fixture options and add some basic tests to ensure files are removed properly in the post gen hook
+- add in initial rust folder contents with best guess
+- add the robust-maturin-demo to the update-demo nox session
+- swap to just having one validation function and no intermediary
+- add several utility functions and bits of logic to ensure branches are synced before scripts run
+- improve lint-from-demo.py in attempt to get it to work smoothly
+- condense lint/format commands in bitbucket pipelines and ensure full typecheck matrix gets run
+- adjust cicd in gitlab and bitbucket pipelines to ensure parity between platform providers in cicd
+- combine various styling nox sessions in cicd
+- add a proof of concept bitbucket-pipelines.yml
+- ensure the .github folder isn't created when not using github
+- add proof of concept gitlab cicd
+- adjust base_url in .cz.toml of the generated project to account for cookiecutter value changes
+- adapt setup-remote.py to account for the new cookiecutter values
+- swap urls that used old github_user cookiecutter value
+- swap github_user with more generic options to allow for bitbucket/gitlab compatibility moving forward
+- add a readthedocs config for the template
+- add a readthedocs config for the cookiecutter
+- set docs retention to automatic vs manually 5 days
+- replace manual pypi upload through nox session with github action so that oidc publishing can be used
+- add testpypi as an index
+- remove unused release nox session
+- add session args to setup_release nox session to allow for manual increment
+- delete explicit build-python.yml workflow and ensure that build-python is called in release-python.yml
+- add to the command for getting the release notes so that the header ends up being the new version
+- change release-python.yml to operate on push to main or master while also creating a tag and publishing files to the github release draft
+- add a portion to release-python.yml to attach package files to the github release draft
+- ensure the nox session properly passes through the changelog path
+- replace body usage with body_path and make use of github.workspace
+- revert back to writing out a body.md file
+- ensure v2 is used of action-gh-release
+- rename bump-version.yml to prepare-release.yml and rework logic entirely
+- remove final job from bump-version.yml to avoid caching the temporary release notes in favor of just drafting the release immediately
+- add a get-release-notes.py script and nox session along with adding to the workflows so that a draft release is generated in bump-version.yml
+- add in scripts for setting up a release and some partially finished CI/CD components related to it
+- add a script and noxfile session for updating demos
+- adjust test matrix to not test all python versions on windows and mac
+- replace nox venv creation for type checking with uvx
+- replace demo_name passthrough with add_rust_extension and generated demo name
+- try replacing pyproject.toml with .python-version path from repo root
+- add a basic prepare-release.py script and nox session
+- remove github workflow check from generated .pre-commit-config.yaml
+- remove unneeded venvs from noxfile.py
+- remove non-relevant extension recommendation
+- add vscode starting extensions and settings
+- replace GLOBAL_NOX_SESSIONS with a similar set IDEMPOTENT_NOX_SESSIONS that doesn't have context dependent sessions
+- add a pre-commit hook for checking github workflows to the template repo itself
+- add a pre-commit hook for checking github workflow files
+- add a basic .pre-commit-config.yaml to the template repo itself
+- swap to cruft and add basic github actions syntax unit tests
+- remove part of the .editorconfig that applies to all files
+- add names to any precommit hooks missing them
+- replace most of the remote precommit hooks with the same local format that cookiecutter-hypermodern-python used
+- add --diff to the ruff-check precommit hook
+- add sphinxcontrib-typer as a dev dependency and add it into the docs config
+- add license to docs to help fix error
+- copy docs for generated project from hypermodern python cookiecutter and clean up template docs config
+- convert most low importance nox sessions to use uvx in place of a nox venv
+- replace some dev dependency installations with specific smaller dependencies
+- add a line to ensure that retrocookie pyproject.toml changes don't get added in
+- remove inaccurate nox session portion from the template noxfile.py
+- optimize the template's nox sessions to install less unnecessary dependencies
+- add a terminal coverage report to the test-python nox session
+- add call in in-demo nox session to clear outstanding changes to the demo project prior to running linting/formatting
+- try using nox tags for lint and format instead of precommit
+- add to the lint-generated-project nox session to try and get it working
+- split apart setup-git.py into setup-git.py and setup-remote.py
+- add more specific nox sessions to keep tags accurate and consolidate groups in pyproject.toml
+- add prettier to the .pre-commit-config.yaml
+- improve git setup logic
+- test out using tags for nox sessions
+- change generate-demo-project.py to regenerate demos on top of existing ones unless --no-cache is provided
+- add a bunch of safety logic to generate-demo-project.py to avoid something bad happening with shutil rmtree on accident
+- add new scripts in scripts folder and move some of the initial setup logic into them
+- expand and refactor integration tests for the template
+- ensure rust session aren't created if not using maturin and add additional compatibility sessions for lint, publish, etc
+- copy .editorconfig from the inner portion to the template
+- update commitizen version in .pre-commit-config.yaml
+- add commitizen pre-commit hook and edit settings
+- remove execution environments from pyrightconfig.json to allow for proper import resolution
+- add a DEBUG flag to pyrightconfig.json
+- remove .cruft.json from .gitignore
+- add hypermodern cookiecutter logic for installing pre-commit-hooks
+- remove .cruft.json from the .gitignore
+- add pre-commit migration change
+- remove non-existent installation group
+- removes final uv sync calls
+- convert leftover uv sync calls in noxfile.py to install normally
+- convert all manual uv executions in nox to just implicitly use it through the venv
+- yet another attempt at fixing jinja madness
+- attempt to fix jinja escaping
+- add target and .idea to .gitignore
+- more changes hoping to get release-python.yml working
+- attempt at fixing syntax error for release-python.yml
+- update version of ruff used in pre-commit hooks
+- runs ruff format and check on the template level and adds a few small logic tweaks
+- adjust syntax of token in bump-version.yml
+- add alternate branch of master for all on push jobs
+- change dependabot.yml branch target to develop
+- add all generated egg-info folders to template gitignore
+- add .ruff.toml for the template itself
+- add some pytests for the template itself to see if this is a helpful pattern or not
+- add typer as a default dependency
+- add the start of the templates testing architecture
+- add some new utility sessions to the template's noxfile
+- add formatting to lint-python.yml
+- remove unneeded docs-build-rust.yml
+- remove unneeded docs-build-python.yml
+- remove uv.lock from project generator since it contains package specific meta info
+- adjust session names in noxfile
+- remove build_rust for the meantime while figuring out how to do it separate of maturin's build
+- adjust names of sessions in noxfile and various aspects of its functioning
+- add fixes using retrocookie
+- add retrocookie as a dependency
+- add basic glossary
+- add missing topics to docs
+- add in post_gen_project.py from hypermodern cookiecutter hooks
+- add syncing generated project to existing uv.lock
+- update sync-uv-with-demo.py to use typer and uv
+- add .gitignore for the template itself
+- add several expected dependencies for the template itself
+- copy dependency groups from inner project's pyproject.toml
+- add basic non-package pyproject.toml for the template itself
+- add poc publish_rust nox session
+- bulk initial commit
+
+### Fix
+
+- replace --no-tag with --files-only since that actually exists
+- add missing cruft dependency to PEP 723 block of the setup-release script
+- specify --merge in merge-demo-feature script attempt at merging due to requirement when used in automation
+- remove faulty quotes in jq expression for merge-demo-feature script
+- add missing demo env info pass through into nox session install of script
+- change type of demos_cache_folder to prevent validation error for case not used commonly
+- swap to nox session install and run script for merge-demo-feature session along with fixing arg passthrough
+- set references to python version file as absolute positions due to multiple checkout oddities arising
+- move reusable workflow usage to the job level and piece together portions to get things moving possibly
+- tweak gitlab ci to not error from too many uv cache keyfiles being defined
+- change paths pointing toward update-demo reusable workflow
+- remove github.workspace from uses path
+- update names throughout nox session and file along with fix update-demo not creating branches and some env var issues
+- replace uv run call in update-demo nox session with install_and_run_script
+- remove faulty import
+- adjust formatting to avoid initial lint error
+- update the location of where the update-demo.yml reusable workflow is searched for to be in the subdirectory that is actually being checked out into
+- add absolute prefix to custom checkout locations in hopes of fixing issue with reusable action not being found in CICD
+- remove manual specification of venv and venvpath in hopes it works for cicd
+- add adaptable python executable path to basedpyright usage in nox session
+- remove faulty configuration options
+- replace pyright call with basedpyright
+- add old env var for project cache to sync-demos.yml for the time being
+- replace matrix values in sync-demo to account for previous simplification in internal nox session
+- add working-directory kwarg to sync-demo so that the nox command is run inside the repo
+- alter kwarg chaining in hopes of fixing error
+- update key used to find commit info in cruft json
+- remove old code from update-demo that is no longer compatible
+- remove invalid pass through attempts of text=true throughout scripts
+- add interop layer between older noxfile methods and newer env var logic for the time being
+- remove unintended broken snippet
+- replace broken import in scripts
+- remove faulty syntax
+- ensure that pushing a new branch for the first time works
+- add a few workarounds trying to get POC branching going before refactoring
+- remove accidentally added import
+- swap is_ancestor to use its own error handling due to git merge-base --is-ancestor only showing through status
+- ensure that pushing a new branch for the first time works
+- add a few workarounds trying to get POC branching going before refactoring
+- remove accidentally added import
+- swap is_ancestor to use its own error handling due to git merge-base --is-ancestor only showing through status
+- add env var to noxfile so that latest abi is used by default if not known
+- replace list comprehension with loop in pre template generation hook
+- moves jinja logic into docstring because apparently that matters somehow
+- replace old loop with jinja plus assignment separate
+- temporarily remove for loops to find issue
+- replace sync with lock to avoid hanging issue
+- add a step to the update-demo script to ensure python is pinned correctly, installed, and synced when changed
+- add some temp defaults to enable updating demos across python versions used
+- replace references meant to be latest python with 3.14 if missed in first go around
+- adjust reference to nox session
+- adjust cicd workflow tests to properly parse for relevant portions
+- add to the pytest config so that it doesn't try to test the generated tests portion
+- adjust broken import links caused by test sources root not being treated like a viable import path
+- add missing platformdirs dependency to cookiecutter templates PEP 723 syntax
+- add missing nox dependency in PEP 723 syntax
+- add python-dotenv dependency to the noxfile through PEP 723 syntax
+- remove no longer used load_dotenv
+- add some missing nox session installs for python-dotenv and refactor names to reduce entropy
+- replace myst-parser with myst-parser[linkify] in the cookiecutter docs requirements.txt
+- swap around git initialization and venv creation so that the lock file gets committed in the initial commit
+- swap around setup-git so that the develop branch gets made properly
+- add uvx prior to maturin call in nox session build-python so that it installs if needed
+- add missing pyo3 feature `extension-module` and remove Cargo.lock from template due to incongruencies between generated from template vs cargo
+- update rust-cache usage to the post 2.0.0 parameter key "workspaces" instead of "workdir"
+- replace license-files.paths with just license-files and set minimum maturin version to 1.9.0
+- adjust nox sessions for rust formatting and linting to actually install dependencies
+- replace typo in Cargo.toml that was breaking the syntax
+- attempt to fix license-files syntax
+- adjust license-files in pyproject.toml to satisfy pep 639 and maturin
+- escape values in test-rust.yml where needed
+- replace all faulty checks against "y" for add_rust_extension with checking for true
+- remove -h option from setup-remote.py to ensure no conflicting cli inputs
+- adjust precommit to match nox file version
+- add step to ensure develop is checked out before updating the demo
+- adjust invalid path imports
+- attempt to adjust retrocookie usage in lint-from-demo.py
+- add step to checkout develop prior to deleting old lint-from-demo branch
+- adjust ignored file paths to be post template insertion values
+- adjust path to bitbucket-pipelines.yml in post_gen_project.py
+- attempt to have the paths actually remove
+- attempting to get post gen to properly run
+- adjust post_gen_project.py main block to call the correct function
+- adjust conditionals in post_gen_project.py to include quotes where missing
+- adjust post_gen_hook to properly target repository_provider not platform_provider
+- fix files checked in cicd
+- ensure lock file updates when running setup-release.py in generated project
+- add missing main block
+- adjust session decorator kwargs throughout template noxfile
+- remove non existent --draft kwarg from gh release upload command in release-python.yml
+- add v prefix to the tag_name provided to the release draft creation in prepare-release.yml
+- add --clobber and --draft to the github release file attachment to the drafted release
+- replace v addition to tag creation with v addition in get_tag job
+- add v prefix to git tag command
+- adjust names of github actions steps and ensure we provide a glob path to the github release file attachment
+- add missing permissions for release-python.yml create tag step
+- add missing oidc testpypi and pypi upload permissions
+- replace twine env variables with uv versions
+- replace --repository with --index in testpypi publish step
+- adjust nox session command in testpypi publish step
+- ensure code is checked out and the built package is properly named in release-python.yml
+- add a fetch-depth of 0 and fetch-tags as true to prepare-release.yml so that commitizen works properly
+- add base64 encode and decode step to the changelog output to ensure multiline isn't an issue
+- replace body_path with body in the create release draft step of prepare-release.yml
+- replace nox usage for get-release-notes with the python script to have a clean stdout output with no logs
+- add missing syntax escaping for cookiecutter
+- add a step to get the version from branch name and then use that for the release draft
+- remove tag_name in bump-version.yml due to env var being used not existing
+- add write permissions to allow for the gh release to work
+- add missing nox command portion in bump-version.yml
+- add missing --no-verify to automated commit
+- ensure a rev_range isn't passed to cz changelog if there hasn't been a release yet
+- replace --with with --from
+- add missing section to get_package_version command
+- add missing capture_output flag to get_latest_release_notes
+- adjust any uvx cz commands
+- adjust git command in release branch command
+- replace --with with --from
+- add --with commitizen to uvx cz call
+- remove cz from dependencies check due to command difference
+- remove type alias to avoid needing typing_extensions
+- replace python=None with False in nox file along adding the option to setup a certain release increment
+- adjust setup-release.py argparse usage
+- adjust import to backport in util.py
+- add main to branches list for bump-version.yml
+- adjust workflow path reference in build-python.yml so that it actually gets called when the workflow file is updated
+- fix path syntax in build-python.yml
+- adjust nox session name in typecheck-python.yml to match old format
+- revert typecheck nox session back to creating a venv due to apparently needing dependencies
+- add quotes around nox session call
+- replace args passed to update-demo.py script with altered args
+- remove non-existent kwarg from cruft update call and fix type of template_path
+- adjust kwargs passed to cruft update
+- add missing dependencies for the update-demo nox session
+- add missing python arg to update-demo nox session
+- adjust typecheck-python.yml to match changes to nox session
+- adjust name of used nox session in typecheck-python.yml to match the nox session in its usage
+- remove unused github actions workflow and fix nox session names in other workflows
+- adjust path to python-version-file for most github actions workflows
+- adjust nox session name in build-python.yml
+- replace .python-version with "pyproject.toml" for all workflows that just need a compatible python version and just want latest
+- ensure the test-python.yml github workflow only runs the needed python version
+- add missing double quotes to .cz.toml
+- adjust commitizen version handling
+- add version to .cz.toml
+- adjust integration tests to account for previous fixture changes
+- remove indirect parametrization from a few sub fixtures of robust_demo and ensure its name changes as needed based on permutations
+- fix syntax in release-python.yml and remove junk comments
+- adjust utility test function to properly output relative paths not absolute
+- fix escaping in build-python.yml
+- adjust quotes and escaping in bump-version.yml
+- fix the section tag for yml files in the .editorconfig
+- remove manual hook stage from nox precommit session
+- remove no longer used darglint hook
+- remove redundant ruff calls
+- update stages in precommit hooks to account for name deprecations
+- replace ruff with ruff-check in .pre-commit-config.yaml
+- add missing titles to copied over docs
+- attempt to improve and get docs configs working
+- adjust --outdir to --out-dir in the build_python nox session
+- remove session install calls from nox sessions that don't need a venv
+- fix usage of check_returncode in test_demo_project_nox_session
+- adjust output_dir to be correct
+- adjust invalid fixture references
+- adjust typers in parametrize calls
+- adjust forgotten names in fixtures
+- adjust name of python test nox session in GLOBAL_NOX_SESSIONS
+- add missing list definition syntax in pyproject.toml
+- move tool.maturin section in pyproject.toml to the correct block
+- adjust type faulty import
+- copy over signature from generate-demo-project.py to match-generated-precommit.py
+- adjust Generator type annotation
+- adjust invalid import
+- add -a to the git commit in the lint-generated-project nox session
+- add several portions to get the lint-generated-project nox session to work
+- remove non existent tag from nox session
+- adjust some jinja escaping to properly work in github action workflows
+- adjust test sessions to account for noxfile changes
+- adjust syntax in setup-git.py
+- adjust generate-demo-project.py to only remove a demo of the same name to avoid some really bad situations with shutil rmtree
+- add a Path wrapper around PROJECT_DEMOS_FOLDER in noxfile.py
+- use os.getenv to get environment variable in the template noxfile.py
+- swap maturin and uv build locations in the build-python nox session
+- remove happenstance retrocookie insertion into nox version specification
+- remove faulty kwarg from nox session security-python
+- adjust bandit.yml path in nox session security-python
+- remove invalid kwarg from nox session security-python
+- ensure package metadata is passed correctly and fix syntax errors in release-python.yml
+- correct arg error in precommit hook and adjust max size of files to 2000 kb
+- adjust path to .ruff.toml in .pre-commit-config.yaml
+- remove uv run from template lint ruff calls
+- replace manual uv sync with session install
+- add missing group kwargs
+- remove faulty command kwargs from noxfile.py
+- adjust syntax in .cz.toml
+- move tool.maturin into the block with its contents
+- alter syntax in various places so that docs build successfully for the first time
+- adjust tons of doc links to actually work
+- remove invalid and some unused myst extensions
+- update dependencies and move them into proper groups
+- alter several invalid uv sync commands
+- remove non-existent kwarg from uv sync commands in noxfile.py
+- adjust cookiecutter variable names throughout so that the template can generate correctly
+- convert generate-demo-project.py to typer
+- change generate-demo-project.py to use typer and adjust noxfile accordingly
+- adjust max_python_version to the latest stable
+- update pyproject.toml to reference actual cookiecutter variables
+- remove pointless default nox session that didn't exist
+
+### Refactor
+
+- move tag-version into its own script for the time being
+- move get_current_version into bump-version script to avoid unneeded tomli install in other scripts
+- rename script function to reflect usage only occurring in demo
+- move constants to module level in places
+- break apart util function for validating branch history and state
+- make git related commands more accurate
+- replace any remaining comments or references to personal github with org
+- replace references to personal info with org info
+- replace references to `56kyleoliver@gmail.com` with `cookiecutter.robust.python@gmail.com`
+- replace all instances of `56kyle/cookiecutter-robust-python` with `robust-python/cookiecutter-robust-python`
+- adjust import order in setup-release.py to get the robust-python-demo's lint cicd to pass
+- adjust formatting to appease ruff in generated results
+- small tweaks to gitlab cicd for rust jobs
+- move some script checks and clean up into the uv-cache anchor
+- rename the rust github workflows to their expected values and have them removed if needed in the post gen project hook
+- give in to prettier for the moment just to see if this can start working
+- run lint-from-demo.py and manually merge certain portions
+- ensure .readthedocs.yml is only used with bitbucket
+- rename docs-build.yml to build-docs.yml to better follow the existing verb-type naming pattern that the other github actions follow
+- replace cli pass through of repo path with a constant in the scripts util folder for the template repo
+- rearrange parametrization order in test_github_workflows.py to better display test values
+- move the release nox session before the publish-python and publish-rust nox sessions in hopes that the release tag session will be ordered correctly
+- replace various single quoted values in github workflows with double quotes
+- shorten generate-demo-project.py to just generate-demo.py along with any related variables / etc
+- move junit test results to tests/results
+- rename match-generated-precommit.py to lint-from-demo.py and any other similarly named variables
+- adjust the format of MissingDependencyError message creation
+- break apart integration test fixtures into more parametrized and modular portions
+- move activate_virtualenv_in_precommit_hooks to the end of the noxfile for clarity's sake
+- clean up the docs conf.py file

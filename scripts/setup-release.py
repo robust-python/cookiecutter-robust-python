@@ -24,6 +24,7 @@ from util import calculate_calver
 from util import git
 from util import REPO_FOLDER
 from util import TEMPLATE
+from util import uv
 
 
 try:
@@ -54,6 +55,8 @@ def main(
 
         typer.secho(f"Setting up release: {current_version} -> {new_version}", fg="blue")
 
+        ["uv", "sync", "--all-groups"],
+        uv
         setup_release(current_version=current_version, new_version=new_version, micro=micro)
 
         typer.secho(f"Release branch created: release/{new_version}", fg="green")
@@ -102,6 +105,7 @@ def _setup_release(current_version: str, new_version: str, micro: Optional[int] 
 
     # Sync dependencies
     typer.secho("Syncing dependencies...", fg="blue")
+    uv("sync", "--all-groups")
     git("add", ".")
 
     # Create bump commit

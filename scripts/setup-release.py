@@ -2,6 +2,7 @@
 # requires-python = ">=3.10"
 # dependencies = [
 #   "cookiecutter",
+#   "cruft",
 #   "python-dotenv",
 #   "typer",
 #   "tomli>=2.0.0;python_version<'3.11'",

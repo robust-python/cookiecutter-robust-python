@@ -11,6 +11,17 @@ env:
   ROBUST_MATURIN_DEMO__APP_AUTHOR: ${{ github.repository_owner }}
 
 jobs:
+  update-demo:
+    name: Update Demo
+    uses: ./.github/workflows/update-demo.yml
+    strategy:
+      matrix:
+        demo_name:
+          - "robust-python-demo"
+          - "robust-maturin-demo"
+    with:
+      demo_name: ${{ matrix.demo_name }}
+
   merge-demo-feature:
     name: Merge Demo Feature
     runs-on: ubuntu-latest
@@ -24,12 +35,21 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ github.repository }}
-          path: "${{ github.workspace }}/cookiecutter-robust-python"
 
-      - name: Sync Demo
-        uses: "${{ github.workspace }}/cookiecutter-robust-python/.github/workflows/update-demo.yml"
+      - name: Checkout Demo
+        uses: actions/checkout@v4
         with:
-          demo_name: ${{ matrix.demo_name }}
+          repository: "${{ github.repository_owner }}/${{ inputs.demo_name }}"
+          path: ${{ inputs.demo_name }}
+          ref: develop
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "${{ github.workspace }}/cookiecutter-robust-python/.github/workflows/.python-version"
 
       - name: Merge Demo Feature PR into Develop
         working-directory: "${{ github.workspace }}/${{ matrix.demo_name }}"

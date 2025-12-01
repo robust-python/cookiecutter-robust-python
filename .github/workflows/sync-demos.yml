@@ -7,20 +7,11 @@ on:
 jobs:
   update-demo:
     name: Update Demo
-    runs-on: ubuntu-latest
-
+    uses: ./.github/workflows/update-demo.yml
     strategy:
       matrix:
         demo_name:
           - "robust-python-demo"
           - "robust-maturin-demo"
-    steps:
-      - name: Checkout Template
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ github.repository }}
-
-      - name: Update Demo
-        uses: "./.github/workflows/update-demo.yml"
-        with:
-          demo_name: ${{ matrix.demo_name }}
+    with:
+      demo_name: ${{ matrix.demo_name }}

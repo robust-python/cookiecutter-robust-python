@@ -16,6 +16,12 @@ jobs:
   update-demo:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Template
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          path: "${{ github.workspace }}/cookiecutter-robust-python"
+
       - name: Checkout Demo
         uses: actions/checkout@v4
         with:

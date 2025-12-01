@@ -55,8 +55,6 @@ def main(
 
         typer.secho(f"Setting up release: {current_version} -> {new_version}", fg="blue")
 
-        ["uv", "sync", "--all-groups"],
-        uv
         setup_release(current_version=current_version, new_version=new_version, micro=micro)
 
         typer.secho(f"Release branch created: release/{new_version}", fg="green")

@@ -226,7 +226,9 @@ def merge_demo_feature(session: Session, demo: RepoMetadata) -> None:
         args = [*session.posargs, *args]
     if "maturin" in demo.app_name:
         args.append("--add-rust-extension")
-    session.install_and_run_script(MERGE_DEMO_FEATURE_SCRIPT, *args)
+
+    demo_env: dict[str, Any] = {f"ROBUST_DEMO__{key.upper()}": value for key, value in asdict(demo).items()}
+    session.install_and_run_script(MERGE_DEMO_FEATURE_SCRIPT, *args, env=demo_env)
 
 
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="setup-release")

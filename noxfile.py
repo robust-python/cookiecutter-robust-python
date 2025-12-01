@@ -295,7 +295,7 @@ def tag_version(session: Session) -> None:
     session.run("python", TAG_VERSION_SCRIPT, *args, external=True)
 
 
-@nox.session(python=False, name="get-release-notes")
+@nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="get-release-notes")
 def get_release_notes(session: Session) -> None:
     """Extract release notes for the current version.
 

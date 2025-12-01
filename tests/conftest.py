@@ -1,5 +1,5 @@
 """Fixtures used in all tests for cookiecutter-robust-python."""
-
+import os
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -21,7 +21,9 @@ pytest_plugins: list[str] = ["pytester"]
 @pytest.fixture(scope="session")
 def demos_folder(tmp_path_factory: TempPathFactory) -> Path:
     """Temp Folder used for storing demos while testing."""
-    return tmp_path_factory.mktemp("demos")
+    path: Path = tmp_path_factory.mktemp("demos")
+    os.environ["COOKIECUTTER_ROBUST_PYTHON__DEMOS_CACHE_FOLDER"] = str(path)
+    return path
 
 
 @pytest.fixture(scope="session")

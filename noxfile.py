@@ -14,7 +14,6 @@ from typing import Any
 import nox
 import platformdirs
 from dotenv import load_dotenv
-from nox.command import CommandFailed
 from nox.sessions import Session
 
 
@@ -26,7 +25,6 @@ REPO_ROOT: Path = Path(__file__).parent.resolve()
 SCRIPTS_FOLDER: Path = REPO_ROOT / "scripts"
 TEMPLATE_FOLDER: Path = REPO_ROOT / "{{cookiecutter.project_name}}"
 
-
 # Load environment variables from .env and .env.local (if present)
 LOCAL_ENV_FILE: Path = REPO_ROOT / ".env.local"
 DEFAULT_ENV_FILE: Path = REPO_ROOT / ".env"
@@ -37,8 +35,8 @@ if LOCAL_ENV_FILE.exists():
 if DEFAULT_ENV_FILE.exists():
     load_dotenv(DEFAULT_ENV_FILE)
 
-APP_AUTHOR: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON_APP_AUTHOR", "robust-python")
-COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER: Path = Path(
+APP_AUTHOR: str = os.getenv("COOKIECUTTER_ROBUST_PYTHON__APP_AUTHOR", "robust-python")
+COOKIECUTTER_ROBUST_PYTHON__CACHE_FOLDER: Path = Path(
     platformdirs.user_cache_path(
         appname="cookiecutter-robust-python",
         appauthor=APP_AUTHOR,
@@ -46,16 +44,17 @@ COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER: Path = Path(
     )
 ).resolve()
 
-DEFAULT_PROJECT_DEMOS_FOLDER = COOKIECUTTER_ROBUST_PYTHON_CACHE_FOLDER / "project_demos"
-PROJECT_DEMOS_FOLDER: Path = Path(os.getenv(
-    "COOKIECUTTER_ROBUST_PYTHON_PROJECT_DEMOS_FOLDER", default=DEFAULT_PROJECT_DEMOS_FOLDER
-)).resolve()
+DEFAULT_DEMOS_CACHE_FOLDER = COOKIECUTTER_ROBUST_PYTHON__CACHE_FOLDER / "project_demos"
+DEMOS_CACHE_FOLDER: Path = Path(
+    os.getenv(
+        "COOKIECUTTER_ROBUST_PYTHON__DEMOS_CACHE_FOLDER", default=DEFAULT_DEMOS_CACHE_FOLDER
+    )
+).resolve()
 DEFAULT_DEMO_NAME: str = "robust-python-demo"
-DEMO_ROOT_FOLDER: Path = PROJECT_DEMOS_FOLDER / DEFAULT_DEMO_NAME
 
 GENERATE_DEMO_SCRIPT: Path = SCRIPTS_FOLDER / "generate-demo.py"
 GENERATE_DEMO_OPTIONS: tuple[str, ...] = (
-    *("--demos-cache-folder", PROJECT_DEMOS_FOLDER),
+    *("--demos-cache-folder", DEMOS_CACHE_FOLDER),
 )
 
 LINT_FROM_DEMO_SCRIPT: Path = SCRIPTS_FOLDER / "lint-from-demo.py"
@@ -67,6 +66,14 @@ UPDATE_DEMO_OPTIONS: tuple[str, ...] = (
     *("--min-python-version", "3.10"),
     *("--max-python-version", "3.14")
 )
+
+MERGE_DEMO_FEATURE_SCRIPT: Path = SCRIPTS_FOLDER / "merge-demo-feature.py"
+MERGE_DEMO_FEATURE_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
+
+BUMP_VERSION_SCRIPT: Path = SCRIPTS_FOLDER / "bump-version.py"
+GET_RELEASE_NOTES_SCRIPT: Path = SCRIPTS_FOLDER / "get-release-notes.py"
+SETUP_RELEASE_SCRIPT: Path = SCRIPTS_FOLDER / "setup-release.py"
+TAG_VERSION_SCRIPT: Path = SCRIPTS_FOLDER / "tag-version.py"
 
 
 @dataclass
@@ -118,7 +125,7 @@ def clear_cache(session: Session) -> None:
     Not commonly used, but sometimes permissions might get messed up if exiting mid-build and such.
     """
     session.log("Clearing cache of generated project demos...")
-    shutil.rmtree(PROJECT_DEMOS_FOLDER, ignore_errors=True)
+    shutil.rmtree(DEMOS_CACHE_FOLDER, ignore_errors=True)
     session.log("Cache cleared.")
 
 
@@ -188,9 +195,6 @@ def test(session: Session) -> None:
 )
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="update-demo")
 def update_demo(session: Session, demo: RepoMetadata) -> None:
-    session.log("Installing script dependencies for updating generated project demos...")
-    session.install("cookiecutter", "cruft", "platformdirs", "loguru", "python-dotenv", "typer")
-
     session.log("Updating generated project demos...")
     args: list[str] = [*UPDATE_DEMO_OPTIONS]
     if "maturin" in demo.app_name:
@@ -200,44 +204,106 @@ def update_demo(session: Session, demo: RepoMetadata) -> None:
         args.extend(session.posargs)
 
     demo_env: dict[str, Any] = {f"ROBUST_DEMO__{key.upper()}": value for key, value in asdict(demo).items()}
-    session.run("python", UPDATE_DEMO_SCRIPT, *args, env=demo_env)
+    session.install_and_run_script(UPDATE_DEMO_SCRIPT, *args, env=demo_env)
 
 
-@nox.session(python=False, name="release-template")
-def release_template(session: Session):
-    """Run the release process for the TEMPLATE using Commitizen.
+@nox.parametrize(
+    arg_names="demo",
+    arg_values_list=[PYTHON_DEMO, MATURIN_DEMO],
+    ids=["robust-python-demo", "robust-maturin-demo"]
+)
+@nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="merge-demo-feature")
+def merge_demo_feature(session: Session, demo: RepoMetadata) -> None:
+    """Automates merging the current feature branch to develop in all templates.
 
-    Requires uvx in PATH (from uv install). Requires Git.
-    Assumes Conventional Commits practice is followed for TEMPLATE repository.
-    Optionally accepts increment level (major, minor, patch) after '--'.
+    Assumes that all PR's already exist.
     """
-    session.log("Running release process for the TEMPLATE using Commitizen...")
-    try:
-        session.run("git", "version", success_codes=[0], external=True, silent=True)
-    except CommandFailed:
-        session.log("Git command not found. Commitizen requires Git.")
-        session.skip("Git not available.")
+    args: list[str] = [*MERGE_DEMO_FEATURE_OPTIONS]
+    if session.posargs:
+        args = [*session.posargs, *args]
+    if "maturin" in demo.app_name:
+        args.append("--add-rust-extension")
 
-    session.log("Checking Commitizen availability via uvx.")
-    session.run("cz", "--version", successcodes=[0])
+    demo_env: dict[str, Any] = {f"ROBUST_DEMO__{key.upper()}": value for key, value in asdict(demo).items()}
+    session.install_and_run_script(MERGE_DEMO_FEATURE_SCRIPT, *args, env=demo_env)
 
-    increment = session.posargs[0] if session.posargs else None
-    session.log(
-        "Bumping template version and tagging release (increment: %s).",
-        increment if increment else "default",
-    )
 
-    cz_bump_args = ["uvx", "cz", "bump", "--changelog"]
+@nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="setup-release")
+def setup_release(session: Session) -> None:
+    """Prepare a release by creating a release branch and bumping the version.
 
-    if increment:
-        cz_bump_args.append(f"--increment={increment}")
+    Creates a release branch from develop, bumps the version using CalVer,
+    and creates the initial bump commit. Does not push any changes.
 
-    session.log("Running cz bump with args: %s", cz_bump_args)
-    # success_codes=[0, 1] -> Allows code 1 which means 'nothing to bump' if no conventional commits since last release
-    session.run(*cz_bump_args, success_codes=[0, 1], external=True)
+    Usage:
+      nox -s setup-release          # Auto-increment micro for current month
+      nox -s setup-release -- 5     # Force micro version to 5
+    """
+    session.install_and_run_script(SETUP_RELEASE_SCRIPT, *session.posargs)
 
-    session.log("Template version bumped and tag created locally via Commitizen/uvx.")
-    session.log("IMPORTANT: Push commits and tags to remote (`git push --follow-tags`) to trigger CD for the TEMPLATE.")
+
+@nox.session(python=False, name="bump-version")
+def bump_version(session: Session) -> None:
+    """Bump version using CalVer (YYYY.MM.MICRO).
+
+    Usage:
+      nox -s bump-version          # Auto-increment micro for current month
+      nox -s bump-version -- 5     # Force micro version to 5
+    """
+    session.run("python", BUMP_VERSION_SCRIPT, *session.posargs, external=True)
+
+
+@nox.session(python=False, name="build-python")
+def build_python(session: Session) -> None:
+    """Build sdist and wheel packages for the template."""
+    session.log("Building sdist and wheel packages...")
+    dist_dir = REPO_ROOT / "dist"
+    if dist_dir.exists():
+        shutil.rmtree(dist_dir)
+    session.run("uv", "build", external=True)
+    session.log(f"Packages built in {dist_dir}")
+
+
+@nox.session(python=False, name="publish-python")
+def publish_python(session: Session) -> None:
+    """Publish packages to PyPI.
+
+    Usage:
+      nox -s publish-python                    # Publish to PyPI
+      nox -s publish-python -- --test-pypi     # Publish to TestPyPI
+    """
+    session.log("Checking built packages with Twine.")
+    session.run("uvx", "twine", "check", "dist/*", external=True)
+
+    if "--test-pypi" in session.posargs:
+        session.log("Publishing packages to TestPyPI.")
+        session.run("uv", "publish", "--publish-url", "https://test.pypi.org/legacy/", external=True)
+    else:
+        session.log("Publishing packages to PyPI.")
+        session.run("uv", "publish", external=True)
+
+
+@nox.session(python=False, name="tag-version")
+def tag_version(session: Session) -> None:
+    """Create and push a git tag for the current version.
+
+    Usage:
+      nox -s tag-version           # Create tag locally
+      nox -s tag-version -- push   # Create and push tag
+    """
+    args: list[str] = ["--push"] if "push" in session.posargs else []
+    session.run("python", TAG_VERSION_SCRIPT, *args, external=True)
+
+
+@nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="get-release-notes")
+def get_release_notes(session: Session) -> None:
+    """Extract release notes for the current version.
+
+    Usage:
+      nox -s get-release-notes                      # Write to release_notes.md
+      nox -s get-release-notes -- /path/to/file.md  # Write to custom path
+    """
+    session.install_and_run_script(GET_RELEASE_NOTES_SCRIPT, *session.posargs)
 
 
 @nox.session(python=False, name="remove-demo-release")
@@ -245,4 +311,3 @@ def remove_demo_release(session: Session) -> None:
     """Deletes the latest demo release."""
     session.run("git", "branch", "-d", f"release/{session.posargs[0]}", external=True)
     session.run("git", "push", "--progress", "--porcelain", "origin", f"release/{session.posargs[0]}", external=True)
-

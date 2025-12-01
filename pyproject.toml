@@ -1,6 +1,6 @@
 [project]
 name = "cookiecutter-robust-python"
-version = "0.1.0"
+version = "2025.12.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10,<4.0"

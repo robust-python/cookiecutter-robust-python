@@ -67,3 +67,6 @@ nohup.out
 .env.local
 
 /.idea/
+CLAUDE*.md
+example.yml
+/.claude/*

@@ -1,0 +1,52 @@
+name: Prepare Release
+
+on:
+  push:
+    branches:
+      - "release/*"
+
+permissions:
+  contents: write
+
+jobs:
+  prepare-release:
+    name: Prepare Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: .github/workflows/.python-version
+
+      - name: Get Current Version
+        id: current_version
+        run: echo "CURRENT_VERSION=$(uvx --from commitizen cz version -p)" >> $GITHUB_OUTPUT
+
+      - name: Get New Release Version
+        id: new_version
+        run: echo "NEW_VERSION=${GITHUB_REF_NAME#release/}" >> $GITHUB_OUTPUT
+
+      - name: Bump Version
+        if: ${{ steps.current_version.outputs.CURRENT_VERSION != steps.new_version.outputs.NEW_VERSION }}
+        run: uvx nox -s bump-version ${{ steps.new_version.outputs.NEW_VERSION }}
+
+      - name: Get Release Notes
+        run: uvx nox -s get-release-notes -- ${{ github.workspace }}-CHANGELOG.md
+
+      - name: Create Release Draft
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: ${{ github.workspace }}-CHANGELOG.md
+          draft: true
+          tag_name: v${{ steps.new_version.outputs.NEW_VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

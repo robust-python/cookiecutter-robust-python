@@ -47,7 +47,7 @@ def merge_demo_feature(
         if pr_number == "":
             raise ValueError("Failed to find an existing PR from {} to {DEMO.develop_branch}")
 
-        gh("pr", "merge", pr_number, "--auto", "--delete-branch")
+        gh("pr", "merge", pr_number, "--auto", "--delete-branch", "--merge")
 
 
 if __name__ == "__main__":

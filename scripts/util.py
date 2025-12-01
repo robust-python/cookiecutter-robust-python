@@ -299,7 +299,7 @@ def bump_version(new_version: str) -> None:
     Args:
         new_version: The version to bump to
     """
-    cmd: list[str] = ["uvx", "--from", "commitizen", "cz", "bump", "--changelog", "--yes", "--no-tag", new_version]
+    cmd: list[str] = ["uvx", "--from", "commitizen", "cz", "bump", "--changelog", "--yes", "--files-only", new_version]
     # Exit code 1 means 'nothing to bump' - treat as success
     result: subprocess.CompletedProcess = subprocess.run(cmd, cwd=REPO_FOLDER)
     if result.returncode not in (0, 1):

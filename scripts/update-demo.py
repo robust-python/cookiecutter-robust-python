@@ -8,6 +8,7 @@
 # ]
 # ///
 import itertools
+import subprocess
 from pathlib import Path
 from subprocess import CompletedProcess
 from typing import Annotated
@@ -144,6 +145,10 @@ def _validate_template_main_not_checked_out(branch: str) -> None:
 def _create_demo_pr(demo_path: Path, branch: str, commit_start: str) -> None:
     """Creates a PR to merge the given branch into develop."""
     gh("repo", "set-default", f"{DEMO.app_author}/{DEMO.app_name}")
+    search_results: subprocess.CompletedProcess = gh("pr", "list", "--state", "open", "--search", branch)
+    if "no pull requests match your search" not in search_results.stdout:
+        typer.secho(f"Skipping PR creation due to existing PR found for branch {branch}")
+        return
 
     body: str = _get_demo_feature_pr_body(demo_path=demo_path, commit_start=commit_start)
 

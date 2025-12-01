@@ -49,7 +49,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version-file: ".github/workflows/.python-version"
+          python-version-file: "${{ github.workspace }}/cookiecutter-robust-python/.github/workflows/.python-version"
 
       - name: Merge Demo Feature PR into Develop
         working-directory: "${{ github.workspace }}/${{ matrix.demo_name }}"

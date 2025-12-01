@@ -303,7 +303,7 @@ def get_release_notes(session: Session) -> None:
       nox -s get-release-notes                      # Write to release_notes.md
       nox -s get-release-notes -- /path/to/file.md  # Write to custom path
     """
-    session.run("python", GET_RELEASE_NOTES_SCRIPT, *session.posargs, external=True)
+    session.install_and_run_script(GET_RELEASE_NOTES_SCRIPT, *session.posargs)
 
 
 @nox.session(python=False, name="remove-demo-release")

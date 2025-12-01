@@ -28,7 +28,7 @@ cli: typer.Typer = typer.Typer()
 @cli.callback(invoke_without_command=True)
 def merge_demo_feature(
     branch: Optional[str] = None,
-    demos_cache_folder: Annotated[Path, FolderOption("--demos-cache-folder", "-c")] = None,
+    demos_cache_folder: Annotated[Optional[Path], FolderOption("--demos-cache-folder", "-c")] = None,
     add_rust_extension: Annotated[bool, typer.Option("--add-rust-extension", "-r")] = False
 ) -> None:
     """Searches for the given demo feature branch's PR and merges it if ready."""

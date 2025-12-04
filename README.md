@@ -54,7 +54,7 @@ The **[Robust Python Cookiecutter]** aims to provide **best practice tooling/CIC
 ## About
 
 ### Key Features
-- Uses [cruft] to allow for easily transitioning:
+- Uses [cruft] to allow for easily transitioning between:
   - Using [maturin] vs not
   - repository/CICD provider ([github], [gitlab], [bitbucket])
   - Supported Python Versions

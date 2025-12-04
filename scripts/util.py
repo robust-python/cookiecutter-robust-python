@@ -131,6 +131,8 @@ def require_clean_and_up_to_date_demo_repo(demo_path: Path) -> None:
     try:
         with work_in(demo_path):
             git("fetch")
+            git("fetch", "origin", f"{DEMO.main_branch}:{DEMO.main_branch}")
+            git("fetch", "origin", f"{DEMO.develop_branch}:{DEMO.develop_branch}")
             git("status", "--porcelain")
             validate_is_synced_ancestor(ancestor=DEMO.main_branch, descendent=DEMO.develop_branch)
     except Exception as e:

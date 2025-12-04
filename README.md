@@ -34,8 +34,6 @@
 
 # cookiecutter-robust-python
 
----
-
 **[cookiecutter-robust-python]** is a template made with the understanding that **project needs change over time**.
 
 The **[Robust Python Cookiecutter]** aims to provide **best practice tooling/CICD** within a structure designed for **future adaptability**.

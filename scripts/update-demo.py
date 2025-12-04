@@ -77,7 +77,7 @@ def update_demo(
 
     typer.secho(f"Updating demo project at {demo_path=}.", fg="yellow")
     with work_in(demo_path):
-        typer.secho(f"template:\n\tcurrent_branch: {get_current_branch()}\n\tcurrent_commit: {get_current_commit()}")
+        typer.secho(f"demo:\n\tcurrent_branch: {get_current_branch()}\n\tcurrent_commit: {get_current_commit()}")
         if get_current_branch() != desired_branch_name:
             git("checkout", "-b", desired_branch_name, DEMO.develop_branch)
 

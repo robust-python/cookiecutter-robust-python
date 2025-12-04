@@ -68,6 +68,12 @@ def update_demo(
             fg=typer.colors.YELLOW
         )
 
+    if not is_ancestor(last_update_commit, "HEAD"):
+        raise ValueError(
+            f"The last update commit '{last_update_commit}' is not an ancestor of the current commit "
+            f"'{template_commit}'."
+        )
+
     typer.secho(f"Updating demo project at {demo_path=}.", fg="yellow")
     with work_in(demo_path):
         if get_current_branch() != desired_branch_name:

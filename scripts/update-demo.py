@@ -50,6 +50,7 @@ def update_demo(
     demo_name: str = get_demo_name(add_rust_extension=add_rust_extension)
     demo_path: Path = demos_cache_folder / demo_name
 
+    typer.secho(f"template:\n\tcurrent_branch: {get_current_branch()}\n\tcurrent_commit: {get_current_commit()}")
     if branch_override is not None:
         typer.secho(f"Overriding current branch name for demo reference. Using '{branch_override}' instead.")
         desired_branch_name: str = branch_override
@@ -76,6 +77,7 @@ def update_demo(
 
     typer.secho(f"Updating demo project at {demo_path=}.", fg="yellow")
     with work_in(demo_path):
+        typer.secho(f"template:\n\tcurrent_branch: {get_current_branch()}\n\tcurrent_commit: {get_current_commit()}")
         if get_current_branch() != desired_branch_name:
             git("checkout", "-b", desired_branch_name, DEMO.develop_branch)
 

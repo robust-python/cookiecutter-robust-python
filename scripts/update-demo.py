@@ -68,7 +68,7 @@ def update_demo(
             fg=typer.colors.YELLOW
         )
 
-    if not is_ancestor(last_update_commit, template_commit):
+    if not is_ancestor(last_update_commit, "HEAD"):
         raise ValueError(
             f"The last update commit '{last_update_commit}' is not an ancestor of the current commit "
             f"'{template_commit}'."

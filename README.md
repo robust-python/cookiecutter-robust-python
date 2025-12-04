@@ -46,6 +46,7 @@ The **[Robust Python Cookiecutter]** aims to provide **best practice tooling/CIC
   - [Usage](#usage)
   - [Project Setup](#project-setup)
 - [Roadmap](#roadmap)
+  - [Current Status](#current-status)
 - [Why does this project exist?](#why-does-this-project-exist)
 - [Contributing](#contributing)
 

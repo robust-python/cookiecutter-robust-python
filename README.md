@@ -20,10 +20,6 @@
 [uv-page]: https://github.com/astral-sh/uv
 [python-versions-badge]: https://img.shields.io/pypi/pyversions/robust-python-demo?style=flat-square
 [python-versions-page]: https://github.com/robust-python/cookiecutter-robust-python
-[robust-python-demo-status-badge]: https://img.shields.io/github/actions/workflow/status/robust-python/robust-python-demo/release-python.yml?branch=main&style=flat-square&label=robust-python-demo
-[robust-python-demo-status-page]: https://github.com/robust-python/robust-python-demo
-[robust-maturin-demo-status-badge]: https://img.shields.io/github/actions/workflow/status/robust-python/robust-maturin-demo/release-python.yml?branch=main&style=flat-square&label=robust-maturin-demo
-[robust-maturin-demo-status-page]: https://github.com/robust-python/robust-maturin-demo
 [discord-badge]: https://img.shields.io/badge/Discord-%235865F2.svg?logo=discord&logoColor=white&style=flat-square
 [discord-page]: https://discord.gg/XZAHSBgqXU
 <!-- badges-end -->
@@ -150,6 +146,14 @@ This is a really brief/condensed idea of what is planned for this template, and 
 - [ ] Designate backup plans for the projects lifecycle over time
 </details>
 
+### Current Status
+
+| vendor      | Demo Statuses                                                                                                                                                                                                               |
+|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [github]    | [![Python demo status][robust-python-demo-status-badge]][robust-python-demo-status-page][![Maturin demo status][robust-maturin-demo-status-badge]][robust-maturin-demo-status-page]                                         |
+| [gitlab]    | [![Python demo status][robust-gitlab-python-demo-status-badge]][robust-gitlab-python-demo-status-page][![Maturin demo status][robust-gitlab-maturin-demo-status-badge]][robust-gitlab-maturin-demo-status-page]             |
+| [bitbucket] | [![Python demo status][robust-bitbucket-python-demo-status-badge]][robust-bitbucket-python-demo-status-page][![Maturin demo status][robust-bitbucket-maturin-demo-status-badge]][robust-bitbucket-maturin-demo-status-page] |
+
 
 ## Why does this project exist?
 
@@ -193,7 +197,19 @@ For more information on contributing to the [Robust Python Cookiecutter], please
 [poetry]: https://python-poetry.org/docs/
 [polars]: https://github.com/pola-rs/polars
 [python]: https://www.python.org/
+[robust-bitbucket-maturin-demo-status-badge]: https://img.shields.io/bitbucket/pipelines/robust-python/robust-maturin-demo/main?style=flat-square
+[robust-bitbucket-maturin-demo-status-page]: https://bitbucket.org/robust-python/robust-maturin-demo/src
+[robust-bitbucket-python-demo-status-badge]: https://img.shields.io/bitbucket/pipelines/robust-python/robust-python-demo/main?style=flat-square
+[robust-bitbucket-python-demo-status-page]: https://bitbucket.org/robust-python/robust-python-demo/src
 [robust python cookiecutter]: https://github.com/robust-python/cookiecutter-robust-python
+[robust-gitlab-python-demo-status-badge]: https://img.shields.io/gitlab/pipeline-status/robust-python%2Frobust-python-demo?branch=main&style=flat-square
+[robust-gitlab-python-demo-status-page]: https://gitlab.com/robust-python/robust-python-demo
+[robust-gitlab-maturin-demo-status-badge]: https://img.shields.io/gitlab/pipeline-status/robust-python%2Frobust-maturin-demo?branch=main&style=flat-square
+[robust-gitlab-maturin-demo-status-page]: https://gitlab.com/robust-python/robust-maturin-demo
+[robust-maturin-demo-status-badge]: https://img.shields.io/github/actions/workflow/status/robust-python/robust-maturin-demo/release-python.yml?branch=main&style=flat-square&label=robust-maturin-demo
+[robust-maturin-demo-status-page]: https://github.com/robust-python/robust-maturin-demo
+[robust-python-demo-status-badge]: https://img.shields.io/github/actions/workflow/status/robust-python/robust-python-demo/release-python.yml?branch=main&style=flat-square&label=robust-python-demo
+[robust-python-demo-status-page]: https://gitlab.com/robust-python/robust-python-demo
 [ruff]: https://docs.astral.sh/ruff/
 [rust]: https://www.rust-lang.org/learn
 [rye]: https://rye.astral.sh/

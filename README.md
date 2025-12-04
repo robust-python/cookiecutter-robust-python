@@ -95,7 +95,7 @@ uv tool install maturin
 Navigate to where you want to create your project and run:
 
 ```bash
-uvx cruft create https://github.com/robust-python/cookiecutter-robust-python.git
+uvx cruft create https://github.com/robust-python/cookiecutter-robust-python
 ```
 
 This will prompt you for a few inputs to customize your project:
@@ -113,17 +113,15 @@ After generating your project, set it up for development:
 ```bash
 cd my-awesome-project
 
-# Sets up venv + git (same as nox -s setup-venv && nox -s setup-git)
-uvx nox -t env
-
-# Sets up remote repository (requires empty remote repo to exist)
+uvx nox -s setup-venv
+uvx nox -s setup-git
+gh repo create my-awesome-project
 uvx nox -s setup-remote
 ```
 
-**Quick setup:** Run `uvx nox -t env` to execute all environment setup tasks at once.
+###### *Just a general note, sessions named "setup-..." are not idempotent*
 
-### General CI
-
+From there all that is left is setting up various integrations like Pypi publishing and Readthedocs as desired.
 
 
 ## Roadmap

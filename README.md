@@ -30,10 +30,13 @@
 
 # cookiecutter-robust-python
 
-**A template optimizing for best practices without sacrificing adaptability.**
-
 ---
 
+**[cookiecutter-robust-python]** is a template made with the understanding that **project needs change over time**.
+
+The **[Robust Python Cookiecutter]** aims to provide **best practice tooling/CICD** within a structure designed for **future adaptability**.
+
+---
 
 <details open="open">
 <summary>Table of Contents</summary>
@@ -51,14 +54,6 @@
 </details>
 
 ## About
-
----
-
-**[cookiecutter-robust-python]** is a template made with the understanding that **project needs change over time**.
-
-The **[Robust Python Cookiecutter]** aims to provide **best practice tooling/CICD** within a structure designed for **future adaptability**.
-
----
 
 ### Key Features
 - Uses [cruft] to allow for easily transitioning:

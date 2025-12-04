@@ -28,6 +28,10 @@
 [discord-page]: https://discord.gg/XZAHSBgqXU
 <!-- badges-end -->
 
+<h4 align="center">
+⭐ Star us on <a href="https://github.com/robust-python/cookiecutter-robust-python/">GitHub</a> — it motivates us a lot and helps to pay the rent!
+</h4>
+
 # cookiecutter-robust-python
 
 ---
@@ -119,6 +123,10 @@ uvx nox -s setup-remote
 ```
 
 **Quick setup:** Run `uvx nox -t env` to execute all environment setup tasks at once.
+
+### General CI
+
+
 
 ## Roadmap
 

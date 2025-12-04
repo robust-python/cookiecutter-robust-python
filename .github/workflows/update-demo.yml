@@ -39,6 +39,11 @@ jobs:
         with:
           python-version-file: "${{ github.workspace }}/cookiecutter-robust-python/.github/workflows/.python-version"
 
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Update Demo
         working-directory: "${{ github.workspace }}/cookiecutter-robust-python"
         run: "uvx nox -s 'update-demo(${{ inputs.demo_name }})' -- --branch-override ${{ github.head_ref }}"

@@ -19,6 +19,7 @@ jobs:
       - name: Checkout Template
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           repository: ${{ github.repository }}
           path: "${{ github.workspace }}/cookiecutter-robust-python"
 

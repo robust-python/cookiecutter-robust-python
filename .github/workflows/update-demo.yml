@@ -19,8 +19,15 @@ jobs:
       - name: Checkout Template
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           repository: ${{ github.repository }}
           path: "${{ github.workspace }}/cookiecutter-robust-python"
+
+      - name: Configure Git
+        working-directory: "${{ github.workspace }}/cookiecutter-robust-python"
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Checkout Demo
         uses: actions/checkout@v4

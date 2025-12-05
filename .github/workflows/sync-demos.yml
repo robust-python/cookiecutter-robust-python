@@ -1,10 +1,10 @@
 name: sync-demo.yml
 on:
   push:
-    branches:
-      - "!main"
-      - "!develop"
-      - "!release/*"
+    branches-ignore:
+      - "main"
+      - "develop"
+      - "release/*"
 
 jobs:
   update-demo:

@@ -1,8 +1,10 @@
 name: sync-demo.yml
 on:
-  pull_request:
-    branches:
-      - develop
+  push:
+    branches-ignore:
+      - "main"
+      - "develop"
+      - "release/*"
 
 jobs:
   update-demo:
@@ -15,3 +17,6 @@ jobs:
           - "robust-maturin-demo"
     with:
       demo_name: ${{ matrix.demo_name }}
+      branch: ${{ github.ref_name }}
+    secrets:
+      DEMO_TOKEN: ${{ secrets.DEMO_TOKEN }}

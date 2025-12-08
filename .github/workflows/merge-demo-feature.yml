@@ -21,6 +21,7 @@ jobs:
           - "robust-maturin-demo"
     with:
       demo_name: ${{ matrix.demo_name }}
+      branch: ${{ github.ref_name }}
 
   merge-demo-feature:
     name: Merge Demo Feature
@@ -30,11 +31,13 @@ jobs:
         demo_name:
           - "robust-python-demo"
           - "robust-maturin-demo"
+    env:
+      GH_TOKEN: ${{ secrets.DEMO_TOKEN }}
     steps:
       - name: Checkout Template
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.repository }}
+          repository: "${{ github.repository_owner }}/cookiecutter-robust-python"
 
       - name: Checkout Demo
         uses: actions/checkout@v4
@@ -42,6 +45,7 @@ jobs:
           repository: "${{ github.repository_owner }}/${{ inputs.demo_name }}"
           path: ${{ inputs.demo_name }}
           ref: develop
+          token: ${{ secrets.DEMO_TOKEN }}
 
       - name: Set up uv
         uses: astral-sh/setup-uv@v6

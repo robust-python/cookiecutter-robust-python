@@ -1,3 +1,36 @@
+## v2025.12.1 (2025-12-08)
+
+### Feat
+
+- improve the initial description and add a small blurb linking to the tooling rationale
+- add pin image for use in readme
+- add additional note pointing toward newly made PR url
+- remove extra url marker for stability temporarily
+- add debugging logs marking the location of demo PR's made
+- add GH_TOKEN adjacent to DEMO_TOKEN usages
+- add passthrough of DEMO_TOKEN wherever needed
+- add workflow_call secrets passthrough
+- replace default github token with premade PAT named DEMO_TOKEN
+
+### Fix
+
+- adjust inversed returncode chec
+- swap to just checking return code
+- shrink the scope of text checked for to ensure differing gh cli versions don't differ wording
+- remove decodes that aren't relevant
+- add utf-8 decodes where missing
+- add --global kwargs to git config calls to see if that fixes the error
+- add passthrough for branch name to differentiate branch name source for pull requests and straight pushes
+- adjust syntax to use branches-ignore in sync-demos workflow
+- add git config to update-demo workflow
+- try removing ancestry check to see if it actually matters
+- replace check against commit hash to instead check against HEAD in update-demo workflow
+- remove backup creation of develop branch due to more purposeful checkout existing
+- add two additional fetches that ensure branch actually exists locally so CICD doesn't error on update demo workflow
+- move fetch depth adjustment to the demo instead of the template checkout in the update-demo workflow
+- ensure enough history is fetched in update-demo workflow to verify branch is in sync with remote during CI
+- adjust repository reference in merge-demo-feature.yml
+
 ## v2025.12.0 (2025-12-01)
 
 ### Feat

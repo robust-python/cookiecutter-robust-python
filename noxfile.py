@@ -70,6 +70,9 @@ UPDATE_DEMO_OPTIONS: tuple[str, ...] = (
 MERGE_DEMO_FEATURE_SCRIPT: Path = SCRIPTS_FOLDER / "merge-demo-feature.py"
 MERGE_DEMO_FEATURE_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
 
+RELEASE_DEMO_SCRIPT: Path = SCRIPTS_FOLDER / "release-demo.py"
+RELEASE_DEMO_OPTIONS: tuple[str, ...] = GENERATE_DEMO_OPTIONS
+
 BUMP_VERSION_SCRIPT: Path = SCRIPTS_FOLDER / "bump-version.py"
 GET_RELEASE_NOTES_SCRIPT: Path = SCRIPTS_FOLDER / "get-release-notes.py"
 SETUP_RELEASE_SCRIPT: Path = SCRIPTS_FOLDER / "setup-release.py"
@@ -226,6 +229,24 @@ def merge_demo_feature(session: Session, demo: RepoMetadata) -> None:
 
     demo_env: dict[str, Any] = {f"ROBUST_DEMO__{key.upper()}": value for key, value in asdict(demo).items()}
     session.install_and_run_script(MERGE_DEMO_FEATURE_SCRIPT, *args, env=demo_env)
+
+
+@nox.parametrize(
+    arg_names="demo",
+    arg_values_list=[PYTHON_DEMO, MATURIN_DEMO],
+    ids=["robust-python-demo", "robust-maturin-demo"]
+)
+@nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="release-demo")
+def release_demo(session: Session, demo: RepoMetadata) -> None:
+    """Automates the release process for demo projects."""
+    args: list[str] = [*RELEASE_DEMO_OPTIONS]
+    if session.posargs:
+        args = [*session.posargs, *args]
+    if "maturin" in demo.app_name:
+        args.append("--add-rust-extension")
+
+    demo_env: dict[str, Any] = {f"ROBUST_DEMO__{key.upper()}": value for key, value in asdict(demo).items()}
+    session.install_and_run_script(RELEASE_DEMO_SCRIPT, *args, env=demo_env)
 
 
 @nox.session(python=DEFAULT_TEMPLATE_PYTHON_VERSION, name="setup-release")

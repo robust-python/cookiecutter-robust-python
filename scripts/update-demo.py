@@ -149,7 +149,7 @@ def _create_demo_pr(demo_path: Path, branch: str, commit_start: str) -> None:
     gh("repo", "set-default", f"{DEMO.app_author}/{DEMO.app_name}")
     search_results: subprocess.CompletedProcess = gh("pr", "list", "--state", "open", "--search", branch)
 
-    if "no pull requests match your search" not in search_results.stdout:
+    if "no pull requests match your search" not in search_results.stdout.decode("utf-8").strip():
         url: str = _get_pr_url(branch=branch)
         typer.secho(f"Skipping PR creation due to existing PR found for branch {branch} at {url}")
         return
@@ -171,7 +171,7 @@ def _get_pr_url(branch: str) -> str:
     result: subprocess.CompletedProcess = gh("pr", "view", branch, "--json", "url", "--jq", ".url")
     if result.returncode != 0:
         raise ValueError(f"Failed to find a PR URL for branch {branch}.")
-    return result.stdout.strip()
+    return result.stdout.decode("utf-8").strip()
 
 
 def _get_demo_feature_pr_body(demo_path: Path, commit_start: str) -> str:

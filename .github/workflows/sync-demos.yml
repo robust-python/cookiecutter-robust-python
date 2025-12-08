@@ -18,3 +18,5 @@ jobs:
     with:
       demo_name: ${{ matrix.demo_name }}
       branch: ${{ github.ref_name }}
+    secrets:
+      DEMO_TOKEN: ${{ secrets.DEMO_TOKEN }}

@@ -32,7 +32,7 @@
 
 **[cookiecutter-robust-python]** is a template made with the understanding that **project needs change over time**.
 
-The **[Robust Python Cookiecutter]** aims to provide **best practice tooling/CICD** within a structure designed for **future adaptability**.
+The **[Robust Python Cookiecutter]** aims to provide **best practice tooling/CICD** within a structure designed for **future adaptability**. Meaning that important decisions like whether to use [maturin] may be delayed **without breaking the docs, CICD, etc.** during transition.
 
 ---
 
@@ -70,6 +70,9 @@ The **[Robust Python Cookiecutter]** aims to provide **best practice tooling/CIC
 - [basedpyright] for type checking
 - [pip-audit] for security vulnerability checking
 - [maturin] (optional) for rust integration when needed
+
+> 💡 For more information on tools evaluated and why choices were made, please visit our docs on [tooling decisions]
+
 
 
 <div align="right"><kbd><a href="#table-of-contents">↑ Back to top ↑</a></kbd></div>

@@ -31,6 +31,8 @@ jobs:
         demo_name:
           - "robust-python-demo"
           - "robust-maturin-demo"
+    env:
+      GH_TOKEN: ${{ secrets.DEMO_TOKEN }}
     steps:
       - name: Checkout Template
         uses: actions/checkout@v4

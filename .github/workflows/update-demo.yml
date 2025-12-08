@@ -17,6 +17,7 @@ env:
   COOKIECUTTER_ROBUST_PYTHON__APP_AUTHOR: ${{ github.repository_owner }}
   ROBUST_PYTHON_DEMO__APP_AUTHOR: ${{ github.repository_owner }}
   ROBUST_MATURIN_DEMO__APP_AUTHOR: ${{ github.repository_owner }}
+  GH_TOKEN: ${{ secrets.DEMO_TOKEN }}
 
 jobs:
   update-demo:

@@ -8,6 +8,9 @@ on:
       branch:
         required: true
         type: string
+    secrets:
+      DEMO_TOKEN:
+        required: true
 
 env:
   COOKIECUTTER_ROBUST_PYTHON__DEMOS_CACHE_FOLDER: ${{ github.workspace }}

@@ -5,6 +5,9 @@ on:
       demo_name:
         required: true
         type: string
+      branch:
+        required: true
+        type: string
 
 env:
   COOKIECUTTER_ROBUST_PYTHON__DEMOS_CACHE_FOLDER: ${{ github.workspace }}
@@ -47,4 +50,4 @@ jobs:
 
       - name: Update Demo
         working-directory: "${{ github.workspace }}/cookiecutter-robust-python"
-        run: "uvx nox -s 'update-demo(${{ inputs.demo_name }})' -- --branch-override ${{ github.head_ref }}"
+        run: "uvx nox -s 'update-demo(${{ inputs.demo_name }})' -- --branch-override ${{ inputs.branch }}"

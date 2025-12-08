@@ -39,7 +39,7 @@ jobs:
           repository: "${{ github.repository_owner }}/${{ inputs.demo_name }}"
           path: ${{ inputs.demo_name }}
           ref: develop
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.DEMO_TOKEN }}
 
       - name: Set up uv
         uses: astral-sh/setup-uv@v6

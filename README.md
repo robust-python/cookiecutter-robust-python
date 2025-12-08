@@ -28,7 +28,7 @@
 ⭐ Star us on <a href="https://github.com/robust-python/cookiecutter-robust-python/">GitHub</a> — it motivates us a lot and helps to pay the rent!
 </h4>
 
-# cookiecutter-robust-python
+---
 
 **[cookiecutter-robust-python]** is a template made with the understanding that **project needs change over time**.
 
@@ -36,8 +36,7 @@ The **[Robust Python Cookiecutter]** aims to provide **best practice tooling/CIC
 
 ---
 
-<details open="open">
-<summary>Table of Contents</summary>
+## Table of Contents[![](./docs/_static/pin.svg)](#table-of-contents)
 
 - [About](#about)
   - [Key Features](#key-features)
@@ -50,9 +49,7 @@ The **[Robust Python Cookiecutter]** aims to provide **best practice tooling/CIC
 - [Why does this project exist?](#why-does-this-project-exist)
 - [Contributing](#contributing)
 
-</details>
-
-## About
+## About[![](./docs/_static/pin.svg)](#table-of-contents)
 
 ### Key Features
 - Uses [cruft] to allow for easily transitioning between:
@@ -74,7 +71,12 @@ The **[Robust Python Cookiecutter]** aims to provide **best practice tooling/CIC
 - [pip-audit] for security vulnerability checking
 - [maturin] (optional) for rust integration when needed
 
-## Getting Started
+
+<div align="right"><kbd><a href="#table-of-contents">↑ Back to top ↑</a></kbd></div>
+
+---
+
+## Getting Started[![](./docs/_static/pin.svg)](#table-of-contents)
 
 ### Prerequisites
 The only requirement is installing [uv].
@@ -116,12 +118,15 @@ gh repo create my-awesome-project
 uvx nox -s setup-remote
 ```
 
-###### *Just a general note, sessions named "setup-..." are not idempotent*
+> ⚠️ Scripts and nox sessions prefixed with "setup-" are usually not idempotent, although some will try to warn you if misused.
 
 From there all that is left is setting up various integrations like Pypi publishing and Readthedocs as desired.
 
+<div align="right"><kbd><a href="#table-of-contents">↑ Back to top ↑</a></kbd></div>
 
-## Roadmap
+---
+
+## Roadmap[![](./docs/_static/pin.svg)](#table-of-contents)
 
 This is a really brief/condensed idea of what is planned for this template, and where it stands currently:
 <details>
@@ -155,8 +160,11 @@ This is a really brief/condensed idea of what is planned for this template, and 
 | [gitlab]    | [![Python demo status][robust-gitlab-python-demo-status-badge]][robust-gitlab-python-demo-status-page][![Maturin demo status][robust-gitlab-maturin-demo-status-badge]][robust-gitlab-maturin-demo-status-page]             |
 | [bitbucket] | [![Python demo status][robust-bitbucket-python-demo-status-badge]][robust-bitbucket-python-demo-status-page][![Maturin demo status][robust-bitbucket-maturin-demo-status-badge]][robust-bitbucket-maturin-demo-status-page] |
 
+<div align="right"><kbd><a href="#table-of-contents">↑ Back to top ↑</a></kbd></div>
 
-## Why does this project exist?
+---
+
+## Why does this project exist?[![](./docs/_static/pin.svg)](#table-of-contents)
 
 Unfortunately, the [Hypermodern Python Cookiecutter] is no longer maintained nor modern.
 While it will always have a place in my heart, there have been far too many improvements in Python tooling to keep using it as is.
@@ -169,8 +177,11 @@ a handful of issues with it that prevented it from being able to adapt to new Py
 
 The goal is for [cookiecutter-robust-python] to fill the gap that exists for a best practices template that is structured to be adaptable from the start.
 
+<div align="right"><kbd><a href="#table-of-contents">↑ Back to top ↑</a></kbd></div>
 
-## Contributing
+---
+
+## Contributing[![](./docs/_static/pin.svg)](#table-of-contents)
 
 For more information on contributing to the [Robust Python Cookiecutter], please visit the [contributing] docs.
 

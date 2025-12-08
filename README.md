@@ -49,7 +49,7 @@ The **[Robust Python Cookiecutter]** aims to provide **best practice tooling/CIC
 - [Why does this project exist?](#why-does-this-project-exist)
 - [Contributing](#contributing)
 
-## About[![](./docs/_static/pin.svg)](#table-of-contents)
+## About[![](./docs/_static/pin.svg)](#about)
 
 ### Key Features
 - Uses [cruft] to allow for easily transitioning between:
@@ -76,7 +76,7 @@ The **[Robust Python Cookiecutter]** aims to provide **best practice tooling/CIC
 
 ---
 
-## Getting Started[![](./docs/_static/pin.svg)](#table-of-contents)
+## Getting Started[![](./docs/_static/pin.svg)](#getting-started)
 
 ### Prerequisites
 The only requirement is installing [uv].
@@ -126,7 +126,7 @@ From there all that is left is setting up various integrations like Pypi publish
 
 ---
 
-## Roadmap[![](./docs/_static/pin.svg)](#table-of-contents)
+## Roadmap[![](./docs/_static/pin.svg)](#roadmap)
 
 This is a really brief/condensed idea of what is planned for this template, and where it stands currently:
 <details>
@@ -164,7 +164,7 @@ This is a really brief/condensed idea of what is planned for this template, and 
 
 ---
 
-## Why does this project exist?[![](./docs/_static/pin.svg)](#table-of-contents)
+## Why does this project exist?[![](./docs/_static/pin.svg)](#why-does-this-project-exist)
 
 Unfortunately, the [Hypermodern Python Cookiecutter] is no longer maintained nor modern.
 While it will always have a place in my heart, there have been far too many improvements in Python tooling to keep using it as is.
@@ -181,7 +181,7 @@ The goal is for [cookiecutter-robust-python] to fill the gap that exists for a b
 
 ---
 
-## Contributing[![](./docs/_static/pin.svg)](#table-of-contents)
+## Contributing[![](./docs/_static/pin.svg)](#contributing)
 
 For more information on contributing to the [Robust Python Cookiecutter], please visit the [contributing] docs.
 

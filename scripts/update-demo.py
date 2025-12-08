@@ -148,9 +148,11 @@ def _create_demo_pr(demo_path: Path, branch: str, commit_start: str) -> None:
     """Creates a PR to merge the given branch into develop."""
     gh("repo", "set-default", f"{DEMO.app_author}/{DEMO.app_name}")
     search_results: subprocess.CompletedProcess = gh("pr", "list", "--state", "open", "--search", branch)
-    typer.secho(f"_create_demo_pr - {search_results.stdout}")
+    typer.secho(f"_create_demo_pr - {search_results.stdout=}")
 
     if "no pull requests" not in str(search_results.stdout):
+        typer.secho(f"{str(search_results.stdout)=}")
+        typer.secho(f"no_pull_requests")
         url: str = _get_pr_url(branch=branch)
         typer.secho(f"Skipping PR creation due to existing PR found for branch {branch} at {url}")
         return

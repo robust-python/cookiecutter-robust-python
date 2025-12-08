@@ -149,7 +149,7 @@ def _create_demo_pr(demo_path: Path, branch: str, commit_start: str) -> None:
     gh("repo", "set-default", f"{DEMO.app_author}/{DEMO.app_name}")
     search_results: subprocess.CompletedProcess = gh("pr", "list", "--state", "open", "--search", branch)
 
-    if search_results.returncode != 0:
+    if search_results.returncode == 0:
         url: str = _get_pr_url(branch=branch)
         typer.secho(f"Skipping PR creation due to existing PR found for branch {branch} at {url}")
         return

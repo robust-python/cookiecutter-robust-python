@@ -164,8 +164,6 @@ def _create_demo_pr(demo_path: Path, branch: str, commit_start: str) -> None:
         "--repo": f"{DEMO.app_author}/{DEMO.app_name}",
     }
     gh("pr", "create", *itertools.chain.from_iterable(pr_kwargs.items()))
-    url: str = _get_pr_url(branch=branch)
-    typer.secho(f"Created PR URL for branch {branch} at {url}")
 
 
 def _get_pr_url(branch: str) -> str:

@@ -1,4 +1,5 @@
 """Script responsible for creating and pushing git tags for cookiecutter-robust-python releases."""
+import sys
 # /// script
 # requires-python = ">=3.10"
 # dependencies = [
@@ -15,7 +16,7 @@ from typing import Any
 import typer
 from cookiecutter.utils import work_in
 
-from scripts.util import git
+from util import git
 from util import REPO_FOLDER
 
 

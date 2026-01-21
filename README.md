@@ -25,7 +25,7 @@
 <!-- badges-end -->
 
 <h4 align="center">
-⭐ Star us on <a href="https://github.com/robust-python/cookiecutter-robust-python/">GitHub</a> — it motivates us a lot and helps to pay the rent!
+⭐ Star us on <a href="https://github.com/robust-python/cookiecutter-robust-python/">GitHub</a> — it motivates us a lot and helps to pay rent!
 </h4>
 
 ---

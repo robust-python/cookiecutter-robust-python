@@ -3,6 +3,7 @@
 # dependencies = [
 #    "cookiecutter",
 #    "cruft",
+#    "loguru",
 #    "python-dotenv",
 #    "typer",
 # ]

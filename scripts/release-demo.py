@@ -45,11 +45,11 @@ def release_demo(
         git("checkout", DEMO.develop_branch)
         try:
             nox("setup-release", "--", "MINOR")
-            logger.success(f"Successfully created release {demo_name}")
+            typer.secho(f"Successfully created release {demo_name}", fg="green")
             gh("repo", "set-default", DEMO.app_author, DEMO.app_name)
 
         except subprocess.CalledProcessError as error:
-            logger.warning(f"Failed to setup release: {error}")
+            typer.secho(f"Failed to setup release: {error}", fg="yellow")
             _rollback_failed_release()
             raise error
 
